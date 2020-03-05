@@ -1,0 +1,19 @@
+{
+  "name": "photosynthesis",
+  "version": "1.0.0",
+  "description": "Projeto criado no sexto semestre",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nesbox314/Photosynthesis.git"
+  },
+  "author": "Nesbox314",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nesbox314/Photosynthesis/issues"
+  },
+  "homepage": "https://github.com/Nesbox314/Photosynthesis#readme"
+}
