@@ -1,7 +1,13 @@
-import { createStackNavigator } from 'react-navigation';
-
 import Login from './pages/login';
 
-export default createStackNavigator({
-    Login
-});
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
+export function MyStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} />
+      </Stack.Navigator>
+    );
+}
