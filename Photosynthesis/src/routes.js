@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 export function MyStack() {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen component={Login} />
       </Stack.Navigator>
     );
 }
