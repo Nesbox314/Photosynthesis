@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
 //inicia o servidor
 app.listen(port, '0.0.0.0');
 
-//exemplo de rota: localhost:3000/postUmidade?estadoUmidade=seco&estadoLuminosidade=bom
+//exemplo de uso: localhost:3000/umidade/postUmidade?estadoUmidade=seco&estadoLuminosidade=bom
 router.post('/postUmidade', function(req, res, next) {
     connection.query(`INSERT INTO umidade (estadoUmidade, data, estadoLuminosidade) VALUES ('${req.query.estadoUmidade}', '${Date.now()}', '${req.query.estadoLuminosidade}');`, function(err, results, fields) {
         if(err){
@@ -50,14 +50,12 @@ router.get('/getUltimaUmidade', function(req, res, next) {
 router.get('/getUmidadePaginada', function(req, res, next) {
     var numResultados = req.query.pagina * 15;
     connection.query(`SELECT * FROM umidade LIMIT ${numResultados}`, function(err, results, fields){
-      if(err){
-        console.log(err);
-        res.send(err);
-      }
-      res.send(results);
-    })
-})
-
-
+        if(err){
+          console.log(err);
+          res.send(err);
+        }
+        res.send(results);
+    });
+});
 
 module.exports = router;
