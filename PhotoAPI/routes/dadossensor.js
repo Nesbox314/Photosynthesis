@@ -15,9 +15,9 @@ const connection = mysql.createConnection({
 //inicia o servidor
 app.listen(port, '0.0.0.0');
 
-//exemplo de uso: localhost:3000/umidade/postUmidade?estadoUmidade=seco&estadoLuminosidade=bom
-router.post('/postUmidade', function(req, res, next) {
-    connection.query(`INSERT INTO umidade (estadoUmidade, data, estadoLuminosidade) VALUES ('${req.query.estadoUmidade}', '${Date.now()}', '${req.query.estadoLuminosidade}');`, function(err, results, fields) {
+//exemplo de uso: localhost:3000/dadossensor/postDadosSensor?estadoUmidade=seco&estadoLuminosidade=bom
+router.post('/postDadosSensor', function(req, res, next) {
+    connection.query(`INSERT INTO dadossensor (estadoUmidade, data, estadoLuminosidade) VALUES ('${req.query.estadoUmidade}', '${Date.now()}', '${req.query.estadoLuminosidade}');`, function(err, results, fields) {
         if(err){
           console.log(err)
           res.send('Falha na inserção de dados');
@@ -26,8 +26,8 @@ router.post('/postUmidade', function(req, res, next) {
   res.send('Dados inseridos com sucesso');
 });
 
-router.get('/getTodasUmidade', function(req, res, next) {
-    connection.query("SELECT * FROM umidade", function(err, results, fields) {
+router.get('/getTodosDadosSensor', function(req, res, next) {
+    connection.query("SELECT * FROM dadossensor", function(err, results, fields) {
         if(err){
           console.log(err);
           res.send('Erro ao coletar dados');
@@ -36,8 +36,8 @@ router.get('/getTodasUmidade', function(req, res, next) {
     });
 });
 
-router.get('/getUltimaUmidade', function(req, res, next) {
-    connection.query("SELECT * FROM umidade WHERE data IN (SELECT MAX(data) FROM umidade)", function(err, results, fields) {
+router.get('/getUltimoDadosSensor', function(req, res, next) {
+    connection.query("SELECT * FROM dadossensor WHERE data IN (SELECT MAX(data) FROM dadossensor)", function(err, results, fields) {
         if(err){
           console.log(err);
           res.send('Erro ao coletar dados');
@@ -46,10 +46,10 @@ router.get('/getUltimaUmidade', function(req, res, next) {
     });
 });
 
-//exemplo de uso: localhost:3000/umidade/getUmidadePaginada?pagina=1
-router.get('/getUmidadePaginada', function(req, res, next) {
+//exemplo de uso: localhost:3000/dadossensor/getDadosSensorPaginado?pagina=1
+router.get('/getDadosSensorPaginado', function(req, res, next) {
     var numResultados = req.query.pagina * 15;
-    connection.query(`SELECT * FROM umidade LIMIT ${numResultados}`, function(err, results, fields){
+    connection.query(`SELECT * FROM dadossensor LIMIT ${numResultados}`, function(err, results, fields){
         if(err){
           console.log(err);
           res.send(err);
