@@ -37,7 +37,7 @@ router.get('/getTodasUmidade', function(req, res, next) {
 });
 
 router.get('/getUltimaUmidade', function(req, res, next) {
-  connection.query("SELECT * FROM umidade WHERE data IN (SELECT MAX(data) FROM umidade)", function(err, results, fields) {
+    connection.query("SELECT * FROM umidade WHERE data IN (SELECT MAX(data) FROM umidade)", function(err, results, fields) {
         if(err){
           console.log(err);
           res.send('Erro ao coletar dados');
@@ -45,6 +45,18 @@ router.get('/getUltimaUmidade', function(req, res, next) {
         res.send(results)
     });
 });
+
+//exemplo de uso: localhost:3000/umidade/getUmidadePaginada?pagina=1
+router.get('/getUmidadePaginada', function(req, res, next) {
+    var numResultados = req.query.pagina * 15;
+    connection.query(`SELECT * FROM umidade LIMIT ${numResultados}`, function(err, results, fields){
+      if(err){
+        console.log(err);
+        res.send(err);
+      }
+      res.send(results);
+    })
+})
 
 
 
