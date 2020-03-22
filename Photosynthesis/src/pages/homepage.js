@@ -1,16 +1,46 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
-export default class Login extends Component {
+export default class Homepage extends Component {
+
+    //----menu superior----
+
     static navigationOptions = {
-        title: "Tela Inícial"
+        title: "Tela Inímcial",
+
+            headerTitle: (
+                <Image style={styles.imagem}source={require('../assets/do.png')}/>               
+            ),
+        
+            headerStyle:{
+                backgroundColor: "#ff00" ,
+            },
+        
+             headerTintColor:"#ff0"
     };
-    
-    render(){
+
+    //----Corpo do projeto----
+
+        render(){
         return (
-            <View>
-                <Text>Tela Inícial</Text>
-            </View>
+            <View style={StyleSheet.container}>
+                <Text style={styles.teste}>Taela isesal</Text>
+                </View>
         )
     }
 }
+
+// ----estilização----
+const styles = StyleSheet.create({
+
+    teste: {
+        fontSize: 20,
+        textAlign: "center",
+        //height: 10,
+    },
+    imagem: {
+        marginTop:10,
+
+
+    },
+});
