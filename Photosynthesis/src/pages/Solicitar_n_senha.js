@@ -1,46 +1,86 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, Image, StyleSheet, Button, Alert } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 
-export default class Solicitar_n_senha extends Component {
+export default class solicitar_n_senha extends Component {
 
-    //----menu superior----
-
-    static navigationOptions = {
-        title: "Tela Inímcial",
-
-            headerTitle: (
-                <Image style={styles.imagem}source={require('../assets/do.png')}/>               
-            ),
-        
-            headerStyle:{
-                backgroundColor: "#ff00" ,
-            },
-        
-             headerTintColor:"#ff0"
-    };
-
-    //----Corpo do projeto----
-
-        render(){
+    render(){
         return (
-            <View style={StyleSheet.container}>
-                <Text style={styles.teste}>nova senhal</Text>
+            <View style={{flex: 1,backgroundColor: 'white'}}>
+              
+              
+                <View>
+                     <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                 </View>
+                <View>
+                    <Image source={require('../../assets/exclamation.png')} style={styles.excla}></Image>
+                </View>
+                <View style={styles.button}>
+                    <Text style={styles.esqueceuSenha}>Esqueceu sua senha? </Text>
+                    <Text style={styles.esqueceuSenhaText}>Faça a solicitação que redefinimos a senha para você..</Text>
+                </View>
+                <View style={styles.button}>
+                    <Button color={'rgb(146, 211, 110)'} title={"Solicitar nova senha"} onPress={() => Alert.alert('Método para solicitar nova senha')}/>
+                </View>
+                
+            </View>
         )
     }
+    
 }
 
-// ----estilização----
 const styles = StyleSheet.create({
-
-    teste: {
-        fontSize: 20,
-        textAlign: "center",
-        //height: 10,
+    esqueceuSenha:{
+      marginTop: 30,
+      fontSize: 25,
+      fontWeight: "bold",
+      alignSelf: "center"
     },
-    imagem: {
-        marginTop:10,
-
-
+    esqueceuSenhaText:{
+      marginTop: -26,
+      fontSize: 23,
+      padding: 30,
+      textAlign: "center"
     },
+    excla: {
+      width: 120,
+      height: 120,
+      marginTop: 80,
+      alignSelf: "center",
+      
+    },
+    back: {
+      width: 30,
+      height: 30,
+      marginTop: 50,
+      marginLeft: 20
+    },
+    logo: {
+      width: 200,
+      height: 30,
+      alignSelf: "center",
+      marginTop: 100
+    },
+    input: {
+      alignSelf: "center",
+      backgroundColor: 'rgb(247, 246, 246)',
+      borderColor: 'rgb(242, 241, 241)',
+      borderWidth: 1,
+      marginTop: 10,
+      height: 50,
+      width: 320,
+      borderRadius: 4
+    },
+    inputs: {
+      marginTop: 75  
+    },
+    button: {
+      alignSelf: "center",
+      marginTop: 20,
+      width: 320
+    },
+    footer: {
+      marginTop: 220,
+      alignSelf: "center"
+    }
 });
