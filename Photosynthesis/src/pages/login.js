@@ -21,7 +21,7 @@ export default class Login extends Component {
                     <Text style={styles.helpSenha}>Esqueceu seus dados de entrada? <Text style={styles.helpSenha, {fontWeight: "bold"}}>Obtenha ajuda para entrar.</Text></Text>
                 </View>
                 <View style={styles.footer}>
-                    <Text style={styles.helpSenha}>Não tem conta? <Text style={styles.helpSenha, {fontWeight: "bold"}}>Cadastre-se!</Text></Text>
+                    <Text>Não tem conta? <Text style={{color: 'blue'}, {fontWeight: "bold"}} onPress={() => this.props.navigation.navigate('cadastroUsuario')}>Cadastre-se!</Text></Text>
                 </View>
             </View>
         )
