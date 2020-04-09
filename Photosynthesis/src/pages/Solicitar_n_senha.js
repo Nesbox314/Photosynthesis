@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Button, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, Button, Alert, TouchableHighlight } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 export default class solicitar_n_senha extends Component {
@@ -9,9 +9,9 @@ export default class solicitar_n_senha extends Component {
             <View style={{flex: 1,backgroundColor: 'white'}}>
               
               
-                <View>
+                <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => Alert.alert('voltar')}>
                      <Image source={require('../../assets/back.png')} style={styles.back}></Image>
-                </View>
+                </TouchableHighlight>
                 <View>
                     <Image source={require('../../assets/exclamation.png')} style={styles.excla}></Image>
                 </View>

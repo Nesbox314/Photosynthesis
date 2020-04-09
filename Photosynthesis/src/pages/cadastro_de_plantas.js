@@ -1,31 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Button, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, Button, Alert, TouchableHighlight } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
-export default class nova_senha extends Component {
+export default class cadastro_de_plantas extends Component {
 
     render(){
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
               
               
-                <View>
+                <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => Alert.alert('voltar')}>
                      <Image source={require('../../assets/back.png')} style={styles.back}></Image>
-                </View>
+                </TouchableHighlight>
                 <View>
-                    <Image source={require('../../assets/exclamation.png')} style={styles.excla}></Image>
+                    <Image source={require('../../assets/logo_add_planta.png')} style={styles.add_img}></Image>
                 </View>
-                <View style={styles.button}>
-                    <Text style={styles.esqueceuSenha}>Solicitou nova senha? </Text>
-                    <Text style={styles.esqueceuSenhaText}>Insira sua nova senha que nós redefiniremos para você.</Text>
-                </View>
+             
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} secureTextEntry={true} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nova senha"}/>
-                    <TextInput style={styles.input} secureTextEntry={true} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "confirmação da senha"}/>
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"}/>
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"}/>
                 </View>
 
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Solicitar nova senha"} onPress={() => Alert.alert('Método para solicitar nova senha')}/>
+                    <Button color={'rgb(146, 211, 110)'} title={"Cadastrar planta"} onPress={() => Alert.alert('Método para solicitar nova senha')}/>
                 </View>
                 
             </View>
@@ -35,6 +32,10 @@ export default class nova_senha extends Component {
 }
 
 const styles = StyleSheet.create({
+    TouchableHighlight:{
+    width:100,
+ 
+    },
     esqueceuSenha:{
       marginTop: 10,
       fontSize: 25,
@@ -47,9 +48,9 @@ const styles = StyleSheet.create({
       padding: 30,
       textAlign: "center"
     },
-    excla: {
-      width: 120,
-      height: 120,
+    add_img: {
+      width: 220,
+      height: 220,
       alignSelf: "center",
       
     },
@@ -71,16 +72,14 @@ const styles = StyleSheet.create({
       borderColor: 'rgb(242, 241, 241)',
       borderWidth: 1,
       padding: 10,
-      marginTop: 10,
+      marginTop: 25,
       height: 50,
       width: 320,
       borderRadius: 4
     },
     inputs: {
-      marginTop:100
-
-
-    },
+        marginTop: 20 
+      },
     button: {
       alignSelf: "center",
       marginTop: 40,

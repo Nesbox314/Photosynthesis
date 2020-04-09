@@ -1,7 +1,7 @@
 import Login from './pages/nova_senha';
 
 import { createStackNavigator } from '@react-navigation/stack';
-import nova_senha from './pages/nova_senha';
+import nova_senha from './pages/cadastro_de_plantas';
 
 const Stack = createStackNavigator();
 
