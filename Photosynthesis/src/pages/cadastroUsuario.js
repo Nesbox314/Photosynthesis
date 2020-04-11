@@ -3,6 +3,7 @@ import { Component } from "react";
 import { Text, Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
 //import api from '../services/api';
 import axios from 'axios';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const api = axios.create({
     baseURL: 'http:\\192.168.1.8:3000'
@@ -29,26 +30,18 @@ export default class CadastroUsuario extends Component {
           .catch(function (error) {
             console.log(error);
           });
-
-       /* fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(collection),
-            headers: new Headers({
-                'Content-Type': 'application/json'
-            })
-        }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));*/
     }
 
     render(){
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
                 <View>
-                    <Image onPress={() => this.props.navigation.navigate('login')} source={require('../../assets/back.png')} style={styles.back}></Image>
+                    <TouchableOpacity activeOpacity = { .5 } onPress={() => this.props.navigation.navigate('login')}>
+                        <Image source={require('../../assets/back.png')} style={styles.back}></Image>
+                    </TouchableOpacity>
                 </View>
                 <View>
-                    <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>
+                    <Image source={require('../../assets/userPhoto.png')} style={styles.logo} onPress={() => this.props.navigation.navigate('login')}></Image>
                 </View>
                 <View style={styles.inputs}>
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({nome})}/>
