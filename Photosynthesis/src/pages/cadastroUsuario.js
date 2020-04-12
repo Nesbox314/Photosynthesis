@@ -12,12 +12,7 @@ const api = axios.create({
 export default class CadastroUsuario extends Component {
 
        submit(){
-        let collection = {};
-        collection.nome = this.state.nome;
-        collection.email = this.state.email;
-        collection.senha = this.state.senha;
-
-        console.log(collection);
+        console.log('Início da submissão de dados');
 
         api.post('/usuarios/postUsuarios', {
             nome: this.state.nome,
@@ -30,9 +25,11 @@ export default class CadastroUsuario extends Component {
           .catch(function (error) {
             console.log(error);
           });
+        console.log('Fim da submissão de dados');
     }
 
     render(){
+        console.log('Início da renderização da tela');
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
                 <View>
@@ -50,14 +47,11 @@ export default class CadastroUsuario extends Component {
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"}/>
                 </View>
                 <View style={styles.button}>
-
-
                     <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.submit()}/>
                 </View>
             </View>
         )
     }
-
 }
 
 const styles = StyleSheet.create({
