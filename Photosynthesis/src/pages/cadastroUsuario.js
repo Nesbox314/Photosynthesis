@@ -9,10 +9,9 @@ const api = axios.create({
     baseURL: 'http:\\192.168.1.8:3000'
 });
 
-export default class CadastroUsuario extends Component {
+export default class CadastroUsuario extends Component {z
 
        submit(){
-        console.log('Início da submissão de dados');
 
         api.post('/usuarios/postUsuarios', {
             nome: this.state.nome,
@@ -25,11 +24,9 @@ export default class CadastroUsuario extends Component {
           .catch(function (error) {
             console.log(error);
           });
-        console.log('Fim da submissão de dados');
     }
 
     render(){
-        console.log('Início da renderização da tela');
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
                 <View>
