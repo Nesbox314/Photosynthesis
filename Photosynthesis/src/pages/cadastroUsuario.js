@@ -4,51 +4,89 @@ import { Text, Image, StyleSheet, View, Button, TextInput, Alert } from "react-n
 //import api from '../services/api';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
 const api = axios.create({
     baseURL: 'http:\\192.168.1.8:3000'
 });
 
-export default class CadastroUsuario extends Component {z
+export default class CadastroUsuario extends Component {
 
-       submit(){
-
+    submit() {
         api.post('/usuarios/postUsuarios', {
             nome: this.state.nome,
             email: this.state.email,
             senha: this.state.senha
-        })
-          .then(function (response) {
+        }).then(function (response) {
             console.log(response);
-          })
-          .catch(function (error) {
+        }).catch(function (error) {
             console.log(error);
-          });
+        });
     }
 
-    render(){
+    state = {
+        image: null,
+    };
+
+    render() {
+        let { image } = this.state;
         return (
-            <View style={{flex: 1,backgroundColor: 'white'}}>
+            <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <View>
-                    <TouchableOpacity activeOpacity = { .5 } onPress={() => this.props.navigation.navigate('login')}>
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('login')}>
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                     </TouchableOpacity>
                 </View>
-                <View>
-                    <Image source={require('../../assets/userPhoto.png')} style={styles.logo} onPress={() => this.props.navigation.navigate('login')}></Image>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                    {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
+                    </TouchableOpacity>
+                    {image && <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />}
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({nome})}/>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({email})}/>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({senha})}/>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"}/>
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email })} />
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
                 </View>
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.submit()}/>
+                    <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.submit()} />
                 </View>
             </View>
         )
     }
+
+    componentDidMount() {
+        this.getPermissionAsync();
+    }
+
+    getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            if (status !== 'granted') {
+                alert('Desculpe, precisamos da permissão para acesso a câmera!');
+            }
+        }
+    };
+
+    _pickImage = async () => {
+        try {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+                base64: true
+            });
+            if (!result.cancelled) {
+                this.setState({ image: result.uri });
+            }
+        } catch (E) {
+            console.log(E);
+        }
+    };
 }
 
 const styles = StyleSheet.create({
@@ -74,7 +112,7 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     inputs: {
-        marginTop: 40  
+        marginTop: 40
     },
     button: {
         alignSelf: "center",
