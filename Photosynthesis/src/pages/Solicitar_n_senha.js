@@ -9,7 +9,7 @@ export default class solicitar_n_senha extends Component {
             <View style={{flex: 1,backgroundColor: 'white'}}>
               
               
-                <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => Alert.alert('voltar')}>
+                <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white'onPress={() => this.props.navigation.navigate('login')}>
                      <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                 </TouchableHighlight>
                 <View>
@@ -20,7 +20,7 @@ export default class solicitar_n_senha extends Component {
                     <Text style={styles.esqueceuSenhaText}>Faça a solicitação que redefinimos a senha para você..</Text>
                 </View>
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Solicitar nova senha"} onPress={() => Alert.alert('Método para solicitar nova senha')}/>
+                    <Button color={'rgb(146, 211, 110)'} title={"Solicitar nova senha"} onPress={() => this.props.navigation.navigate('nova_senha')}/>
                 </View>
                 
             </View>

@@ -83,5 +83,11 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         marginTop: 20,
         width: 320
-    }
+    },
+    back: {
+        width: 30,
+        height: 30,
+        marginTop: 50,
+        marginLeft: 20
+      },
 })

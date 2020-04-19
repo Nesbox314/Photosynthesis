@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Button, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, Button, Alert, TouchableHighlight } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 export default class nova_senha extends Component {
@@ -9,9 +9,9 @@ export default class nova_senha extends Component {
             <View style={{flex: 1,backgroundColor: 'white'}}>
               
               
-                <View>
+                <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white'onPress={() => this.props.navigation.navigate('login')}>
                      <Image source={require('../../assets/back.png')} style={styles.back}></Image>
-                </View>
+                </TouchableHighlight>
                 <View>
                     <Image source={require('../../assets/exclamation.png')} style={styles.excla}></Image>
                 </View>
@@ -25,7 +25,7 @@ export default class nova_senha extends Component {
                 </View>
 
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Solicitar nova senha"} onPress={() => Alert.alert('Método para solicitar nova senha')}/>
+                    <Button color={'rgb(146, 211, 110)'} title={"Solicitar nova senha"} onPress={() => this.props.navigation.navigate('')}/>
                 </View>
                 
             </View>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
       borderRadius: 4
     },
     inputs: {
-      marginTop:100
+      marginTop:10
 
 
     },
