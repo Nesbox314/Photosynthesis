@@ -4,12 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
+var bodyParser = require('body-parser');
 
 var dadossensorRouter = require('./routes/dadossensor');
 var usuariosRouter = require('./routes/usuarios');
 
 var app = express();
-app.use(cors())
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

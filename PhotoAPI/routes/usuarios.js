@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
 router.post('/postUsuarios', function(req, res, next) {
   
   console.log(req.body);
-  connection.query(`INSERT INTO users (nome, email, senha) VALUES ('${req.body.nome}', '${req.body.email}', '${req.body.senha}');`, function(err, results, fields) {
+  connection.query(`INSERT INTO users (nome, email, senha, foto) VALUES ('${req.body.nome}', '${req.body.email}', '${req.body.senha}', '${req.body.foto}');`, function(err, results, fields) {
       if(err){
         console.log(err)
         res.send('Falha na inserção de dados');
