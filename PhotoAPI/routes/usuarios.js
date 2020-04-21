@@ -25,4 +25,26 @@ router.post('/postUsuarios', function(req, res, next) {
 res.send('Dados inseridos com sucesso');
 });
 
+router.get('/getTodosUsuarios', function(req, res, next) {
+  connection.query(`SELECT email, senha FROM users`, function(err, results, fields) {
+      if(err){
+        console.log(err)
+        res.send('Falha na inserção de dados');
+      }
+  res.send(results);
+  });
+});
+
+router.get('/getUsuariosByLogin', function(req, res, next) {
+  var email = req.query.user;
+  var senha = req.query.senha;
+  connection.query(`SELECT email, senha FROM users WHERE email = '${email}' and senha = '${senha}'`, function(err, results, fields) {
+      if(err){
+        console.log(err)
+        res.send('Falha na inserção de dados');
+      }
+      res.send(results);
+  });
+});
+
 module.exports = router;
