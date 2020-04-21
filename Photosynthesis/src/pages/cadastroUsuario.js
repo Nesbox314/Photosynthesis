@@ -14,21 +14,23 @@ const api = axios.create({
 
 export default class CadastroUsuario extends Component {
 
+    state = {
+        image: null
+    };
+
     submit() {
+
         api.post('/usuarios/postUsuarios', {
             nome: this.state.nome,
             email: this.state.email,
-            senha: this.state.senha
+            senha: this.state.senha,
+            foto: this.state.image
         }).then(function (response) {
-            console.log(response);
+            Alert.alert("Cadastrado com sucesso!");
         }).catch(function (error) {
             console.log(error);
         });
     }
-
-    state = {
-        image: null,
-    };
 
     render() {
         let { image } = this.state;
@@ -39,11 +41,11 @@ export default class CadastroUsuario extends Component {
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                     </TouchableOpacity>
                 </View>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
                     {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />}
+                    {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
                 </View>
                 <View style={styles.inputs}>
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
@@ -74,15 +76,16 @@ export default class CadastroUsuario extends Component {
     _pickImage = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
+                base64: true,
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsEditing: true,
                 aspect: [4, 3],
                 quality: 1,
-                base64: true
             });
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
             }
+            this.state.image = result;
         } catch (E) {
             console.log(E);
         }
