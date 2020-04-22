@@ -9,6 +9,7 @@ import nova_senha from './src/pages/nova_senha';
 import Homepage from './src/pages/homepage';
 import PerfilUsuario from './src/pages/perfilUsuario';
 import editarPerfilUsuario from './src/pages/editarPerfilUsuario';
+import Redirect from './src/pages/redirect';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +23,7 @@ function MyStack() {
       <Stack.Screen name="Homepage" component={Homepage}/>
       <Stack.Screen name="PerfilUsuario" component={PerfilUsuario}/>
       <Stack.Screen name="editarPerfilUsuario" component={editarPerfilUsuario}/>
-
+      <Stack.Screen name="Redirect" component={Redirect}/>
     </Stack.Navigator>
   );
   

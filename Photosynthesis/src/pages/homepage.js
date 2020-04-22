@@ -3,12 +3,7 @@ import React from 'react';
 import { Component } from "react";
 import { Text, Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
 
-
-
 export default class Homepage extends Component {
-
-
-
 
     render(){
         console.log('Início da renderização da tela');
@@ -34,12 +29,11 @@ export default class Homepage extends Component {
                         <Text style={styles.resposta}>Bom</Text>
                     </View>
                 </View>
+                
             </View>
         )
     }
 }
-
-
 
 const styles = StyleSheet.create({
     logosu:{
@@ -81,6 +75,10 @@ const styles = StyleSheet.create({
         height: 300,
         alignSelf: "center",
     },
-    
+    footer: {
+        borderTopColor: "black",
+        borderTopWidth: 1,
+        marginTop: 15
+    }
 })
 
