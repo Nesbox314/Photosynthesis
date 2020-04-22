@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Button, Alert } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http:\\192.168.1.8:3000'
+});
 
 export default class Login extends Component {
 
@@ -11,11 +16,11 @@ export default class Login extends Component {
                     <Image source={require('../../assets/logo.png')} style={styles.logo}></Image>
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail ou nome do usuário"}/>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"}/>
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail ou nome do usuário"} onChangeText={(email) => this.setState({ email })}/>
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })}/>
                 </View>
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Entrar"} onPress={() => this.props.navigation.navigate('Homepage')}/>
+                    <Button color={'rgb(146, 211, 110)'} title={"Entrar"} onPress={() => this.props.navigation.navigate('Redirect')}/>
                 </View>
                 <View style={styles.button}>
                     <Text style={styles.helpSenha}>Esqueceu seus dados de entrada? <Text style={styles.helpSenha, {fontWeight: "bold"}} onPress={() => this.props.navigation.navigate('solicitar_n_senha')}>Obtenha ajuda para entrar.</Text></Text>
@@ -26,7 +31,29 @@ export default class Login extends Component {
             </View>
         )
     }
-    
+
+    login(){
+      api.get('/usuarios/getUsuariosByLogin', {
+        params: {
+          user: this.state.email,
+          senha: this.state.senha
+        }
+      }).then(function (response) {
+          // handle success
+          if(response.data[0] === undefined){
+            Alert.alert("Dados incorretos!");
+          } else {
+            this.props.navigation.navigate('Homepage');
+          }
+      })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+      })
+        .then(function () {
+          // always executed
+      });
+    }   
 }
 
 const styles = StyleSheet.create({
