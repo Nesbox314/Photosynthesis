@@ -1,56 +1,7 @@
-/*import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-
-export default class Homepage extends Component {
-
-    //----menu superior----
-
-    static navigationOptions = {
-        title: "Tela Inímcial",
-
-            headerTitle: (
-                <Image style={styles.imagem}source={require('../assets/do.png')}/>               
-            ),
-        
-            headerStyle:{
-                backgroundColor: "#ff00" ,
-            },
-        
-             headerTintColor:"#ff0"
-    };
-
-    //----Corpo do projeto----
-
-        render(){
-        return (
-            <View style={StyleSheet.container}>
-                <Text style={styles.teste}>Taela isesal</Text>
-                </View>
-        )
-    }
-}
-
-// ----estilização----
-const styles = StyleSheet.create({
-
-    teste: {
-        fontSize: 20,
-        textAlign: "center",
-        //height: 10,
-    },
-    imagem: {
-        marginTop:10,
-
-
-    },
-});*/
-
 
 import React from 'react';
 import { Component } from "react";
 import { Text, Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
-import axios from 'axios';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
@@ -63,6 +14,7 @@ export default class Homepage extends Component {
         console.log('Início da renderização da tela');
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
+                <Button color={'rgb(146, 211, 110)'} title={"provisorio"} onPress={() => this.props.navigation.navigate('PerfilUsuario')} />
                 <View style={styles.titulo_total}>
                     <Text style={styles.titulo}>Planta</Text>
                     <Text style={styles.titulo}>Nome cientifico</Text>
