@@ -9,7 +9,7 @@ export default class Homepage extends Component {
         console.log('Início da renderização da tela');
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
-                <Button color={'rgb(146, 211, 110)'} title={"provisorio"} onPress={() => this.props.navigation.navigate('PerfilUsuario')} />
+                <Button color={'rgb(146, 211, 110)'} title={"provisorio"} onPress={() => this.props.navigation.navigate('Redirect', { screen: 'login' })} />
                 <View style={styles.titulo_total}>
                     <Text style={styles.titulo}>Planta</Text>
                     <Text style={styles.titulo}>Nome cientifico</Text>
