@@ -2,14 +2,17 @@
 import React from 'react';
 import { Component } from "react";
 import { Text, Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
+import Header from './component/header';
+import TabNavigator from './component/tabNavigator';
 
 export default class Homepage extends Component {
 
     render(){
-        console.log('Início da renderização da tela');
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
-                <Button color={'rgb(146, 211, 110)'} title={"provisorio"} onPress={() => this.props.navigation.navigate('Redirect', { screen: 'login' })} />
+                <View>
+                    <Header navigation={this.props.navigation}/>
+                </View>
                 <View style={styles.titulo_total}>
                     <Text style={styles.titulo}>Planta</Text>
                     <Text style={styles.titulo}>Nome cientifico</Text>
@@ -29,7 +32,9 @@ export default class Homepage extends Component {
                         <Text style={styles.resposta}>Bom</Text>
                     </View>
                 </View>
-                
+                <View>
+                    <TabNavigator style={styles.tabNavigator} navigation={this.props.navigation}/>
+                </View>
             </View>
         )
     }
@@ -79,6 +84,9 @@ const styles = StyleSheet.create({
         borderTopColor: "black",
         borderTopWidth: 1,
         marginTop: 15
+    },
+    tabNavigator: {
+        bottom: 0
     }
 })
 
