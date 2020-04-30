@@ -31,15 +31,20 @@ const styles = StyleSheet.create({
     header: {
         height: 75,
         backgroundColor: 'rgb(247, 246, 246)',
-        flexDirection: "row"
+        flexDirection: "row",
+        borderBottomWidth: 1,
+        borderBottomColor: '#DCDCDC'
     },
     imagem: {
-        marginTop: 36,
-        width: 140,
+        marginTop: 38,
+        width: 170,
         height: 25,
         marginLeft: 5
-    }, user: {
-        marginTop: 30,
-        marginLeft: 120
+    }, 
+    user: {
+        marginTop: 33,
+        marginLeft: 120,
+        height:35,
+        width:35
     }
 })

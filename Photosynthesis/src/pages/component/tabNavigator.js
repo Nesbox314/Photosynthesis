@@ -11,13 +11,13 @@ export default class TabNavigator extends Component {
                 <View style={styles.footer}>
                     <View style={{ flex: 1 }}>
                         <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Homepage')}>
-                            <Image source={require('../../../assets/home.png')} style={styles.user}></Image>
+                            <Image source={require('../../../assets/home.png')} style={styles.imageHome}></Image>
                             <Text style={styles.legendaHome}>Home</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ flex: 1 }}>
                         <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Monitoramento')}>
-                            <Image source={require('../../../assets/folha.png')} style={styles.user}></Image>
+                            <Image source={require('../../../assets/folha.png')} style={styles.imageMonitoramento}></Image>
                             <Text style={styles.legendaMonitoring}>Monitoramento</Text>
                         </TouchableOpacity>
                     </View>
@@ -35,27 +35,36 @@ const styles = StyleSheet.create({
         bottom: 0
     },
     footer: {
-        bottom: -25,
+        
         height: 55,
         backgroundColor: 'rgb(247, 246, 246)',
         flexDirection: "row",
         borderTopWidth: 1,
-        borderColor: '#a9a9a9'
+        borderColor: '#DCDCDC',
+       
         
     },
-    user: {
+
+    imageMonitoramento:{
+        marginTop: 8,
+        marginLeft: 68,
+        height:30,
+        width:30
+    },
+    imageHome:{
         marginTop: 8,
         marginLeft: 83,
         height:30,
         width:30
-        
     },
+    
+
     legendaHome: {
         marginLeft: 85,
         fontSize: 10
     },
     legendaMonitoring: {
-        marginLeft: 70,
+        marginLeft: 50,
         fontSize: 10
     }
 })
