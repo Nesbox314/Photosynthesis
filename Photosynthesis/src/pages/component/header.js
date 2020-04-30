@@ -10,7 +10,7 @@ export default class Header extends Component {
             <View style={styles.viewPrincipal}>
                 <View style={styles.header}>
                     <View style={{ flex: 1 }}>
-                        <Image source={require('../../../assets/logo3.png')} style={styles.imagem}></Image>
+                        <Image source={require('../../../assets/logo.png')} style={styles.imagem}></Image>
                     </View>
                     <View style={{ flex: 1 }}>
                         <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('PerfilUsuario')}>

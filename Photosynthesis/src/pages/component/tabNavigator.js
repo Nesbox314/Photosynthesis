@@ -35,14 +35,20 @@ const styles = StyleSheet.create({
         bottom: 0
     },
     footer: {
-        bottom: 0,
+        bottom: -25,
         height: 55,
         backgroundColor: 'rgb(247, 246, 246)',
-        flexDirection: "row"
+        flexDirection: "row",
+        borderTopWidth: 1,
+        borderColor: '#a9a9a9'
+        
     },
     user: {
-        marginTop: 2,
-        marginLeft: 80
+        marginTop: 8,
+        marginLeft: 83,
+        height:30,
+        width:30
+        
     },
     legendaHome: {
         marginLeft: 85,
