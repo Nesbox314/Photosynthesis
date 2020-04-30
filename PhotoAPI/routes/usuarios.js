@@ -12,6 +12,22 @@ const connection = mysql.createConnection({
   database : 'photosynthesis'
 });
 
+let createTableUsers = `create table if not exists users(
+  id int(11) primary key auto_increment not null,
+  email varchar(100) not null,
+  foto BLOB,
+  nome varchar(100) not null,
+  senha varchar(100) not null
+)`;
+
+router.get('/createTableUsers', function(req, res, next) {
+  connection.query(createTableUsers, function(err, results, fields) {
+    if(err){
+        console.log(err);
+    }
+  });
+})
+
 router.post('/postUsuarios', function(req, res, next) {
   
   console.log(req.body);
