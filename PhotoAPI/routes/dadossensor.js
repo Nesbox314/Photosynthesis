@@ -12,8 +12,22 @@ const connection = mysql.createConnection({
   database : 'photosynthesis'
 });
 
-//inicia o servidor
-app.listen(port, '0.0.0.0');
+let createTableDadosSensor = `create table if not exists dadossensor(
+  id int(100) primary key auto_increment not null,
+  estadoUmidade varchar(100) not null,
+  estadoLuminosidade varchar(100) not null,
+  data varchar(100) not null
+)`;
+
+router.get('/createTableDadosSensor', function(req, res, next) {
+  connection.query(createTableDadosSensor, function(err, results, fields) {
+    if(err){
+        console.log(err);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+})
 
 //exemplo de uso: localhost:3000/dadossensor/postDadosSensor?estadoUmidade=seco&estadoLuminosidade=bom
 router.post('/postDadosSensor', function(req, res, next) {
@@ -23,7 +37,7 @@ router.post('/postDadosSensor', function(req, res, next) {
           res.send('Falha na inserção de dados');
         }
     });
-  res.send('Dados inseridos com sucesso');
+  res.sendStatus(200);
 });
 
 router.get('/getTodosDadosSensor', function(req, res, next) {

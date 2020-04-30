@@ -9,6 +9,11 @@ const api = axios.create({
 
 export default class Login extends Component {
 
+    constructor(){
+      super()
+      this.createTables();
+    }
+
     render(){
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
@@ -53,7 +58,16 @@ export default class Login extends Component {
         .then(function () {
           // always executed
       });
-    }   
+    }
+    
+    createTables(){
+        api.get('/startApi/createTables', {
+        }).then(function (response) {
+           console.log("Tabelas criadas com sucesso");
+        }).catch(function (error) {
+            console.log(error);
+        })
+    }
 }
 
 const styles = StyleSheet.create({
