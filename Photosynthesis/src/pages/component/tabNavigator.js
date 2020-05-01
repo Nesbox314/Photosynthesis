@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         borderTopWidth: 1,
         borderColor: '#a9a9a9'
-        
     },
     user: {
         marginTop: 8,
