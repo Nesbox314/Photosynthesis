@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     user: {
         marginTop: 33,
         marginLeft: 120,
-        height:35,
-        width:35
+        height:33,
+        width:33
     }
 })
