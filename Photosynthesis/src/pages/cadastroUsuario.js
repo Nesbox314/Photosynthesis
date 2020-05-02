@@ -36,6 +36,7 @@ export default class CadastroUsuario extends Component {
         let { image } = this.state;
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
+               
                 <View>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('login')}>
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
@@ -43,7 +44,7 @@ export default class CadastroUsuario extends Component {
                 </View>
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-                    {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
+                    {!imagzxxe && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
                     {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
                 </View>

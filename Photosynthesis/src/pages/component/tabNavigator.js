@@ -11,14 +11,24 @@ export default class TabNavigator extends Component {
                 <View style={styles.footer}>
                     <View style={{ flex: 1 }}>
                         <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Homepage')}>
+<<<<<<< Updated upstream
                             <Image source={require('../../../assets/home.png')} style={styles.imageHome}></Image>
                             <Text style={styles.legendaHome}>Home</Text>
+=======
+                            <Image source={require('../../../assets/folha.png')} style={styles.user}></Image>
+                            <Text style={styles.legendaHome}>Monitoramento</Text>
+>>>>>>> Stashed changes
                         </TouchableOpacity>
                     </View>
                     <View style={{ flex: 1 }}>
                         <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Monitoramento')}>
+<<<<<<< Updated upstream
                             <Image source={require('../../../assets/folha.png')} style={styles.imageMonitoramento}></Image>
                             <Text style={styles.legendaMonitoring}>Monitoramento</Text>
+=======
+                            <Image source={require('../../../assets/social.png')} style={styles.user}></Image>
+                            <Text style={styles.legendaMonitoring}>Social</Text>
+>>>>>>> Stashed changes
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -36,6 +46,10 @@ const styles = StyleSheet.create({
     },
     footer: {
         
+<<<<<<< Updated upstream
+=======
+        justifyContent: 'flex-end', 
+>>>>>>> Stashed changes
         height: 55,
         backgroundColor: 'rgb(247, 246, 246)',
         flexDirection: "row",
