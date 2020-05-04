@@ -17,11 +17,12 @@ export default class Monitoring extends Component {
                 <View>
                     <Header navigation={this.props.navigation}/>
                 </View>
-                <View style={styles.titulo_total}>
-                    <Text style={styles.titulo}>Meus monitoramentos</Text>
+                <View >
+                    <Text style={styles.titulo} >Meus monitoramentos</Text>
                 </View>
-                <View>
+                <View style={styles.imagens}>
                     <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
+                    <Text style={styles.tituloPlantas} >planta 1</Text>
                     <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
                 </View>
                 
@@ -61,17 +62,23 @@ const styles = StyleSheet.create({
         marginTop: 20,
         alignSelf: "center"
     },
-    titulo_total: {
-        marginTop: 100
-    },
     titulo:{
+        marginTop: 90,
         fontSize: 20,
         alignSelf: "center"
     },
+    tituloPlantas:{
+        
+    },
     imagem: {
         marginTop: 30,
-        height: 300,
+        height: 200,
+        width: 400,
         alignSelf: "center",
+    },
+    imagens: {
+        marginTop: -10,
+        
     },
     footer: {
        
