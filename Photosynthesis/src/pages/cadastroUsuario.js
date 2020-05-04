@@ -1,7 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
-//import api from '../services/api';
+import { Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
@@ -75,7 +74,7 @@ export default class CadastroUsuario extends Component {
 
     _pickImage = async () => {
         try {
-            let result = await ImagePicker.launchImageLibraryAsync({
+            let result = await ImagePicker.launchCameraAsync({
                 base64: true,
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsEditing: true,
