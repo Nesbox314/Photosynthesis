@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var dadossensorRouter = require('./routes/dadossensor');
 var usuariosRouter = require('./routes/usuarios');
 var startApiRouter = require('./routes/startApi');
+var socialRouter = require('./routes/social');
 
 var app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/dadossensor', dadossensorRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/startApi', startApiRouter);
+app.use('/social', socialRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

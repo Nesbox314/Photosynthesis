@@ -15,7 +15,7 @@ const connection = mysql.createConnection({
 
 let createTables = 
     `create table if not exists dadossensor(
-        id int(100) primary key auto_increment not null,
+        id int(11) primary key auto_increment not null,
         estadoUmidade varchar(100) not null,
         estadoLuminosidade varchar(100) not null,
         data varchar(100) not null
@@ -26,6 +26,13 @@ let createTables =
         foto BLOB,
         nome varchar(100) not null,
         senha varchar(100) not null
+    );
+    create table if not exists social(
+        id int(11) primary key auto_increment not null,
+        foto BLOB,
+        nomePlanta varchar(100),
+        especie varchar(100),
+        idade varchar(5)
     )`;
   
   router.get('/createTables', function(req, res, next) {

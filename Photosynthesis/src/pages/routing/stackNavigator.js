@@ -10,6 +10,7 @@ import nova_senha from '../nova_senha';
 import Homepage from '../homepage';
 import Monitoring from '../monitoring';
 import TabNavigator from '../component/tabNavigator';
+import NovaPostagem from '../novaPostagem';
 
 
 const Stack = createStackNavigator();
@@ -28,6 +29,7 @@ export default class StackNavigator extends Component {
                     <Stack.Screen name="editarPerfilUsuario" component={editarPerfilUsuario} />
                     <Stack.Screen name="Redirect" component={TabNavigator} />
                     <Stack.Screen name="Monitoramento" component={Monitoring} />
+                    <Stack.Screen name="NovaPostagem" component={NovaPostagem} />
                 </Stack.Navigator>
             </NavigationContainer>
         )
