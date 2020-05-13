@@ -17,7 +17,7 @@ export default class Monitoring extends Component {
                 </View>
                 <View style={styles.aa}>
                     <ScrollView style={styles.scrollView}>
-                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('solicitar_n_senha')}>
+                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmaçãoMonitoring')}>
                             <View style={styles.tituloPlantasContainer}>
                                 <Text style={styles.tituloPlantas} >Helianthus annus</Text>
                                 <Text style={styles.tituloPlantas} >girassol</Text>
@@ -25,7 +25,7 @@ export default class Monitoring extends Component {
                             <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
                         </TouchableOpacity>
                 
-                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('solicitar_n_senha')} style={styles.monitoramento}>
+                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmaçãoMonitoring')} style={styles.monitoramento}>
                             <View style={styles.tituloPlantasContainer}>
                                 <Text style={styles.tituloPlantas} >Helianthus annus</Text>
                                 <Text style={styles.tituloPlantas} >girassol</Text>
