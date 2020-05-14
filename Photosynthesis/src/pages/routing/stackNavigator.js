@@ -11,6 +11,7 @@ import Homepage from '../homepage';
 import Monitoring from '../monitoring';
 import TabNavigator from '../component/tabNavigator';
 import NovaPostagem from '../novaPostagem';
+import Social from '../social';
 
 
 const Stack = createStackNavigator();
@@ -30,6 +31,7 @@ export default class StackNavigator extends Component {
                     <Stack.Screen name="Redirect" component={TabNavigator} />
                     <Stack.Screen name="Monitoramento" component={Monitoring} />
                     <Stack.Screen name="NovaPostagem" component={NovaPostagem} />
+                    <Stack.Screen name="Social" component={Social} />
                 </Stack.Navigator>
             </NavigationContainer>
         )
