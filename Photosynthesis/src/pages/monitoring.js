@@ -9,15 +9,16 @@ export default class Monitoring extends Component {
     render(){
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
-                <View>
-                    <Header navigation={this.props.navigation}/>
-                </View>
+                
+                <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => this.props.navigation.navigate('Monitoramento')}>
+                     <Image source={require('../../assets/back.png')} style={styles.back}></Image>
+                </TouchableHighlight>
                 <View style={styles.tituloPrincipalContainer}>
                     <Text style={styles.tituloPrincipal} >Meus monitoramentos</Text>
                 </View>
                 <View style={styles.aa}>
                     <ScrollView style={styles.scrollView}>
-                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmaçãoMonitoring')}>
+                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('solicitar_n_senha')}>
                             <View style={styles.tituloPlantasContainer}>
                                 <Text style={styles.tituloPlantas} >Helianthus annus</Text>
                                 <Text style={styles.tituloPlantas} >girassol</Text>
@@ -25,7 +26,7 @@ export default class Monitoring extends Component {
                             <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
                         </TouchableOpacity>
                 
-                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmaçãoMonitoring')} style={styles.monitoramento}>
+                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('Monitoramento')} style={styles.monitoramento}>
                             <View style={styles.tituloPlantasContainer}>
                                 <Text style={styles.tituloPlantas} >Helianthus annus</Text>
                                 <Text style={styles.tituloPlantas} >girassol</Text>
@@ -34,9 +35,7 @@ export default class Monitoring extends Component {
                         </TouchableOpacity>
                     </ScrollView>
                     </View>
-                <View style={styles.footer}>
-                    <TabNavigator style={styles.tabNavigator} navigation={this.props.navigation}/>
-                </View>
+                
             </View>   
         )
     }
@@ -44,6 +43,15 @@ export default class Monitoring extends Component {
 
 const styles = StyleSheet.create({
    
+    TouchableHighlight:{
+        width:100,
+    },
+    back: {
+        width: 30,
+        height: 30,
+        marginTop: 50,
+        marginLeft: 20
+    },
     tituloPrincipalContainer:{
         borderBottomWidth: 1,
         borderBottomColor: '#DCDCDC',

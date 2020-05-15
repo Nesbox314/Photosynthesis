@@ -25,13 +25,13 @@ export default class Login extends Component {
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })}/>
                 </View>
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Entrar"} onPress={() => this.login(this.props.navigation)}/>
+                    <Button color={'rgb(146, 211, 110)'} title={"Entrar"} onPress={() => this.props.navigation.navigate('Monitoramento')}/>
                 </View>
                 <View style={styles.button}>
                     <Text style={styles.helpSenha}>Esqueceu seus dados de entrada? <Text style={styles.helpSenha, {fontWeight: "bold"}} onPress={() => this.props.navigation.navigate('solicitar_n_senha')}>Obtenha ajuda para entrar.</Text></Text>
                 </View>
                 <View style={styles.footer}>
-                    <Text>Não tem conta? <Text style={{color: 'blue'}, {fontWeight: "bold"}} onPress={() => this.props.navigation.navigate('cadastroUsuario')}>Cadastre-se!</Text></Text>
+                    <Text>Não tem conta? <Text style={{color: 'blue'}, {fontWeight: "bold"}} onPress={() => this.props.navigation.navigate('Monitoramento')}>Cadastre-se!</Text></Text>
                 </View>
             </View>
         )
