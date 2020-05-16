@@ -4,7 +4,7 @@ import { Text, Image, StyleSheet, View, Button, TextInput, Alert,TouchableHighli
 import Header from './component/header';
 import TabNavigator from './component/tabNavigator';
 
-export default class ConfirmaçãoMonitoring extends Component {
+export default class ConfirmacaoMonitoring extends Component {
 
     render(){
         return (

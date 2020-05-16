@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, Button, TextInput, Alert, ScrollView , TouchableOpacity } from "react-native";
+import { Text, Image, StyleSheet, View, Button, TextInput, Alert, ScrollView , TouchableOpacity, TouchableHighlight } from "react-native";
 import Header from './component/header';
 import TabNavigator from './component/tabNavigator';
 
@@ -10,15 +10,15 @@ export default class Monitoring extends Component {
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
                 
-                <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => this.props.navigation.navigate('Monitoramento')}>
+                <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => this.props.navigation.navigate('Homepage')}>
                      <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                 </TouchableHighlight>
                 <View style={styles.tituloPrincipalContainer}>
-                    <Text style={styles.tituloPrincipal} >Meus monitoramentos</Text>
+                    <Text style={styles.tituloPrincipal} >Escolha qual monitorar</Text>
                 </View>
                 <View style={styles.aa}>
                     <ScrollView style={styles.scrollView}>
-                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('solicitar_n_senha')}>
+                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')}>
                             <View style={styles.tituloPlantasContainer}>
                                 <Text style={styles.tituloPlantas} >Helianthus annus</Text>
                                 <Text style={styles.tituloPlantas} >girassol</Text>
@@ -26,7 +26,14 @@ export default class Monitoring extends Component {
                             <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
                         </TouchableOpacity>
                 
-                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('Monitoramento')} style={styles.monitoramento}>
+                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')} style={styles.monitoramento}>
+                            <View style={styles.tituloPlantasContainer}>
+                                <Text style={styles.tituloPlantas} >Helianthus annus</Text>
+                                <Text style={styles.tituloPlantas} >girassol</Text>
+                            </View>  
+                            <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
+                        </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')} style={styles.monitoramento}>
                             <View style={styles.tituloPlantasContainer}>
                                 <Text style={styles.tituloPlantas} >Helianthus annus</Text>
                                 <Text style={styles.tituloPlantas} >girassol</Text>
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
         borderBottomColor: '#DCDCDC',
     },
     tituloPrincipal:{
-        marginTop: 90,
+        marginTop: 10,
         paddingBottom:15,
         fontSize: 20,
         alignSelf: "center",
@@ -72,7 +79,7 @@ const styles = StyleSheet.create({
         fontSize: 17,
     },
     imagem: {
-        height: 200,
+        height: 230,
         width: 450,
         alignSelf: "center",
         marginBottom: 8,
@@ -98,7 +105,7 @@ const styles = StyleSheet.create({
     },
 
     aa:{
-        height:500,
+        height:550,
     },
 })
 
