@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
         height:100
     },
     nivel:{
-        marginLeft:40,
+        marginLeft:35,
         marginTop:-60,
         fontSize: 22
     },
     resposta:{
         marginLeft:100,
-        marginTop:-5,
+        marginTop:0,
         fontSize: 22
     },
     icon:{
