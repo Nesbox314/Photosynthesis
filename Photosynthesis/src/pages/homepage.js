@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
+import { Text, Image, StyleSheet, View, Button, TextInput, Alert, TouchableHighlight } from "react-native";
 import Header from './component/header';
 import TabNavigator from './component/tabNavigator';
 
@@ -21,15 +21,13 @@ export default class Homepage extends Component {
                     <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
                 </View>
                 <View style={styles.icons}>
-                    <View style={styles.l1}>
-                         <Image source={require('../../assets/sol.png')} style={styles.icon}></Image>
-                         <Text style={styles.nivel}>Nivel de luz:</Text>
-                         <Text style={styles.resposta}>Ruim</Text>
-                    </View>
                     <View style={styles.l2}>
+                        <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => this.props.navigation.navigate('Homepage')}>
+                            <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
+                        </TouchableHighlight>
+                        <Text style={styles.nivel}>Nível de humidade:</Text>
+                        <Text style={styles.resposta}>Ruim</Text>
                         <Image source={require('../../assets/gota.png')} style={styles.icon}></Image>
-                        <Text style={styles.nivel}>Nivel de água:</Text>
-                        <Text style={styles.resposta}>Bom</Text>
                     </View>
                 </View>
                 <View>
@@ -41,32 +39,41 @@ export default class Homepage extends Component {
 }
 
 const styles = StyleSheet.create({
+    gear:{
+        marginTop: 10,
+        height: 55,
+        width: 55,
+        marginLeft:-55
+    },
     logosu:{
         height:100
     },
     nivel:{
-        marginLeft:70,
-        marginTop:-30,
-        fontSize: 20
+        marginLeft:40,
+        marginTop:-60,
+        fontSize: 22
     },
     resposta:{
-        marginLeft:200,
-        marginTop:-25,
-        fontSize: 20
+        marginLeft:100,
+        marginTop:-5,
+        fontSize: 22
+    },
+    icon:{
+        width: 30,
+        height: 30,
+        marginLeft: 60,
+        marginTop: -25
     },
     L1: {
         marginTop: 5
     },
     L2: {
-    },
-    icon:{
-        width: 50,
-        height: 50,
-        marginTop: 10
+        marginTop: 35
     },
     icons: {
-        marginTop: 20,
-        alignSelf: "center"
+        marginTop: 40,
+        alignSelf: "center",
+        marginBottom: 30
     },
     titulo_total: {
         marginTop: 100
