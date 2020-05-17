@@ -20,8 +20,16 @@ export default class nova_senha extends Component {
                     <Text style={styles.esqueceuSenhaText}>Insira sua nova senha que nós redefiniremos para você.</Text>
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} secureTextEntry={true} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nova senha"}/>
-                    <TextInput style={styles.input} secureTextEntry={true} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "confirmação da senha"}/>
+                    <TextInput style={styles.input} secureTextEntry={true} pattern={[
+                                                                                        '^.{8,}$', // min 8 chars
+                                                                                        '(?=.*\\d)', // number required
+                                                                                        '(?=.*[A-Z])', // uppercase letter 
+                                                                                    ]}onValidation={isValid => this.setState({ isValid })} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nova senha"}/>
+                    <TextInput style={styles.input} secureTextEntry={true} pattern={[
+                                                                                        '^.{8,}$', // min 8 chars
+                                                                                        '(?=.*\\d)', // number required
+                                                                                        '(?=.*[A-Z])', // uppercase letter 
+                                                                                    ]}onValidation={isValid => this.setState({ isValid })} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "confirmação da senha"}/>
                 </View>
 
                 <View style={styles.button}>
@@ -70,6 +78,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgb(247, 246, 246)',
       borderColor: 'rgb(242, 241, 241)',
       borderWidth: 1,
+      pattern,
       padding: 10,
       marginTop: 10,
       height: 50,

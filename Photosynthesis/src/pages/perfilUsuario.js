@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginTop: 10,
         height: 50,
+        pattern,
         width: 320,
         borderRadius: 4,
         paddingTop:15,

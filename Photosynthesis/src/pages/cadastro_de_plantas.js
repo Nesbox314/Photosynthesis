@@ -17,8 +17,12 @@ export default class cadastro_de_plantas extends Component {
                 </View>
              
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"}/>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"}/>
+                    <TextInput style={styles.input}  pattern={[
+                                                                                        '^.{4,}$']} onValidation={isValid => this.setState({ isValid })}
+                                                                                        placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"}/>
+                    <TextInput style={styles.input}  pattern={[
+                                                                                        '^.{8,}$']}onValidation={isValid => this.setState({ isValid })}
+                                                                                        placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"}/>
                 </View>
 
                 <View style={styles.button}>
@@ -72,6 +76,7 @@ const styles = StyleSheet.create({
       borderColor: 'rgb(242, 241, 241)',
       borderWidth: 1,
       padding: 10,
+      pattern,
       marginTop: 25,
       height: 50,
       width: 320,

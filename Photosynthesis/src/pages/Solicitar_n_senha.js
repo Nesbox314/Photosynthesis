@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
       borderColor: 'rgb(242, 241, 241)',
       borderWidth: 1,
       marginTop: 10,
+      pattern,
       height: 50,
       width: 320,
       borderRadius: 4

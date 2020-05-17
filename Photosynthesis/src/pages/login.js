@@ -21,8 +21,14 @@ export default class Login extends Component {
                     <Image source={require('../../assets/logo.png')} style={styles.logo}></Image>
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail ou nome do usuário"} onChangeText={(email) => this.setState({ email })}/>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })}/>
+                    <TextInput style={styles.input} pattern={[
+                                                                                            '^.{3,}$'
+                                                                                        ]}onValidation={isValid => this.setState({ isValid })} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail ou nome do usuário"} onChangeText={(email) => this.setState({ email })}/>
+                    <TextInput style={styles.input} pattern={[
+                                                                                        '^.{8,}$', // min 8 chars
+                                                                                        '(?=.*\\d)', // number required
+                                                                                        '(?=.*[A-Z])', // uppercase letter 
+                                                                                    ]}onValidation={isValid => this.setState({ isValid })} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })}/>
                 </View>
                 <View style={styles.button}>
                     <Button color={'rgb(146, 211, 110)'} title={"Entrar"} onPress={() => this.login(this.props.navigation)}/>
@@ -82,6 +88,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgb(247, 246, 246)',
       borderColor: 'rgb(242, 241, 241)',
       borderWidth: 1,
+      pattern,
       marginTop: 10,
       height: 50,
       width: 320,

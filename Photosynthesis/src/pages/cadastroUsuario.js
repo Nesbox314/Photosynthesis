@@ -49,10 +49,25 @@ export default class CadastroUsuario extends Component {
                     {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
+                    <TextInput style={styles.input} pattern={[
+                                                                                            '^.{3,}$'
+                                                                                        ]}onValidation={isValid => this.setState({ isValid })}
+                                                                                        placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
+                    <TextInput style={styles.input}  pattern={[
+                                                                                            '^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$'
+                                                                                        ]}onValidation={isValid => this.setState({ isValid })}
+                                                                                         placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email })} />
+                    <TextInput style={styles.input} pattern={[
+                                                                                        '^.{8,}$', // min 8 chars
+                                                                                        '(?=.*\\d)', // number required
+                                                                                        '(?=.*[A-Z])', // uppercase letter 
+                                                                                    ]}onValidation={isValid => this.setState({ isValid })} 
+                    placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
+                    <TextInput style={styles.input} pattern={[
+                                                                                        '^.{8,}$', // min 8 chars
+                                                                                        '(?=.*\\d)', // number required
+                                                                                        '(?=.*[A-Z])', // uppercase letter 
+                                                                                    ]}onValidation={isValid => this.setState({ isValid })} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
                 </View>
                 <View style={styles.button}>
                     <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.submit()} />
@@ -110,6 +125,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(247, 246, 246)',
         borderColor: 'rgb(242, 241, 241)',
         borderWidth: 1,
+        pattern,
         marginTop: 10,
         height: 50,
         width: 320,
