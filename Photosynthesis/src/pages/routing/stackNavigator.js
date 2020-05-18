@@ -13,7 +13,8 @@ import TabNavigator from '../component/tabNavigator';
 import NovaPostagem from '../novaPostagem';
 import ConfirmacaoMonitoring from '../ConfirmaçãoMonitoring';
 import ExcluirMonitoramento from '../ExclusaoDoMoitoramento';
-
+import configuracaoDeMonitoramento from '../configuracaoDeMonitoramento';
+import cadastroDePlantas from '../cadastroDePlantas';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,10 @@ export default class StackNavigator extends Component {
                     <Stack.Screen name="NovaPostagem" component={NovaPostagem} />
                     <Stack.Screen name="ConfirmacaoMonitoring" component={ConfirmacaoMonitoring} />
                     <Stack.Screen name="ExcluirMonitoramento" component={ExcluirMonitoramento} />
+                    <Stack.Screen name="configuracaoDeMonitoramento" component={configuracaoDeMonitoramento}/>
+                    <Stack.Screen name="cadastroDePlantas" component={cadastroDePlantas}/>
+                    
+
                     
                 </Stack.Navigator>
             </NavigationContainer>

@@ -22,7 +22,7 @@ export default class Homepage extends Component {
                 </View>
                 <View style={styles.icons}>
                     <View style={styles.l2}>
-                        <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => this.props.navigation.navigate('Homepage')}>
+                        <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
                             <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
                         </TouchableHighlight>
                         <Text style={styles.nivel}>Nível de humidade:</Text>
@@ -39,11 +39,15 @@ export default class Homepage extends Component {
 }
 
 const styles = StyleSheet.create({
+    gearcontainer:{
+        marginLeft:-50,
+        
+    },
     gear:{
         marginTop: 10,
         height: 55,
         width: 55,
-        marginLeft:-55
+        marginLeft:0
     },
     logosu:{
         height:100
