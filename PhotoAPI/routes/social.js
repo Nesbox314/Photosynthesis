@@ -23,4 +23,14 @@ router.post('/postPlant', function(req, res, next) {
   res.send('Dados inseridos com sucesso');
 });
 
+router.get('/getTodosPlant', function(req, res, next) {
+  connection.query("SELECT id, TO_BASE64(`foto`) AS foto, nomePlanta, especie, idade FROM social", function(err, results, fields) {
+    if(err){
+        console.log(err);
+    } else {
+      res.send(results);
+    }
+  });
+})
+
 module.exports = router;

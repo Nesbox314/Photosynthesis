@@ -16,7 +16,7 @@ export default class TabNavigator extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={{ flex: 1 }}>
-                        <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('HomepageSecunsaria')}>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Social')}>
                             <Image source={require('../../../assets/social.png')} style={styles.imageHome}></Image>
                             <Text style={styles.legendaMonitoring}>Social</Text>
                         </TouchableOpacity>
