@@ -61,7 +61,7 @@ export default class HomepageSecunsari extends Component {
 const styles = StyleSheet.create({
 
     gearcontainer:{
-        marginLeft:-100,
+        marginLeft:-10,
         marginTop:-60
     },
     gear:{
