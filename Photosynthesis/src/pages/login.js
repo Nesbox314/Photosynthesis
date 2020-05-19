@@ -4,7 +4,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://192.168.0.12:3000'
+  baseURL: 'http:\\192.168.0.12:3000'
 });
 
 export default class Login extends Component {

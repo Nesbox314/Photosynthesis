@@ -9,7 +9,7 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
 const api = axios.create({
-    baseURL: 'http:\\192.168.1.8:3000'
+    baseURL: 'http:\\192.168.0.12:3000'
 });
 
 export default class CadastroUsuario extends Component {
@@ -44,7 +44,7 @@ export default class CadastroUsuario extends Component {
                 </View>
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-                    {!imagzxxe && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
+                    {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
                     {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
                 </View>

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Button, Alert, TouchableHighlight } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
 export default class cadastro_de_plantas extends Component {
 

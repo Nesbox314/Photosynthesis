@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, Button } from "react-native";
 import Header from "./component/header";
-import { encrypt, decrypt } from 'react-native-simple-encryption';
+
 
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http:\\192.168.1.8:3000'
+    baseURL: 'http:\\192.168.0.12:3000'
 });
 
 var base64Data;
@@ -18,7 +18,7 @@ export default class Social extends Component {
         api.get('/social/getTodosPlant').then(res => {
             this.setState({ plants: res.data })
         })
-    }
+    };
 
     state = {
         plants: []

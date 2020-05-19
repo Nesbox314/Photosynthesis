@@ -9,7 +9,7 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 
 const api = axios.create({
-    baseURL: 'http:\\192.168.1.8:3000'
+    baseURL: 'http:\\192.168.0.12:3000'
 });
 
 export default class editarPerfilUsuario extends Component {
