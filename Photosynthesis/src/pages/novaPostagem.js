@@ -22,7 +22,7 @@ export default class NovaPostagem extends Component {
             nomePlanta: this.state.nomePlanta,
             especie: this.state.especie,
             idade: this.state.idade,
-            foto: this.state.image
+            foto: this.state.image.base64
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
             navigation.navigate('Homepage');
@@ -85,6 +85,7 @@ export default class NovaPostagem extends Component {
                 this.setState({ image: result.uri });
             }
             this.state.image = result;
+            console.log(this.state.image);
         } catch (E) {
             console.log(E);
         }
