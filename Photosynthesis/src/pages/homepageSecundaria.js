@@ -1,15 +1,36 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, Button, TextInput, Alert, ScrollView , TouchableOpacity, TouchableHighlight } from "react-native";
+import { Text, Image, StyleSheet, View, ScrollView, TouchableHighlight } from "react-native";
 import Header from './component/header';
 import TabNavigator from './component/tabNavigator';
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http:\\192.168.1.8:3000'
+});
 
 export default class HomepageSecunsari extends Component {
 
+    state = {
+        plants: null,
+        loading: true
+    }
+
+    componentDidMount(){
+        api.get('/monitor/getMonitors').then(res => { 
+            this.setState({ plants: res.data, loading: false });
+        });
+    }
+
     render(){
+        const { plants } = this.state;
+
+        if ( this.state.loading ) {
+            return false;
+        }
+
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
-
 
                 <View>
                     <Header navigation={this.props.navigation}/>
@@ -17,36 +38,26 @@ export default class HomepageSecunsari extends Component {
                 
                    <View style={styles.aa}>
                     <ScrollView style={styles.scrollView}>
-                        <View activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')}>
-                            <View style={styles.tituloPlantasContainer}>
-                                <Text style={styles.tituloPlantas} >Helianthus annus</Text>
-                                <Text style={styles.tituloPlantas} >girassol</Text>
-                            </View>  
-                            <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
-                            <View style={styles.l2}>
-                                    <Text style={styles.nivel}>Nível de humidade:</Text>
-                                    <Text style={styles.resposta}>Ruim</Text>
-                                    <Image source={require('../../assets/gota.png')} style={styles.icon}></Image>
-                                    <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
-                                         <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
-                                    </TouchableHighlight>
+                        {plants.map(plant => 
+                        <View key={plant.id}>
+                            <View activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')}>
+                                <View style={styles.tituloPlantasContainer}>
+                                    <Text style={styles.tituloPlantas} >{plant.especie}</Text>
+                                    <Text style={styles.tituloPlantas} >{plant.apelido}</Text>
+                                </View>  
+                                <Image source={{uri: 'data:image/jpeg;base64,' + plant.foto}} style={styles.imagem}></Image>
+                                <View style={styles.l2}>
+                                        <Text style={styles.nivel}>Nível de umidade:</Text>
+                                        <Text style={styles.resposta}>Ruim</Text>
+                                        <Image source={require('../../assets/gota.png')} style={styles.icon}></Image>
+                                </View>
                             </View>
                         </View>
-                
-                        <View activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')} style={styles.monitoramento}>
-                            <View style={styles.tituloPlantasContainer}>
-                                <Text style={styles.tituloPlantas} >Helianthus annus</Text>
-                                <Text style={styles.tituloPlantas} >girassol</Text>
-                            </View>  
-                            <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
-                        </View>
-                        <TouchableOpacity activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')} style={styles.monitoramento}>
-                            <View style={styles.tituloPlantasContainer}>
-                                <Text style={styles.tituloPlantas} >Helianthus annus</Text>
-                                <Text style={styles.tituloPlantas} >girassol</Text>
-                            </View>  
-                            <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
-                        </TouchableOpacity>
+                        )}
+
+                        <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
+                            <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
+                        </TouchableHighlight>
                     </ScrollView>
                     <View>
                     <TabNavigator style={styles.tabNavigator} navigation={this.props.navigation}/>

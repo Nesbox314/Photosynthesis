@@ -10,6 +10,7 @@ var dadossensorRouter = require('./routes/dadossensor');
 var usuariosRouter = require('./routes/usuarios');
 var startApiRouter = require('./routes/startApi');
 var socialRouter = require('./routes/social');
+var monitorRouter = require('./routes/monitor');
 
 var app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -30,6 +31,7 @@ app.use('/dadossensor', dadossensorRouter);
 app.use('/usuarios', usuariosRouter);
 app.use('/startApi', startApiRouter);
 app.use('/social', socialRouter);
+app.use('/monitor', monitorRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

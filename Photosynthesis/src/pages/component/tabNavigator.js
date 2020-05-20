@@ -10,7 +10,7 @@ export default class TabNavigator extends Component {
             <View style={styles.viewPrincipal}>
                 <View style={styles.footer}>
                     <View style={{ flex: 1 }}>
-                        <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Homepage')}>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('HomepageSelect')}>
                             <Image source={require('../../../assets/folha.png')} style={styles.imageMonitoramento}></Image>
                             <Text style={styles.legendaHome}>Monitoramento</Text>
                         </TouchableOpacity>

@@ -7,20 +7,20 @@ import * as Permissions from 'expo-permissions';
 
 export default class cadastro_de_plantas extends Component {
 
+    state = {
+        image: null
+    };
+
     render(){
+      let { image } = this.state;
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
-              
-              
                 <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => Alert.alert('voltar')}>
                      <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                 </TouchableHighlight>
-                <View>
-                    <Image source={require('../../assets/logo_add_planta.png')} style={styles.add_img}></Image>
-                </View>
-             
+                
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"}/>
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Apelido"}/>
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"}/>
                 </View>
 
@@ -31,7 +31,37 @@ export default class cadastro_de_plantas extends Component {
             </View>
         )
     }
-    
+
+  componentDidMount() {
+      this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+      if (Constants.platform.ios) {
+          const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+          if (status !== 'granted') {
+              alert('Desculpe, precisamos da permissão para acesso a câmera!');
+          }
+      }
+  };
+
+  _pickImage = async () => {
+      try {
+          let result = await ImagePicker.launchImageLibraryAsync({
+              base64: true,
+              mediaTypes: ImagePicker.MediaTypeOptions.All,
+              allowsEditing: true,
+              aspect: [4, 3],
+              quality: 1,
+          });
+          if (!result.cancelled) {
+              this.setState({ image: result.uri });
+          }
+          this.state.image = result;
+      } catch (E) {
+          console.log(E);
+      }
+  };
 }
 
 const styles = StyleSheet.create({

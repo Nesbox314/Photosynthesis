@@ -4,21 +4,55 @@ import { Component } from "react";
 import { Text, Image, StyleSheet, View, Button, TextInput, Alert, TouchableHighlight } from "react-native";
 import Header from './component/header';
 import TabNavigator from './component/tabNavigator';
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http:\\192.168.1.8:3000'
+});
 
 export default class Homepage extends Component {
 
+    state = {
+        plants: null,
+        loading: true
+    }
+
+    componentDidMount(){
+        api.get('/monitor/getMonitors').then(res => { 
+            this.setState({ plants: res.data, loading: false });
+        });
+    }
+
     render(){
+        const { plants } = this.state;
+
+        if (this.state.loading) {
+            return false;
+        }
+
+        if (plants[0] == null || plants[0] == undefined) {
+            return (
+                <View>
+                    <Header></Header>
+                    <View style={{marginTop: 330, alignSelf: "center"}}>
+                        <Text>Não há nenhuma planta a ser monitorada!</Text>
+                        <Text>Deseja monitorar?</Text><Text onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>Clique aqui!</Text>
+                    </View>
+                </View>
+            )
+        }
+
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
                 <View>
                     <Header navigation={this.props.navigation}/>
                 </View>
                 <View style={styles.titulo_total}>
-                    <Text style={styles.titulo}>Planta</Text>
-                    <Text style={styles.titulo}>Nome cientifico</Text>
+                    <Text style={styles.titulo}>{plants[0].apelido}</Text>
+                    <Text style={styles.titulo}>{plants[0].especie}</Text>
                 </View>
                 <View>
-                    <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
+                    <Image style={styles.image} source={{uri: 'data:image/jpeg;base64,' + plants[0].foto}} />
                 </View>
                 <View style={styles.icons}>
                     <View style={styles.l2}>
@@ -98,6 +132,12 @@ const styles = StyleSheet.create({
     },
     tabNavigator: {
         bottom: 0
+    },
+    image: {
+        marginTop: 10,
+        height: 320,
+        width: 360,
+        alignSelf: "center"
     }
 })
 
