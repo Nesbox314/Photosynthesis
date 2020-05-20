@@ -23,13 +23,13 @@ let createTables =
     create table if not exists users(
         id int(11) primary key auto_increment not null,
         email varchar(100) not null,
-        foto BLOB,
+        foto longtext(100000),
         nome varchar(100) not null,
         senha varchar(100) not null
     );
     create table if not exists social(
         id int(11) primary key auto_increment not null,
-        foto BLOB,
+        foto longtext(100000),
         nomePlanta varchar(100),
         especie varchar(100),
         idade varchar(5)

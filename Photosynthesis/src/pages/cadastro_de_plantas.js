@@ -8,7 +8,6 @@ export default class cadastro_de_plantas extends Component {
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
               
-              
                 <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => Alert.alert('voltar')}>
                      <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                 </TouchableHighlight>
