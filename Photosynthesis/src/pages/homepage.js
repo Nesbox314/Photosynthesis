@@ -1,14 +1,10 @@
 
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, Button, TextInput, Alert, TouchableHighlight } from "react-native";
+import { Text, Image, StyleSheet, View, TouchableHighlight } from "react-native";
 import Header from './component/header';
 import TabNavigator from './component/tabNavigator';
-import axios from 'axios';
-
-const api = axios.create({
-    baseURL: 'http:\\192.168.1.8:3000'
-});
+import api from '../services/api';
 
 export default class Homepage extends Component {
 

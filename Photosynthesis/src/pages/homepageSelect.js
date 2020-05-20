@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image, Button } from "react-native";
-import Header from "./component/header";
-import axios from 'axios';
+import { StyleSheet } from "react-native";
 import HomepageSecunsari from "./homepageSecundaria";
 import Homepage from "./homepage";
-
-const api = axios.create({
-    baseURL: 'http:\\192.168.1.8:3000'
-});
+import api from '../services/api';
 
 export default class HomepageSelect extends Component {
 

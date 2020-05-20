@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: 'http:\\192.168.1.8:3000'
-});
+import api from '../services/api';
 
 export default class cadastroDePlantas extends Component {
 

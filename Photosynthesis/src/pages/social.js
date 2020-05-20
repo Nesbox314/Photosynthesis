@@ -1,15 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, Button } from "react-native";
 import Header from "./component/header";
-
-
-import axios from 'axios';
-
-const api = axios.create({
-    baseURL: 'http:\\192.168.0.12:3000'
-});
-
-var base64Data;
+import api from '../services/api';
 
 export default class Social extends Component {
 

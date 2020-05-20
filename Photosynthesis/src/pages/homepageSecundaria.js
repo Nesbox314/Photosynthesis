@@ -3,11 +3,7 @@ import { Component } from "react";
 import { Text, Image, StyleSheet, View, ScrollView, TouchableHighlight } from "react-native";
 import Header from './component/header';
 import TabNavigator from './component/tabNavigator';
-import axios from 'axios';
-
-const api = axios.create({
-    baseURL: 'http:\\192.168.1.8:3000'
-});
+import api from '../services/api';
 
 export default class HomepageSecunsari extends Component {
 

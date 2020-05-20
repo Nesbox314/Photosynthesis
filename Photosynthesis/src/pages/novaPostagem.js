@@ -5,11 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import axios from 'axios';
-
-const api = axios.create({
-    baseURL: 'http:\\192.168.0.12:3000'
-});
+import api from '../services/api';
 
 export default class NovaPostagem extends Component {
 

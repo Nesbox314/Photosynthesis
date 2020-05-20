@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, Button, Alert } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: 'http:\\192.168.1.8:3000'
-});
+import api from '../services/api';
 
 export default class Login extends Component {
 

@@ -1,16 +1,12 @@
 import React from 'react';
 import { Component } from "react";
 import { Text, Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
-//import api from '../services/api';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-
-const api = axios.create({
-    baseURL: 'http:\\192.168.0.12:3000'
-});
+import api from '../services/api';
 
 export default class editarPerfilUsuario extends Component {
 
