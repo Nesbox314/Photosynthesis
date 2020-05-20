@@ -29,6 +29,7 @@ export default class HomepageSelect extends Component {
                 <HomepageSecunsari navigation={this.props.navigation}></HomepageSecunsari>
             )
         }
+
         if(plants.length <= 1){
             return(
                 <Homepage navigation={this.props.navigation}></Homepage>
