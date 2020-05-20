@@ -51,9 +51,6 @@ export default class Login extends Component {
           // handle error
           console.log(error);
       })
-        .then(function () {
-          // always executed
-      });
     }
     
     createTables(){

@@ -5,29 +5,41 @@ import api from '../services/api';
 
 export default class Social extends Component {
 
-    constructor(){
-        super();
-        api.get('/social/getTodosPlant').then(res => {
-            this.setState({ plants: res.data })
-        })
-    };
-
     state = {
-        plants: []
-    };
-    
+        plants: null,
+        loading: true
+    }
+
+    componentDidMount(){
+        api.get('/social/getTodosPlant').then(res => { 
+            this.setState({ plants: res.data, loading: false });
+        });
+    }
+
     render(){
+        const { plants } = this.state;
+
+        if ( this.state.loading ) {
+            console.log('carregando');
+            return false;
+        }
+
         return(
             <View>
                 <Header></Header>
                 <View style={styles.view}>
-                    {this.state.plants.map(plant =>
-                    <View key={plant.id} style={styles.views}>
-                        <View>
-                            <Image style={{ width: 250, height: 250}} source={{ uri: plant.foto }} />
+                    <View>
+                        {plants.map(plant => 
+                        <View key={plant.id} style={styles.borderPhoto}>
+                            <View>
+                                <Text>{plant.nomePlanta}</Text>
+                            </View>
+                            <View>
+                                <Image style={styles.image} source={{uri: 'data:image/jpeg;base64,' + plant.foto}} />
+                            </View>
                         </View>
+                        )}
                     </View>
-                    )}
                 </View>
                 <Button onPress={() => this.props.navigation.navigate('NovaPostagem')} title={"Nova postagem"}></Button>
             </View>
@@ -42,5 +54,14 @@ const styles = StyleSheet.create({
     views: {
         marginTop: 10,
         backgroundColor: "gray"
+    },
+    borderPhoto: {
+        borderColor: "black",
+        borderWidth: 1
+    },
+    image: {
+        width: 340, 
+        height: 240, 
+        alignSelf: "center"
     }
 })

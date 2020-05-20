@@ -19,7 +19,7 @@ export default class NovaPostagem extends Component {
             especie: this.state.especie,
             idade: this.state.idade,
             foto: this.state.image.base64
-        }).then(function (response) {
+        } ).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
             navigation.navigate('Homepage');
         }).catch(function (error) {
@@ -72,7 +72,7 @@ export default class NovaPostagem extends Component {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 base64: true,
-                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
                 aspect: [4, 3],
                 quality: 1,
@@ -80,8 +80,8 @@ export default class NovaPostagem extends Component {
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
             }
-            this.state.image = result;
             console.log(this.state.image);
+            this.state.image = result;
         } catch (E) {
             console.log(E);
         }
