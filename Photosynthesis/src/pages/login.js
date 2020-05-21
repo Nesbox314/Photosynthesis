@@ -44,7 +44,7 @@ export default class Login extends Component {
           if(response.data[0] === undefined){
             Alert.alert("Dados incorretos!");
           } else {
-            navigation.navigate('HomepageSelect');
+            navigation.navigate('Homepage');
           }
       })
         .catch(function (error) {

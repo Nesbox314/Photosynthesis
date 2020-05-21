@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, Button } from "react-native";
 import Header from "./component/header";
 import api from '../services/api';
+import TabNavigator from "./component/tabNavigator";
 
 export default class Social extends Component {
 
@@ -35,6 +36,7 @@ export default class Social extends Component {
                                 <Text>{plant.nomePlanta}</Text>
                             </View>
                             <View>
+                                {console.log('data:image/jpeg;base64,' + plant.foto)}
                                 <Image style={styles.image} source={{uri: 'data:image/jpeg;base64,' + plant.foto}} />
                             </View>
                         </View>
@@ -42,6 +44,9 @@ export default class Social extends Component {
                     </View>
                 </View>
                 <Button onPress={() => this.props.navigation.navigate('NovaPostagem')} title={"Nova postagem"}></Button>
+                <View style={styles.button}>
+                    <TabNavigator navigation={this.props.navigation}></TabNavigator>
+                </View>
             </View>
         )
     }
@@ -63,5 +68,8 @@ const styles = StyleSheet.create({
         width: 340, 
         height: 240, 
         alignSelf: "center"
+    },
+    button: {
+        marginTop: 515
     }
 })

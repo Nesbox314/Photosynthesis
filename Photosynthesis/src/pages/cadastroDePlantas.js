@@ -19,10 +19,12 @@ export default class cadastroDePlantas extends Component {
         foto: this.state.image.base64
     }).then(function (response) {
         Alert.alert("Cadastrado com sucesso!");
-        navigation.navigate('HomepageSelect');
+        navigation.navigate('Homepage');
     }).catch(function (error) {
         console.log(error);
     });
+
+    this.setState({image: null})
   }
 
   render() {
