@@ -1,12 +1,29 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, Button, TextInput, Alert, ScrollView , TouchableOpacity, TouchableHighlight } from "react-native";
-import Header from './component/header';
-import TabNavigator from './component/tabNavigator';
+import { Text, Image, StyleSheet, View, ScrollView, TouchableHighlight } from "react-native";
+import api from '../services/api';
 
 export default class configuracaoDeMonitoramento extends Component {
 
+    state = {
+        plants: null,
+        loading: true,
+        length: null
+    }
+
+    componentDidMount() {
+        api.get('/monitor/getMonitors').then(res => {
+            this.setState({ plants: res.data, loading: false, length: res.data.length });
+        });
+    }
+
     render(){
+        const { plants } = this.state;
+
+        if (this.state.loading) {
+            return false;
+        }
+
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
                 
@@ -21,38 +38,20 @@ export default class configuracaoDeMonitoramento extends Component {
                 </View>
                 <View style={styles.aa}>
                     <ScrollView style={styles.scrollView}>
-                        <View style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>
-                            <View style={styles.tituloPlantasContainer}>
-                                <Text style={styles.tituloPlantas} >Helianthus annus</Text>
-                                <Text style={styles.tituloPlantas} >girassol</Text>
-                                <TouchableHighlight style={styles.lixocontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('ExcluirMonitoramento')}>
-                                     <Image source={require('../../assets/can.png')} style={styles.lixo}></Image>
-                                </TouchableHighlight>
-                            </View>  
-                            <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
-                        </View>  
-                
-                        <View style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>
-                            <View style={styles.tituloPlantasContainer}>
-                                <Text style={styles.tituloPlantas} >Helianthus annus</Text>
-                                <Text style={styles.tituloPlantas} >girassol</Text>
-                                <TouchableHighlight style={styles.lixocontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('ExcluirMonitoramento')}>
-                                     <Image source={require('../../assets/can.png')} style={styles.lixo}></Image>
-                                </TouchableHighlight>
-                            </View>  
-                            <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
-                        </View>  
-
-                        <View style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>
-                            <View style={styles.tituloPlantasContainer}>
-                                <Text style={styles.tituloPlantas} >Helianthus annus</Text>
-                                <Text style={styles.tituloPlantas} >girassol</Text>
-                                <TouchableHighlight style={styles.lixocontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('ExcluirMonitoramento')}>
-                                     <Image source={require('../../assets/can.png')} style={styles.lixo}></Image>
-                                </TouchableHighlight>
-                            </View>  
-                            <Image source={require('../../assets/girassol.jpg')} style={styles.imagem}></Image>
-                        </View>  
+                        {plants.map(plant => 
+                        <View key={plant.id}>
+                            <View style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>
+                                <View style={styles.tituloPlantasContainer}>
+                                    <Text style={styles.tituloPlantas} >{plant.especie}</Text>
+                                    <Text style={styles.tituloPlantas} >{plant.apelido}</Text>
+                                    <TouchableHighlight style={styles.lixocontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('ExcluirMonitoramento')}>
+                                        <Image source={require('../../assets/can.png')} style={styles.lixo}></Image>
+                                    </TouchableHighlight>
+                                </View>  
+                                <Image source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} style={styles.imagem}></Image>
+                            </View>
+                        </View>
+                        )}
                     </ScrollView>
                 </View>
             </View>   
