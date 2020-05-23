@@ -29,21 +29,18 @@ export default class TabNavigator extends Component {
 
 const styles = StyleSheet.create({
     viewPrincipal: {
-        marginTop: 15,
         flex: 1,
-        backgroundColor: 'white',
-        bottom: 0
+        backgroundColor: 'white'
     },
     footer: {
-        
         justifyContent: 'flex-end', 
-        height: 55,
         backgroundColor: 'rgb(247, 246, 246)',
         flexDirection: "row",
         borderTopWidth: 1,
         borderColor: '#DCDCDC',
+        position: "absolute",
+        bottom: -70
     },
-
     imageMonitoramento:{
         marginTop: 8,
         marginLeft: 88,

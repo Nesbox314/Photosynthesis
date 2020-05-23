@@ -25,7 +25,7 @@ export default class NovaPostagem extends Component {
             foto: this.state.image.base64
         } ).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
-            navigation.navigate('Homepage');
+            navigation.goBack();
         }).catch(function (error) {
             console.log(error);
         });
@@ -37,7 +37,7 @@ export default class NovaPostagem extends Component {
             <View style={{ flex: 1, backgroundColor: 'white' }}>
                
                 <View>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('login')}>
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.goBack()}>
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                     </TouchableOpacity>
                 </View>
