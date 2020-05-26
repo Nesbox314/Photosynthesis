@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image, Button } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import Header from "./component/header";
 import api from '../services/api';
 import TabNavigator from "./component/tabNavigator";
