@@ -11,7 +11,14 @@ export default class Social extends Component {
         loading: true
     }
 
-    componentDidMount() {
+    constructor() {
+        super();
+        api.get('/social/getTodosPlant').then(res => {
+            this.setState({ plants: res.data, loading: false });
+        });
+    }
+    
+    componentDidUpdate(){
         api.get('/social/getTodosPlant').then(res => {
             this.setState({ plants: res.data, loading: false });
         });
