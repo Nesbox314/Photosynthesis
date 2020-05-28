@@ -13,9 +13,19 @@ export default class Homepage extends Component {
         length: null
     }
 
-    componentDidMount() {
+    constructor() {
+        super();
         api.get('/monitor/getMonitors').then(res => {
             this.setState({ plants: res.data, loading: false, length: res.data.length });
+        });
+    }
+
+    componentDidUpdate() {
+        api.get('/monitor/getMonitors').then(res => {
+            if (this.state.plants !== res.data) {
+                console.log("é diferente logo carregarei mais")
+               // this.setState({ plants: res.data, loading: false, length: res.data.length });
+            }
         });
     }
 
@@ -26,7 +36,6 @@ export default class Homepage extends Component {
             return false;
         }
 
-        console.log(this.state.length);
         if (plants[0] == null || plants[0] == undefined) {
             return (
                 <View>

@@ -24,7 +24,7 @@ router.post('/postPlant', function(req, res, next) {
 });
 
 router.get('/getTodosPlant', function(req, res, next) {
-  connection.query("SELECT id, foto, nomePlanta, especie, idade FROM social ORDER BY id desc", function(err, results, fields) {
+  connection.query("SELECT * FROM social ORDER BY id desc", function(err, results, fields) {
     
     if(err){
         console.log(err);

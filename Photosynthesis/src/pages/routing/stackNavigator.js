@@ -16,8 +16,8 @@ import ExcluirMonitoramento from '../ExclusaoDoMoitoramento';
 import configuracaoDeMonitoramento from '../configuracaoDeMonitoramento';
 import cadastroDePlantas from '../cadastroDePlantas';
 import HomepageSecunsaria from '../homepageSecundaria';
-import Social from '../social';
 import HomepageSelect from '../homepageSelect';
+import { Social } from '../social';
 
 
 const Stack = createStackNavigator();
@@ -43,8 +43,6 @@ export default class StackNavigator extends Component {
                     <Stack.Screen name="cadastroDePlantas" component={cadastroDePlantas}/>
                     <Stack.Screen name="HomepageSecunsaria" component={HomepageSecunsaria}/>
                     <Stack.Screen name="HomepageSelect" component={HomepageSelect}/>
-                    
-                    
                     <Stack.Screen name="Social" component={Social} />
                 </Stack.Navigator>
             </NavigationContainer>

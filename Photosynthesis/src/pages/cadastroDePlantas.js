@@ -14,17 +14,17 @@ export default class cadastroDePlantas extends Component {
 
   submit(navigation) {
     api.post('/monitor/newMonitor', {
-        apelido: this.state.apelido,
-        especie: this.state.especie,
-        foto: this.state.image.base64
+      apelido: this.state.apelido,
+      especie: this.state.especie,
+      foto: this.state.image.base64
     }).then(function (response) {
-        Alert.alert("Cadastrado com sucesso!");
-        navigation.navigate('Homepage');
+      Alert.alert("Cadastrado com sucesso!");
+      navigation.navigate('Homepage');
     }).catch(function (error) {
-        console.log(error);
+      console.log(error);
     });
 
-    this.setState({image: null})
+    this.setState({ image: null })
   }
 
   render() {
@@ -36,13 +36,13 @@ export default class cadastroDePlantas extends Component {
         </TouchableHighlight>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-            {!image && <Image source={require('../../assets/userPhoto.png')} style={{width: 250, height: 250, borderRadius: 200 }}></Image>}
+            {!image && <Image source={require('../../assets/userPhoto.png')} style={{ width: 250, height: 250, borderRadius: 200 }}></Image>}
           </TouchableOpacity>
           {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
         </View>
         <View style={styles.inputs}>
           <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome (apelido)"} onChangeText={(apelido) => this.setState({ apelido })} />
-          <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"} onChangeText={(especie) => this.setState({ especie })}/>
+          <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"} onChangeText={(especie) => this.setState({ especie })} />
         </View>
 
         <View style={styles.button}>

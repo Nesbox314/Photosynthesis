@@ -21,7 +21,7 @@ export default class NovaPostagem extends Component {
             foto: this.state.image.base64
         } ).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
-            navigation.goBack();
+            navigation.navigate('Social');
         }).catch(function (error) {
             console.log(error);
         });
