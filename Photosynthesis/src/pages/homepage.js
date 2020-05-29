@@ -1,33 +1,29 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, TouchableHighlight, ScrollView } from "react-native";
+import { Text, Image, StyleSheet, View, TouchableHighlight, ScrollView, TouchableOpacity } from "react-native";
+import { PullToRefreshView } from "react-native-smooth-pull-to-refresh";
 import Header from './component/header';
 import TabNavigator from './component/tabNavigator';
 import api from '../services/api';
 
 export default class Homepage extends Component {
 
-    state = {
-        plants: null,
-        loading: true,
-        length: null
-    }
-
     constructor() {
         super();
         api.get('/monitor/getMonitors').then(res => {
             this.setState({ plants: res.data, loading: false, length: res.data.length });
-        });
+        }
+        );
     }
 
-    componentDidUpdate() {
-        api.get('/monitor/getMonitors').then(res => {
-            if (this.state.plants !== res.data) {
-                console.log("é diferente logo carregarei mais")
-               // this.setState({ plants: res.data, loading: false, length: res.data.length });
-            }
-        });
-    }
+    state = {
+        title: "Pull down to refresh",
+        isRefreshing: false,
+        plants: null,
+        loading: true,
+        loadingAnimation: null,
+        length: null
+    };
 
     render() {
         const { plants } = this.state;
@@ -36,57 +32,96 @@ export default class Homepage extends Component {
             return false;
         }
 
-        if (plants[0] == null || plants[0] == undefined) {
+        if (plants.length == 0) {
             return (
-                <View>
-                    <Header></Header>
-                    <View style={{ marginTop: 330, marginBottom: 235, alignSelf: "center" }}>
-                        <Text>Não há nenhuma planta a ser monitorada!</Text>
-                        <Text>Deseja monitorar?</Text><Text onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>Clique aqui!</Text>
+                <View style={styles.viewPrincipal}>
+                    <View style={{ height: 75 }}>
+                        <Header></Header>
                     </View>
-                    <TabNavigator navigation={this.props.navigation}></TabNavigator>
-                </View>
-            )
-        }
-
-        if (this.state.length == 1) {
-            return (
-                <View style={{ flex: 1, backgroundColor: 'white' }}>
-                    <View>
-                        <Header navigation={this.props.navigation} />
-                    </View>
-                    <View style={styles.titulo_total}>
-                        <Text style={styles.titulo}>{plants[0].apelido}</Text>
-                        <Text style={styles.titulo}>{plants[0].especie}</Text>
-                    </View>
-                    <View>
-                        <Image style={styles.image} source={{ uri: 'data:image/jpeg;base64,' + plants[0].foto }} />
-                    </View>
-                    <View style={styles.icons}>
-                        <View style={styles.l2}>
-                            <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
-                                <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
-                            </TouchableHighlight>
-                            <Text style={styles.nivel}>Nível de umidade:</Text>
-                            <Text style={styles.resposta}>Ruim</Text>
-                            <Image source={require('../../assets/gota.png')} style={styles.icon}></Image>
+                    <PullToRefreshView
+                        minPullDistance={50}
+                        pullAnimHeight={50}
+                        pullAnimYValues={{ from: -50, to: 10 }}
+                        isRefreshing={this.state.isRefreshing}
+                        onRefresh={this.onInnerRefresh}
+                        onTriggerToRefresh={this.onTriggerToRefresh}
+                        contentComponent={
+                            <View>
+                                <View style={{ marginTop: 330, marginBottom: 235, alignSelf: "center" }}>
+                                    <Text>Não há nenhuma planta a ser monitorada!</Text>
+                                    <Text>Deseja monitorar?</Text><Text onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>Clique aqui!</Text>
+                                </View>
+                                <View style={styles.tabNavigator}>
+                                    <TabNavigator navigation={this.props.navigation}></TabNavigator>
+                                </View>
+                            </View>
+                        }
+                    >
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={{ color: "green", fontSize: 20, marginTop: 5, marginLeft: 80, marginRight: 10 }}>{this.state.title}</Text><Image style={{ height: 30, width: 30, marginTop: 5 }} source={this.state.loadingAnimation} />
                         </View>
-                    </View>
-                    <View>
-                        <TabNavigator style={styles.tabNavigator} navigation={this.props.navigation} />
+
+                    </PullToRefreshView>
+                    <View style={styles.tabNavigator}>
+                        <TabNavigator navigation={this.props.navigation}></TabNavigator>
                     </View>
                 </View>
             )
         }
 
-        if (this.state.length > 1) {
+        if (plants.length == 1) {
+            return (
+                <View style={styles.viewPrincipal}>
+                    <View style={{ height: 75 }}>
+                        <Header></Header>
+                    </View>
+                    <PullToRefreshView
+                        minPullDistance={50}
+                        pullAnimHeight={50}
+                        pullAnimYValues={{ from: -50, to: 10 }}
+                        isRefreshing={this.state.isRefreshing}
+                        onRefresh={this.onInnerRefresh}
+                        onTriggerToRefresh={this.onTriggerToRefresh}
+                        contentComponent={
+                            <View style={{ flex: 1, backgroundColor: 'white' }}>
+                                <View style={styles.titulo_total}>
+                                    <Text style={styles.titulo}>{plants[0].apelido}</Text>
+                                    <Text style={styles.titulo}>{plants[0].especie}</Text>
+                                </View>
+                                <View>
+                                    <Image style={styles.image} source={{ uri: 'data:image/jpeg;base64,' + plants[0].foto }} />
+                                </View>
+                                <View style={styles.icons}>
+                                    <View style={styles.l2}>
+                                        <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
+                                            <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
+                                        </TouchableHighlight>
+                                        <Text style={styles.nivel}>Nível de umidade:</Text>
+                                        <Text style={styles.resposta}>Ruim</Text>
+                                        <Image source={require('../../assets/gota.png')} style={styles.icon}></Image>
+                                    </View>
+                                </View>
+                            </View>
+                        }
+                    >
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={{ color: "green", fontSize: 20, marginTop: 5, marginLeft: 80, marginRight: 10 }}>{this.state.title}</Text><Image style={{ height: 30, width: 30, marginTop: 5 }} source={this.state.loadingAnimation} />
+                        </View>
+
+                    </PullToRefreshView>
+                    <View style={styles.tabNavigator}>
+                        <TabNavigator navigation={this.props.navigation}></TabNavigator>
+                    </View>
+                </View>
+            )
+        }
+
+        if (plants.length > 1) {
             return (
                 <View style={{ flex: 1, backgroundColor: 'white' }}>
-
                     <View>
                         <Header navigation={this.props.navigation} />
                     </View>
-
                     <View style={stylesSecond.aa}>
                         <ScrollView style={stylesSecond.scrollView}>
                             {plants.map(plant =>
@@ -105,26 +140,61 @@ export default class Homepage extends Component {
                                     </View>
                                 </View>
                             )}
-
-                            <TouchableHighlight style={stylesSecond.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
-                                <Image source={require('../../assets/gear.png')} style={stylesSecond.gear}></Image>
-                            </TouchableHighlight>
                         </ScrollView>
+                        <View style={styles.touch}>
+                            <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('NovaPostagem')}>
+                                <Image style={styles.add} source={require('../../assets/addmon.png')}></Image>
+                            </TouchableOpacity>
+                        </View>
                         <View>
                             <TabNavigator style={stylesSecond.tabNavigator} navigation={this.props.navigation} />
                         </View>
                     </View>
-
                 </View>
             )
         }
     }
+
+    onInnerRefresh = () => {
+        this.setState({ title: "Carregando..." });
+        this.setState({ loadingAnimation: require('../../assets/loading.gif') });
+        this.startRefreshing();
+    }
+
+    onTriggerToRefresh = (triggered) => {
+        this.setState({ title: triggered ? "Solte para recarregar" : "Puxe para baixo para recarregar" });
+    }
+
+    startRefreshing = () => {
+        this.setState({ isRefreshing: true });
+        setTimeout(() => {
+            api.get('/monitor/getMonitors').then(res => {
+                this.setState({ plants: res.data, loading: false, isRefreshing: false, loadingAnimation: null });
+            });
+        }, 1500);
+    }
 }
 
 const styles = StyleSheet.create({
+    add: {
+        height: 60,
+        width: 60,
+        borderRadius: 200,
+        zIndex: 20
+    },
+    touch: {
+        position: "absolute",
+        zIndex: 10,
+        top: 450,
+        right: 25
+    },
+    viewPrincipal: {
+        marginTop: 0,
+        flex: 1,
+        zIndex: 1000
+    },
     gearcontainer: {
         marginLeft: -50,
-
     },
     gear: {
         marginTop: 10,
@@ -163,7 +233,7 @@ const styles = StyleSheet.create({
         marginBottom: 30
     },
     titulo_total: {
-        marginTop: 100
+        marginTop: 35
     },
     titulo: {
         fontSize: 20,
@@ -180,7 +250,10 @@ const styles = StyleSheet.create({
         marginTop: 15
     },
     tabNavigator: {
-        bottom: 0
+        position: "absolute",
+        zIndex: 15,
+        width: 360,
+        bottom: 70
     },
     image: {
         marginTop: 10,
@@ -191,10 +264,8 @@ const styles = StyleSheet.create({
 })
 
 const stylesSecond = StyleSheet.create({
-
     gearcontainer: {
-        marginLeft: -10,
-        marginTop: -60
+        position: "absolute",
     },
     gear: {
         marginTop: 0,
@@ -288,6 +359,6 @@ const stylesSecond = StyleSheet.create({
     aa: {
         height: 550,
         marginTop: 70
-    },
+    }
 })
 

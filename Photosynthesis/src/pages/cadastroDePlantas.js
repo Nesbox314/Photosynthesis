@@ -36,7 +36,7 @@ export default class cadastroDePlantas extends Component {
         </TouchableHighlight>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-            {!image && <Image source={require('../../assets/userPhoto.png')} style={{ width: 250, height: 250, borderRadius: 200 }}></Image>}
+            {!image && <Image source={require('../../assets/logo_add_planta.png')} style={{ width: 250, height: 250, borderRadius: 200 }}></Image>}
           </TouchableOpacity>
           {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
         </View>

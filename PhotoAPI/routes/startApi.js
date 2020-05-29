@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
   multipleStatements: true
 });
 
-let createTables = 
+/*let createTables = 
     `create table if not exists dadossensor(
         id int(11) primary key auto_increment not null,
         estadoUmidade varchar(100) not null,
@@ -33,7 +33,14 @@ let createTables =
         nomePlanta varchar(100),
         especie varchar(100),
         idade varchar(5)
-    )`;
+    )`;*/
+  
+  let createTables = `create table if not exists dadossensor(
+    id int(11) primary key auto_increment not null,
+    estadoUmidade varchar(100) not null,
+    estadoLuminosidade varchar(100) not null,
+    data varchar(100) not null
+  );`;
   
   router.get('/createTables', function(req, res, next) {
     connection.query(createTables, function(err, results, fields) {
