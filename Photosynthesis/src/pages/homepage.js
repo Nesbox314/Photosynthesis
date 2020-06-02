@@ -118,37 +118,52 @@ export default class Homepage extends Component {
 
         if (plants.length > 1) {
             return (
-                <View style={{ flex: 1, backgroundColor: 'white' }}>
-                    <View>
-                        <Header navigation={this.props.navigation} />
+                <View style={styles.viewPrincipal}>
+                    <View style={{ height: 75 }}>
+                        <Header></Header>
                     </View>
-                    <View style={stylesSecond.aa}>
-                        <ScrollView style={stylesSecond.scrollView}>
-                            {plants.map(plant =>
-                                <View key={plant.id}>
-                                    <View activeOpacity={.100} style={stylesSecond.monitoramento} onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')}>
-                                        <View style={stylesSecond.tituloPlantasContainer}>
-                                            <Text style={stylesSecond.tituloPlantas} >{plant.especie}</Text>
-                                            <Text style={stylesSecond.tituloPlantas} >{plant.apelido}</Text>
+                    <PullToRefreshView
+                        minPullDistance={50}
+                        pullAnimHeight={50}
+                        pullAnimYValues={{ from: -50, to: 10 }}
+                        isRefreshing={this.state.isRefreshing}
+                        onRefresh={this.onInnerRefresh}
+                        onTriggerToRefresh={this.onTriggerToRefresh}
+                        contentComponent={
+                            <View style={stylesSecond.aa}>
+                                <ScrollView style={stylesSecond.scrollView}>
+                                    {plants.map(plant =>
+                                        <View key={plant.id}>
+                                            <View activeOpacity={.100} style={stylesSecond.monitoramento} onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')}>
+                                                <View style={stylesSecond.tituloPlantasContainer}>
+                                                    <Text style={stylesSecond.tituloPlantas} >{plant.especie}</Text>
+                                                    <Text style={stylesSecond.tituloPlantas} >{plant.apelido}</Text>
+                                                </View>
+                                                <Image source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} style={stylesSecond.imagem}></Image>
+                                                <View style={stylesSecond.l2}>
+                                                    <Text style={stylesSecond.nivel}>Nível de umidade:</Text>
+                                                    <Text style={stylesSecond.resposta}>Ruim</Text>
+                                                    <Image source={require('../../assets/gota.png')} style={stylesSecond.icon}></Image>
+                                                </View>
+                                            </View>
                                         </View>
-                                        <Image source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} style={stylesSecond.imagem}></Image>
-                                        <View style={stylesSecond.l2}>
-                                            <Text style={stylesSecond.nivel}>Nível de umidade:</Text>
-                                            <Text style={stylesSecond.resposta}>Ruim</Text>
-                                            <Image source={require('../../assets/gota.png')} style={stylesSecond.icon}></Image>
-                                        </View>
-                                    </View>
-                                </View>
-                            )}
-                        </ScrollView>
-                        <View style={styles.touch}>
-                            <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('NovaPostagem')}>
-                                <Image style={styles.add} source={require('../../assets/addmon.png')}></Image>
-                            </TouchableOpacity>
+                                    )}
+                                </ScrollView>
+                            </View>
+                        }
+                    >
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={{ color: "green", fontSize: 20, marginTop: 5, marginLeft: 80, marginRight: 10 }}>{this.state.title}</Text><Image style={{ height: 30, width: 30, marginTop: 5 }} source={this.state.loadingAnimation} />
                         </View>
-                        <View>
-                            <TabNavigator style={stylesSecond.tabNavigator} navigation={this.props.navigation} />
-                        </View>
+
+                    </PullToRefreshView>
+                    <View style={styles.touch}>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
+                            <Image style={styles.add} source={require('../../assets/addmon.png')}></Image>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.tabNavigator}>
+                        <TabNavigator navigation={this.props.navigation}></TabNavigator>
                     </View>
                 </View>
             )
@@ -185,7 +200,7 @@ const styles = StyleSheet.create({
     touch: {
         position: "absolute",
         zIndex: 10,
-        top: 450,
+        top: 550,
         right: 25
     },
     viewPrincipal: {
@@ -337,28 +352,15 @@ const stylesSecond = StyleSheet.create({
         marginBottom: 8,
         marginTop: 10
     },
-    monitoramento: {
-
-    },
-    footer: {
-        marginTop: -14,
-
-    },
-
     scrollView: {
         marginHorizontal: 0,
-        marginBottom: 0,
-
+        marginBottom: 0
     },
-
     tabNavigator: {
         bottom: 0,
         marginTop: 0
     },
-
     aa: {
-        height: 550,
-        marginTop: 70
     }
 })
 
