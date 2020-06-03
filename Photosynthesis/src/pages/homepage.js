@@ -179,9 +179,9 @@ export default class Homepage extends Component {
             api.get('/monitor/getMonitors', {
                 params: { user: this.state.userId }
             }).then(res => {
-                this.setState({ plants: res.data, loading: false, length: res.data.length });
-            })
-        }, 200);
+                this.setState({ plants: res.data, loading: false, isRefreshing: false, loadingAnimation: null });
+            });
+        }, 1500);
     }
 
     componentDidMount() {
