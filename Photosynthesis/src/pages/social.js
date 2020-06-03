@@ -1,6 +1,6 @@
 import { PullToRefreshView } from "react-native-smooth-pull-to-refresh";
 import { Component } from "react";
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, AsyncStorage } from "react-native";
 import React from 'react';
 import Header from "./component/header";
 import api from '../services/api';
@@ -98,7 +98,7 @@ export class Social extends Component {
             api.get('/social/getTodosPlant').then(res => {
                 this.setState({ plants: res.data, loading: false, isRefreshing: false, loadingAnimation: null });
             });
-        }, 10);
+        }, 1000);
     }
 }
 

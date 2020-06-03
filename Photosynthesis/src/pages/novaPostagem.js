@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
+import { Image, StyleSheet, View, Button, TextInput, Alert, AsyncStorage } from "react-native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -10,7 +10,8 @@ import api from '../services/api';
 export default class NovaPostagem extends Component {
 
     state = {
-        image: null
+        image: null,
+        user: null
     };
 
     submit(navigation) {
@@ -18,8 +19,9 @@ export default class NovaPostagem extends Component {
             nomePlanta: this.state.nomePlanta,
             especie: this.state.especie,
             idade: this.state.idade,
-            foto: this.state.image.base64
-        } ).then(function (response) {
+            foto: this.state.image.base64,
+            user: this.state.user
+        }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
             navigation.navigate('Social');
         }).catch(function (error) {
@@ -27,11 +29,11 @@ export default class NovaPostagem extends Component {
         });
     }
 
-    render(){
+    render() {
         let { image } = this.state;
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
-               
+
                 <View>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.goBack()}>
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
@@ -39,7 +41,7 @@ export default class NovaPostagem extends Component {
                 </View>
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-                    {!image && <Image source={require('../../assets/logo_add_planta.png')} style={styles.logo}></Image>}
+                        {!image && <Image source={require('../../assets/logo_add_planta.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
                     {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
                 </View>
@@ -57,6 +59,12 @@ export default class NovaPostagem extends Component {
 
     componentDidMount() {
         this.getPermissionAsync();
+
+        this.getUserProperties();
+    }
+
+    async getUserProperties() {
+        await this.setState({ user: await AsyncStorage.getItem('idUser') });
     }
 
     getPermissionAsync = async () => {

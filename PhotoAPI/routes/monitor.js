@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
 });
 
 router.post('/newMonitor', function (req, res, next) {
-  connection.query(`INSERT INTO monitor (foto, apelido, especie) VALUES ('${req.body.foto}', '${req.body.apelido}', '${req.body.especie}');`, function (err, results, fields) {
+  connection.query(`INSERT INTO monitor (foto, apelido, especie, user) VALUES ('${req.body.foto}', '${req.body.apelido}', '${req.body.especie}', '${req.body.user}');`, function (err, results, fields) {
     if (err) {
       console.log(err)
       res.send('Falha na inserção de dados');
@@ -24,7 +24,8 @@ router.post('/newMonitor', function (req, res, next) {
 });
 
 router.get('/getMonitors', function (req, res, next) {
-  connection.query(`SELECT * FROM monitor`, function (err, results, fields) {
+  connection.query(`SELECT * FROM monitor WHERE user = '${req.query.user}'`, function (err, results, fields) {
+    console.log(req);
     if (err) {
       console.log(err)
       res.send('Falha na inserção de dados');

@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
 });
 
 router.post('/postPlant', function(req, res, next) {
-    connection.query(`INSERT INTO social (foto, nomePlanta, especie, idade) VALUES ('${req.body.foto}', '${req.body.nomePlanta}', '${req.body.especie}', '${req.body.idade}');`, function(err, results, fields) {
+    connection.query(`INSERT INTO social (foto, nomePlanta, especie, idade, user) VALUES ('${req.body.foto}', '${req.body.nomePlanta}', '${req.body.especie}', '${req.body.idade}', '${req.body.user}');`, function(err, results, fields) {
         if(err){
           console.log(err)
           res.send('Falha na inserção de dados');

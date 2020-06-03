@@ -36,7 +36,7 @@ router.get('/getTodosUsuarios', function(req, res, next) {
 router.get('/getUsuariosByLogin', function(req, res, next) {
   var email = req.query.user;
   var senha = req.query.senha;
-  connection.query(`SELECT email, senha FROM users WHERE email = '${email}' and senha = '${senha}'`, function(err, results, fields) {
+  connection.query(`SELECT id, nome, email FROM users WHERE email = '${email}' and senha = '${senha}'`, function(err, results, fields) {
       if(err){
         console.log(err)
         res.send('Falha na inserção de dados');

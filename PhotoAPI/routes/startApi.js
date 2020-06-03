@@ -18,7 +18,9 @@ let createTableSocial = `create table if not exists social(
       foto longtext,
       nomePlanta varchar(100),
       especie varchar(100),
-      idade varchar(5)
+      idade varchar(5),
+      user int(11),
+      FOREIGN KEY (user) REFERENCES users(id)
   )`;
 
 let createTableUsers = `create table if not exists users(
@@ -29,15 +31,24 @@ let createTableUsers = `create table if not exists users(
     senha varchar(100) not null
   );`;
 
-let createTableDadosSensor = `create table if not exists dadossensor(
+let createTableDadosSensor = `create table if not exists dadossensor (
     id int(11) primary key auto_increment not null,
     estadoUmidade varchar(100) not null,
     estadoLuminosidade varchar(100) not null,
-    data varchar(100) not null
+    data varchar(100) not null,
+    monitor varchar(5)
+  );`;
+
+let createTableMonitor = `create table if not exists monitor (
+    id int(11) primary key auto_increment,
+    apelido varchar(100) not null,
+    especie varchar(100) not null,
+    foto longtext,
+    user varchar(5)
   );`;
 
 router.get('/createTables', function (req, res, next) {
-  connection.query(createTableDadosSensor + createTableUsers + createTableSocial, function (err, results, fields) {
+  connection.query(createTableUsers + createTableMonitor + createTableDadosSensor + createTableSocial, function (err, results, fields) {
     if (err) {
       console.log(err);
     } else {

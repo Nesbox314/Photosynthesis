@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Button, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, Button, Alert, AsyncStorage } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import api from '../services/api';
 
@@ -39,11 +39,12 @@ export default class Login extends Component {
           user: this.state.email,
           senha: this.state.senha
         }
-      }).then(function (response) {
+      }).then(async function (response) {
           // handle success
           if(response.data[0] === undefined){
             Alert.alert("Dados incorretos!");
           } else {
+            await AsyncStorage.setItem('idUser', JSON.stringify(response.data[0].id))
             navigation.navigate('Homepage');
           }
       })

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, TouchableHighlight, ScrollView, TouchableOpacity } from "react-native";
+import { Text, Image, StyleSheet, View, TouchableHighlight, ScrollView, TouchableOpacity, AsyncStorage } from "react-native";
 import { PullToRefreshView } from "react-native-smooth-pull-to-refresh";
 import Header from './component/header';
 import TabNavigator from './component/tabNavigator';
@@ -8,21 +8,14 @@ import api from '../services/api';
 
 export default class Homepage extends Component {
 
-    constructor() {
-        super();
-        api.get('/monitor/getMonitors').then(res => {
-            this.setState({ plants: res.data, loading: false, length: res.data.length });
-        }
-        );
-    }
-
     state = {
         title: "Pull down to refresh",
         isRefreshing: false,
         plants: null,
         loading: true,
         loadingAnimation: null,
-        length: null
+        length: null,
+        userId: null
     };
 
     render() {
@@ -183,10 +176,25 @@ export default class Homepage extends Component {
     startRefreshing = () => {
         this.setState({ isRefreshing: true });
         setTimeout(() => {
-            api.get('/monitor/getMonitors').then(res => {
-                this.setState({ plants: res.data, loading: false, isRefreshing: false, loadingAnimation: null });
-            });
-        }, 1500);
+            api.get('/monitor/getMonitors', {
+                params: { user: this.state.userId }
+            }).then(res => {
+                this.setState({ plants: res.data, loading: false, length: res.data.length });
+            })
+        }, 200);
+    }
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    async getData() {
+        this.setState({ userId: await AsyncStorage.getItem('idUser')})
+        api.get('/monitor/getMonitors', {
+            params: { user: await AsyncStorage.getItem('idUser') }
+        }).then(res => {
+            this.setState({ plants: res.data, loading: false, length: res.data.length });
+        })
     }
 }
 

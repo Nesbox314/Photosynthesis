@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity, AsyncStorage } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -9,14 +9,17 @@ import api from '../services/api';
 export default class cadastroDePlantas extends Component {
 
   state = {
-    image: null
+    image: null,
+    userId: null
   };
 
   submit(navigation) {
+    console.log(this.state.userId)
     api.post('/monitor/newMonitor', {
       apelido: this.state.apelido,
       especie: this.state.especie,
-      foto: this.state.image.base64
+      foto: this.state.image.base64,
+      user: this.state.userId
     }).then(function (response) {
       Alert.alert("Cadastrado com sucesso!");
       navigation.navigate('Homepage');
@@ -55,6 +58,12 @@ export default class cadastroDePlantas extends Component {
 
   componentDidMount() {
     this.getPermissionAsync();
+
+    this.getUserProperties();
+  }
+
+  async getUserProperties() {
+    this.setState({ userId: await AsyncStorage.getItem('idUser') });
   }
 
   getPermissionAsync = async () => {
