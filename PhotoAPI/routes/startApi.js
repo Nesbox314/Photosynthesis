@@ -36,7 +36,8 @@ let createTableDadosSensor = `create table if not exists dadossensor (
     estadoUmidade varchar(100) not null,
     estadoLuminosidade varchar(100) not null,
     data varchar(100) not null,
-    monitor varchar(5)
+    monitor int(11),
+    FOREIGN KEY (monitor) REFERENCES monitor(id)
   );`;
 
 let createTableMonitor = `create table if not exists monitor (
@@ -44,7 +45,8 @@ let createTableMonitor = `create table if not exists monitor (
     apelido varchar(100) not null,
     especie varchar(100) not null,
     foto longtext,
-    user varchar(5)
+    user int(11),
+    FOREIGN KEY (user) REFERENCES users(id)
   );`;
 
 router.get('/createTables', function (req, res, next) {
