@@ -29,9 +29,9 @@ router.get('/createTableDadosSensor', function(req, res, next) {
   });
 })
 
-//exemplo de uso: localhost:3000/dadossensor/postDadosSensor?estadoUmidade=seco&estadoLuminosidade=bom
+//exemplo de uso: localhost:3000/dadossensor/postDadosSensor?estadoUmidade=seco&estadoLuminosidade=bom&monitor=1
 router.post('/postDadosSensor', function(req, res, next) {
-    connection.query(`INSERT INTO dadossensor (estadoUmidade, data, estadoLuminosidade) VALUES ('${req.query.estadoUmidade}', '${Date.now()}', '${req.query.estadoLuminosidade}');`, function(err, results, fields) {
+    connection.query(`INSERT INTO dadossensor (estadoUmidade, data, estadoLuminosidade, monitor) VALUES ('${req.query.estadoUmidade}', '${Date.now()}', '${req.query.estadoLuminosidade}', '${req.query.monitor}');`, function(err, results, fields) {
         if(err){
           console.log(err)
           res.send('Falha na inserção de dados');
@@ -58,6 +58,16 @@ router.get('/getUltimoDadosSensor', function(req, res, next) {
         }
         res.send(results)
     });
+});
+
+router.get('/getUltimoDadosSensorByPlant', function(req, res, next) {
+  connection.query("SELECT * FROM dadossensor WHERE data IN (SELECT MAX(data) FROM dadossensor)", function(err, results, fields) {
+      if(err){
+        console.log(err);
+        res.send('Erro ao coletar dados');
+      }
+      res.send(results)
+  });
 });
 
 //exemplo de uso: localhost:3000/dadossensor/getDadosSensorPaginado?pagina=1

@@ -135,7 +135,8 @@ export default class Homepage extends Component {
                                                 <Image source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} style={stylesSecond.imagem}></Image>
                                                 <View style={stylesSecond.l2}>
                                                     <Text style={stylesSecond.nivel}>Nível de umidade:</Text>
-                                                    <Text style={stylesSecond.resposta}>Ruim</Text>
+                                                    <Text style={stylesSecond.resposta}>{plant.estadoUmidade}</Text>
+
                                                     <Image source={require('../../assets/gota.png')} style={stylesSecond.icon}></Image>
                                                 </View>
                                             </View>
@@ -176,7 +177,7 @@ export default class Homepage extends Component {
     startRefreshing = () => {
         this.setState({ isRefreshing: true });
         setTimeout(() => {
-            api.get('/monitor/getMonitors', {
+            api.get('/monitor/getMonitorsWithSensorData', {
                 params: { user: this.state.userId }
             }).then(res => {
                 this.setState({ plants: res.data, loading: false, isRefreshing: false, loadingAnimation: null });
@@ -189,10 +190,11 @@ export default class Homepage extends Component {
     }
 
     async getData() {
-        this.setState({ userId: await AsyncStorage.getItem('idUser')})
-        api.get('/monitor/getMonitors', {
+        this.setState({ userId: await AsyncStorage.getItem('idUser') })
+        api.get('/monitor/getMonitorsWithSensorData', {
             params: { user: await AsyncStorage.getItem('idUser') }
         }).then(res => {
+            console.log(res.data)
             this.setState({ plants: res.data, loading: false, length: res.data.length });
         })
     }

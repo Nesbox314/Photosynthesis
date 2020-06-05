@@ -25,7 +25,6 @@ router.post('/newMonitor', function (req, res, next) {
 
 router.get('/getMonitors', function (req, res, next) {
   connection.query(`SELECT * FROM monitor WHERE user = '${req.query.user}'`, function (err, results, fields) {
-    console.log(req);
     if (err) {
       console.log(err)
       res.send('Falha na inserção de dados');
@@ -34,5 +33,18 @@ router.get('/getMonitors', function (req, res, next) {
     }
   });
 });
+
+router.get('/getMonitorsWithSensorData', function (req, res, next) {
+  connection.query(`SELECT MAX(dadossensor.data) as data, monitor.*, dadossensor.estadoUmidade FROM monitor JOIN dadossensor ON monitor.id = dadossensor.monitor WHERE user = '${req.query.user}' group by monitor.id`, function (err, results, fields) {
+    if (err) {
+      console.log(err)
+      res.send('Falha na inserção de dados');
+    } else {
+      res.send(results);
+    }
+  });
+});
+
+// SELECT MAX(dadossensor.data) as data, monitor.*, dadossensor.estadoUmidade FROM monitor JOIN dadossensor ON monitor.id = dadossensor.monitor group by monitor.id
 
 module.exports = router;
