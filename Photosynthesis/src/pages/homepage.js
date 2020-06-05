@@ -177,9 +177,11 @@ export default class Homepage extends Component {
     startRefreshing = () => {
         this.setState({ isRefreshing: true });
         setTimeout(() => {
+            console.log(this.state.userId);
             api.get('/monitor/getMonitorsWithSensorData', {
                 params: { user: this.state.userId }
             }).then(res => {
+                console.log(res.data)
                 this.setState({ plants: res.data, loading: false, isRefreshing: false, loadingAnimation: null });
             });
         }, 1500);
@@ -194,7 +196,6 @@ export default class Homepage extends Component {
         api.get('/monitor/getMonitorsWithSensorData', {
             params: { user: await AsyncStorage.getItem('idUser') }
         }).then(res => {
-            console.log(res.data)
             this.setState({ plants: res.data, loading: false, length: res.data.length });
         })
     }

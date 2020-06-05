@@ -14,13 +14,14 @@ export default class cadastroDePlantas extends Component {
   };
 
   submit(navigation) {
-    console.log(this.state.userId)
     api.post('/monitor/newMonitor', {
       apelido: this.state.apelido,
       especie: this.state.especie,
       foto: this.state.image.base64,
       user: this.state.userId
     }).then(function (response) {
+      var param = parseInt(response.data.split(":").pop());
+      api.post(`/dadossensor/postDadosSensor?estadoUmidade=N/A&monitor=${param}`)
       Alert.alert("Cadastrado com sucesso!");
       navigation.navigate('Homepage');
     }).catch(function (error) {

@@ -19,8 +19,8 @@ router.post('/newMonitor', function (req, res, next) {
       console.log(err)
       res.send('Falha na inserção de dados');
     }
+    res.send("InsertId:" + results.insertId);
   });
-  res.send('Dados inseridos com sucesso');
 });
 
 router.get('/getMonitors', function (req, res, next) {
