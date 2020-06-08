@@ -142,7 +142,7 @@ export class Social extends Component {
         }, 1000);
     }
 }
-
+    
 const styles = StyleSheet.create({
     viewPrincipal: {
         marginTop: 0,

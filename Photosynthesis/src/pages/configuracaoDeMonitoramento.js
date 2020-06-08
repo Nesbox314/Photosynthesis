@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, ScrollView, TouchableHighlight } from "react-native";
+import { Text, Image, StyleSheet, View, ScrollView, TouchableHighlight, TouchableOpacity } from "react-native";
 import api from '../services/api';
 
 export default class configuracaoDeMonitoramento extends Component {
@@ -26,16 +26,16 @@ export default class configuracaoDeMonitoramento extends Component {
 
         return (
             <View style={{flex: 1,backgroundColor: 'white'}}>
-                
+                <View style={styles.cabecalho}>
                 <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => this.props.navigation.navigate('Homepage')}>
                      <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                 </TouchableHighlight>
                 <View style={styles.tituloPrincipalContainer}>
                     <Text style={styles.tituloPrincipal} >Configuração do monitoramento</Text>
-                    <TouchableHighlight style={styles.addoncontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>
-                         <Image source={require('../../assets/addmon.png')} style={styles.addmon}></Image>
-                    </TouchableHighlight>
+
                 </View>
+                </View>
+                
                 <View style={styles.aa}>
                     <ScrollView style={styles.scrollView}>
                         {plants.map(plant => 
@@ -51,8 +51,15 @@ export default class configuracaoDeMonitoramento extends Component {
                                 <Image source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} style={styles.imagem}></Image>
                             </View>
                         </View>
+                         
                         )}
-                    </ScrollView>
+                        </ScrollView>
+                        <View style={styles.touch}>
+                         <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>
+                             <Image style={styles.add} source={require('../../assets/addmon.png')}></Image>
+                         </TouchableOpacity>
+                     </View>
+                    
                 </View>
             </View>   
         )
@@ -60,6 +67,23 @@ export default class configuracaoDeMonitoramento extends Component {
 }
 
 const styles = StyleSheet.create({
+
+    cabecalho:{
+      
+    },
+    add: {
+        height: 60,
+        width: 60,
+        paddingLeft:-15,
+        borderRadius: 200,
+        zIndex: 20
+    },
+    touch: {
+        position: "absolute",
+        zIndex: 10,
+        top: 420,
+        right: 15
+    },
 
     lixocontainer:{
         marginTop:-35,
@@ -81,6 +105,7 @@ const styles = StyleSheet.create({
     },
     TouchableHighlight:{
         width:100,
+        
     },
     back: {
         width: 30,
@@ -91,6 +116,7 @@ const styles = StyleSheet.create({
     tituloPrincipalContainer:{
         borderBottomWidth: 1,
         borderBottomColor: '#DCDCDC',
+        
     },
     tituloPrincipal:{
         marginTop: 10,
