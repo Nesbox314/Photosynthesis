@@ -31,7 +31,8 @@ router.get('/createTableDadosSensor', function(req, res, next) {
 
 //exemplo de uso: localhost:3000/dadossensor/postDadosSensor?estadoUmidade=seco&estadoLuminosidade=bom&monitor=1
 router.post('/postDadosSensor', function(req, res, next) {
-    connection.query(`INSERT INTO dadossensor (estadoUmidade, data, estadoLuminosidade, monitor) VALUES ('${req.query.estadoUmidade}', '${Date.now()}', '${req.query.estadoLuminosidade}', '${req.query.monitor}');`, function(err, results, fields) {
+    var param = parseInt(req.query.monitor);
+    connection.query(`INSERT INTO dadossensor (estadoUmidade, data, estadoLuminosidade, monitor) VALUES ('${req.query.estadoUmidade}', '${Date.now()}', '${req.query.estadoLuminosidade}', '${param}');`, function(err, results, fields) {
         if(err){
           console.log(err)
           res.send('Falha na inserção de dados');

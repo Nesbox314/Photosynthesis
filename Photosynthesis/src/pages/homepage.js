@@ -90,7 +90,7 @@ export default class Homepage extends Component {
                                             <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
                                         </TouchableHighlight>
                                         <Text style={styles.nivel}>Nível de umidade:</Text>
-                                        <Text style={styles.resposta}>Ruim</Text>
+                                        <Text style={styles.resposta}>{plants[0].estadoUmidade}</Text>
                                         <Image source={require('../../assets/gota.png')} style={styles.icon}></Image>
                                     </View>
                                 </View>
@@ -177,11 +177,9 @@ export default class Homepage extends Component {
     startRefreshing = () => {
         this.setState({ isRefreshing: true });
         setTimeout(() => {
-            console.log(this.state.userId);
             api.get('/monitor/getMonitorsWithSensorData', {
                 params: { user: this.state.userId }
             }).then(res => {
-                console.log(res.data)
                 this.setState({ plants: res.data, loading: false, isRefreshing: false, loadingAnimation: null });
             });
         }, 1500);
