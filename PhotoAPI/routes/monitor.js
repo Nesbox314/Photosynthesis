@@ -48,6 +48,4 @@ router.get('/getMonitorsWithSensorData', function (req, res, next) {
   });
 });
 
-// SELECT MAX(dadossensor.data) as data, monitor.*, dadossensor.estadoUmidade FROM monitor JOIN dadossensor ON monitor.id = dadossensor.monitor group by monitor.id
-
 module.exports = router;
