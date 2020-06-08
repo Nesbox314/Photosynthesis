@@ -28,6 +28,47 @@ export class Social extends Component {
         if (this.state.loading) {
             return false;
         }
+
+        if(plants[0] == undefined){
+            return (
+                <View style={styles.viewPrincipal}>
+                    <View style={{height: 75, backgroundColor: "red"}}>
+                        <Header></Header>
+                    </View>
+                        <PullToRefreshView
+                            minPullDistance={50}
+                            pullAnimHeight={50}
+                            pullAnimYValues={{ from: -50, to: 10 }}
+                            isRefreshing={this.state.isRefreshing}
+                            onRefresh={this.onInnerRefresh}
+                            onTriggerToRefresh={this.onTriggerToRefresh}
+                            contentComponent={
+                                <ScrollView style={{top: 10}}>
+                                    <View style={styles.encapsulamentoVazio}>
+                                        <Text>Que pena....</Text>
+                                        <Text>Não há nenhuma postagem até o momento...</Text>
+                                        <Text>Clique no botão abaixo para iniciar!</Text>
+                                    </View>
+                                </ScrollView>
+                            }
+                        >
+                            <View style={{flexDirection: "row"}}>
+                                <Text style={{color: "green", fontSize: 20, marginTop: 5, marginLeft: 80, marginRight: 10}}>{this.state.title}</Text><Image style={{height: 30, width: 30, marginTop: 5}} source={this.state.loadingAnimation} />
+                            </View>
+                            
+                        </PullToRefreshView>
+                        <View style={styles.touch}>
+                            <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('NovaPostagem')}>
+                                <Image style={styles.add} source={require('../../assets/addmon.png')}></Image>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.tabNavigator}>
+                            <TabNavigator navigation={this.props.navigation}></TabNavigator>
+                        </View>
+                    </View>
+            );
+        }
+
         return (
             <View style={styles.viewPrincipal}>
                 <View style={{height: 75, backgroundColor: "red"}}>
@@ -123,6 +164,10 @@ const styles = StyleSheet.create({
     },
     encapsulamento: {
         marginTop: 0
+    },
+    encapsulamentoVazio: {
+        marginTop: 250,
+        marginLeft: 40
     },
     user: {
         height: 33,
