@@ -77,23 +77,23 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
     },
-    nivel:{
-        marginLeft:35,
-        marginTop:-60,
+    nivel: {
+        marginLeft: 35,
+        marginTop: -50,
         fontSize: 22
     },
-    resposta:{
-        marginLeft:100,
-        marginTop:0,
+    resposta: {
+        marginLeft: 100,
+        marginTop: 5,
         fontSize: 22,
-        marginBottom:5
+        marginBottom: 5
     },
-    icon:{
+    icon: {
         width: 30,
         height: 30,
         marginLeft: 60,
-        marginTop: -30,
-        marginBottom:10
+        marginTop: -35,
+        marginBottom: 15
     },
     L1: {
         marginTop: 5
