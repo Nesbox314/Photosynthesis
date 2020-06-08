@@ -47,6 +47,9 @@ export default class Homepage extends Component {
                         <Header navigation={this.props.navigation} />
                     </View>
                     <View style={styles.titulo_total}>
+                                 <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
+                                    <Image source={require('../../assets/mais.png')} style={styles.gear}></Image>
+                                </TouchableHighlight> 
                         <Text style={styles.titulo}>{plants[0].apelido}</Text>
                         <Text style={styles.titulo}>{plants[0].especie}</Text>
                     </View>
@@ -55,9 +58,6 @@ export default class Homepage extends Component {
                     </View>
                     <View style={styles.icons}>
                         <View style={styles.l2}>
-                            <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
-                                <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
-                            </TouchableHighlight>
                             <Text style={styles.nivel}>Nível de umidade:</Text>
                             <Text style={styles.resposta}>Ruim</Text>
                             <Image source={require('../../assets/gota.png')} style={styles.icon}></Image>
@@ -84,6 +84,9 @@ export default class Homepage extends Component {
                                 <View key={plant.id}>
                                     <View activeOpacity={.100} style={stylesSecond.monitoramento} onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')}>
                                         <View style={stylesSecond.tituloPlantasContainer}>
+                                            <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
+                                                   <Image source={require('../../assets/mais.png')} style={styles.gear}></Image>
+                                            </TouchableHighlight> 
                                             <Text style={stylesSecond.tituloPlantas} >{plant.especie}</Text>
                                             <Text style={stylesSecond.tituloPlantas} >{plant.apelido}</Text>
                                         </View>
@@ -96,13 +99,9 @@ export default class Homepage extends Component {
                                     </View>
                                 </View>
                             )}
-
-                            <TouchableHighlight style={stylesSecond.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
-                                <Image source={require('../../assets/gear.png')} style={stylesSecond.gear}></Image>
-                            </TouchableHighlight>
                         </ScrollView>
-                        <View>
-                            <TabNavigator style={stylesSecond.tabNavigator} navigation={this.props.navigation} />
+                        <View style={styles.tabNavigator}>
+                            <TabNavigator style={styles.Navigtor} navigation={this.props.navigation}/>
                         </View>
                     </View>
 
@@ -113,15 +112,14 @@ export default class Homepage extends Component {
 }
 
 const styles = StyleSheet.create({
-    gearcontainer: {
-        marginLeft: -50,
-
+    gearcontainer:{
+        marginLeft:305,
+        marginBottom:-40,       
     },
-    gear: {
-        marginTop: 10,
-        height: 55,
-        width: 55,
-        marginLeft: 0
+    gear:{
+        
+        height: 20,
+        width: 20,
     },
     logosu: {
         height: 100
@@ -170,8 +168,12 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         marginTop: 15
     },
+    
     tabNavigator: {
-        bottom: 0
+        position: "absolute",
+        zIndex: 15,
+        width: 360,
+        bottom: 0 
     },
     image: {
         marginTop: 10,
@@ -183,15 +185,14 @@ const styles = StyleSheet.create({
 
 const stylesSecond = StyleSheet.create({
 
-    gearcontainer: {
-        marginLeft: -10,
-        marginTop: -60
+    gearcontainer:{
+        marginLeft:305,
+        marginBottom:-40,       
     },
-    gear: {
-        marginTop: 0,
-        height: 55,
-        width: 55,
-        marginLeft: 0
+    gear:{
+        
+        height: 20,
+        width: 20,
     },
     nivel: {
         marginLeft: 35,
@@ -258,7 +259,7 @@ const stylesSecond = StyleSheet.create({
         marginTop: 10
     },
     monitoramento: {
-
+        marginTop:20  
     },
     footer: {
         marginTop: -14,
@@ -272,8 +273,10 @@ const stylesSecond = StyleSheet.create({
     },
 
     tabNavigator: {
-        bottom: 0,
-        marginTop: 0
+        position: "absolute",
+        zIndex: 15,
+        width: 360,
+        bottom: 50 
     },
 
     aa: {

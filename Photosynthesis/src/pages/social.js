@@ -61,7 +61,7 @@ export default class Social extends Component {
         )
     }
 }
-
+    
 const styles = StyleSheet.create({
     view: {
         marginTop: 70

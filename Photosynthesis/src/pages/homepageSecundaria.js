@@ -37,6 +37,9 @@ export default class HomepageSecunsari extends Component {
                         {plants.map(plant => 
                         <View key={plant.id}>
                             <View activeOpacity={.100} style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('ConfirmacaoMonitoring')}>
+                                <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
+                                    <Image source={require('../../assets/mais.png')} style={styles.gear}></Image>
+                                </TouchableHighlight>                               
                                 <View style={styles.tituloPlantasContainer}>
                                     <Text style={styles.tituloPlantas} >{plant.especie}</Text>
                                     <Text style={styles.tituloPlantas} >{plant.apelido}</Text>
@@ -51,14 +54,12 @@ export default class HomepageSecunsari extends Component {
                         </View>
                         )}
 
-                        <TouchableHighlight style={styles.gearcontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
-                            <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
-                        </TouchableHighlight>
+                        
                     </ScrollView>
-                    <View>
-                    <TabNavigator style={styles.tabNavigator} navigation={this.props.navigation}/>
-                </View>
+                    <View style={styles.tabNavigator}>
+                        <TabNavigator style={styles.Navigtor} navigation={this.props.navigation}/>
                     </View>
+                </View>
                 
             </View>   
         )
@@ -68,14 +69,13 @@ export default class HomepageSecunsari extends Component {
 const styles = StyleSheet.create({
 
     gearcontainer:{
-        marginLeft:-10,
-        marginTop:-60
+        marginLeft:305,
+        marginBottom:-40,       
     },
     gear:{
-        marginTop: 0,
-        height: 55,
-        width: 55,
-        marginLeft:0
+        
+        height: 20,
+        width: 20,
     },
     nivel:{
         marginLeft:35,
@@ -142,11 +142,10 @@ const styles = StyleSheet.create({
         marginTop:10
     },
     monitoramento: {
-        
+        marginTop:20   
     },
     footer: {
-        marginTop:-14,
-         
+        marginTop:-14,    
     },
     
     scrollView:{
@@ -156,8 +155,10 @@ const styles = StyleSheet.create({
     },
     
     tabNavigator: {
-        bottom: 0,
-        marginTop: 0
+        position: "absolute",
+        zIndex: 15,
+        width: 360,
+        bottom: -10 
     },
 
     aa:{
