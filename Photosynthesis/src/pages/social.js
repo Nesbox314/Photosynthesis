@@ -88,7 +88,8 @@ export class Social extends Component {
                                     <View key={plant.id} style={styles.borderPhoto}>
                                         <View style={styles.cabecalho}>
                                             <View style={{ flex: 1 }}>
-                                                <Image style={styles.user} source={{ uri: 'data:image/jpeg;base64,' + plant.fotoUsuario }} />
+                                                {plant.fotoUsuario == "null" && <Image source={require('../../assets/user.png')} style={styles.patternUser} />}
+                                                {plant.fotoUsuario && <Image source={{ uri: 'data:image/jpeg;base64,' + plant.fotoUsuario }} style={styles.user} />}
                                             </View>
                                             <View style={{ flex: 7 }}>
                                                 <Text>{plant.nomeUsuario}</Text>
@@ -117,7 +118,7 @@ export class Social extends Component {
                 <View style={styles.tabNavigator}>
                     <TabNavigator navigation={this.props.navigation}></TabNavigator>
                 </View>
-            </View>
+            </View >
         );
     }
 
@@ -168,6 +169,13 @@ const styles = StyleSheet.create({
     encapsulamentoVazio: {
         marginTop: 250,
         marginLeft: 40
+    },
+    patternUser: {
+        height: 33,
+        width: 33,
+        marginBottom: -30,
+        marginLeft: 7,
+        marginTop: 3,
     },
     user: {
         height: 33,

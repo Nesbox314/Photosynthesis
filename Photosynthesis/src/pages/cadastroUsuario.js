@@ -19,7 +19,7 @@ export default class CadastroUsuario extends Component {
             nome: this.state.nome,
             email: this.state.email,
             senha: this.state.senha,
-            foto: this.state.image.base64
+            foto: this.state.image
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
         }).catch(function (error) {
@@ -81,7 +81,7 @@ export default class CadastroUsuario extends Component {
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
             }
-            this.state.image = result;
+            this.state.image = result.base64;
         } catch (E) {
             console.log(E);
         }
