@@ -173,7 +173,8 @@ const styles = StyleSheet.create({
         height: 33,
         width: 33,
         marginLeft: 7,
-        marginTop: 3
+        marginTop: 3,
+        borderRadius: 200
     },
     cabecalho: {
         flexDirection: "row"
