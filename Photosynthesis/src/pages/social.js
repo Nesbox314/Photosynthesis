@@ -72,7 +72,7 @@ export class Social extends Component {
         return (
             <View style={styles.viewPrincipal}>
                 <View style={{ height: 75, backgroundColor: "red" }}>
-                    <Header></Header>
+                    <Header navigation={this.props.navigation}></Header>
                 </View>
                 <PullToRefreshView
                     minPullDistance={50}

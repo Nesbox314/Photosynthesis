@@ -29,7 +29,7 @@ export default class Homepage extends Component {
             return (
                 <View style={styles.viewPrincipal}>
                     <View style={{ height: 75 }}>
-                        <Header></Header>
+                        <Header navigation={this.props.navigation}></Header>
                     </View>
                     <PullToRefreshView
                         minPullDistance={50}
@@ -66,7 +66,7 @@ export default class Homepage extends Component {
             return (
                 <View style={styles.viewPrincipal}>
                     <View style={{ height: 75 }}>
-                        <Header></Header>
+                        <Header navigation={this.props.navigation}></Header>
                     </View>
                     <PullToRefreshView
                         minPullDistance={50}
@@ -113,7 +113,7 @@ export default class Homepage extends Component {
             return (
                 <View style={styles.viewPrincipal}>
                     <View style={{ height: 75 }}>
-                        <Header></Header>
+                        <Header navigation={this.props.navigation}></Header>
                     </View>
                     <PullToRefreshView
                         minPullDistance={50}

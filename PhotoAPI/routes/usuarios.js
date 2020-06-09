@@ -45,4 +45,14 @@ router.get('/getUsuariosByLogin', function(req, res, next) {
   });
 });
 
+router.get('/getUserDate', function(req, res, next) {
+  connection.query(`SELECT * FROM users WHERE id = '${req.query.id}'`, function(err, results, fields) {
+      if(err){
+        console.log(err)
+        res.send('Falha na inserção de dados');
+      }
+      res.send(results);
+  });
+});
+
 module.exports = router;
