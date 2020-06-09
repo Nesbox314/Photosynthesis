@@ -34,4 +34,14 @@ router.get('/getTodosPlant', function(req, res, next) {
   });
 })
 
+router.get('/getTodosPlantWithUserData', function(req, res, next) {
+  connection.query("SELECT social.*, users.nome as nomeUsuario, users.foto as fotoUsuario FROM social INNER JOIN users ON social.user = users.id GROUP BY social.id ORDER by social.id DESC", function(err, results, fields) {
+    if(err){
+        console.log(err);
+    } else {
+      res.send(results);
+    }
+  });
+})
+
 module.exports = router;

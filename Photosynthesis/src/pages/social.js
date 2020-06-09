@@ -17,7 +17,7 @@ export class Social extends Component {
     };
 
     componentDidMount() {
-        api.get('/social/getTodosPlant').then(res => {
+        api.get('/social/getTodosPlantWithUserData').then(res => {
             this.setState({ plants: res.data, loading: false });
         });
     }
@@ -29,51 +29,12 @@ export class Social extends Component {
             return false;
         }
 
-        if(plants[0] == undefined){
+        if (plants[0] == undefined) {
             return (
                 <View style={styles.viewPrincipal}>
-                    <View style={{height: 75, backgroundColor: "red"}}>
+                    <View style={{ height: 75, backgroundColor: "red" }}>
                         <Header></Header>
                     </View>
-                        <PullToRefreshView
-                            minPullDistance={50}
-                            pullAnimHeight={50}
-                            pullAnimYValues={{ from: -50, to: 10 }}
-                            isRefreshing={this.state.isRefreshing}
-                            onRefresh={this.onInnerRefresh}
-                            onTriggerToRefresh={this.onTriggerToRefresh}
-                            contentComponent={
-                                <ScrollView style={{top: 10}}>
-                                    <View style={styles.encapsulamentoVazio}>
-                                        <Text>Que pena....</Text>
-                                        <Text>Não há nenhuma postagem até o momento...</Text>
-                                        <Text>Clique no botão abaixo para iniciar!</Text>
-                                    </View>
-                                </ScrollView>
-                            }
-                        >
-                            <View style={{flexDirection: "row"}}>
-                                <Text style={{color: "green", fontSize: 20, marginTop: 5, marginLeft: 80, marginRight: 10}}>{this.state.title}</Text><Image style={{height: 30, width: 30, marginTop: 5}} source={this.state.loadingAnimation} />
-                            </View>
-                            
-                        </PullToRefreshView>
-                        <View style={styles.touch}>
-                            <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('NovaPostagem')}>
-                                <Image style={styles.add} source={require('../../assets/addmon.png')}></Image>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.tabNavigator}>
-                            <TabNavigator navigation={this.props.navigation}></TabNavigator>
-                        </View>
-                    </View>
-            );
-        }
-
-        return (
-            <View style={styles.viewPrincipal}>
-                <View style={{height: 75, backgroundColor: "red"}}>
-                    <Header></Header>
-                </View>
                     <PullToRefreshView
                         minPullDistance={50}
                         pullAnimHeight={50}
@@ -82,32 +43,19 @@ export class Social extends Component {
                         onRefresh={this.onInnerRefresh}
                         onTriggerToRefresh={this.onTriggerToRefresh}
                         contentComponent={
-                            <ScrollView style={{top: 10}}>
-                                <View style={styles.encapsulamento}>
-                                    {plants.map(plant =>
-                                        <View key={plant.id} style={styles.borderPhoto}>
-                                            <View style={styles.cabecalho}>
-                                                <View style={{ flex: 1 }}>
-                                                    <Image style={styles.user} source={require('../../assets/user.png')}></Image>
-                                                </View>
-                                                <View style={{ flex: 7 }}>
-                                                    <Text>Nome do usuário</Text>
-                                                    <Text>{plant.nomePlanta}</Text>
-                                                </View>
-                                            </View>
-                                            <View>
-                                                <Image style={styles.image} source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} />
-                                            </View>
-                                        </View>
-                                    )}
+                            <ScrollView style={{ top: 10 }}>
+                                <View style={styles.encapsulamentoVazio}>
+                                    <Text>Que pena....</Text>
+                                    <Text>Não há nenhuma postagem até o momento...</Text>
+                                    <Text>Clique no botão abaixo para iniciar!</Text>
                                 </View>
                             </ScrollView>
                         }
                     >
-                        <View style={{flexDirection: "row"}}>
-                            <Text style={{color: "green", fontSize: 20, marginTop: 5, marginLeft: 80, marginRight: 10}}>{this.state.title}</Text><Image style={{height: 30, width: 30, marginTop: 5}} source={this.state.loadingAnimation} />
+                        <View style={{ flexDirection: "row" }}>
+                            <Text style={{ color: "green", fontSize: 20, marginTop: 5, marginLeft: 80, marginRight: 10 }}>{this.state.title}</Text><Image style={{ height: 30, width: 30, marginTop: 5 }} source={this.state.loadingAnimation} />
                         </View>
-                        
+
                     </PullToRefreshView>
                     <View style={styles.touch}>
                         <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('NovaPostagem')}>
@@ -118,12 +66,64 @@ export class Social extends Component {
                         <TabNavigator navigation={this.props.navigation}></TabNavigator>
                     </View>
                 </View>
+            );
+        }
+
+        return (
+            <View style={styles.viewPrincipal}>
+                <View style={{ height: 75, backgroundColor: "red" }}>
+                    <Header></Header>
+                </View>
+                <PullToRefreshView
+                    minPullDistance={50}
+                    pullAnimHeight={50}
+                    pullAnimYValues={{ from: -50, to: 10 }}
+                    isRefreshing={this.state.isRefreshing}
+                    onRefresh={this.onInnerRefresh}
+                    onTriggerToRefresh={this.onTriggerToRefresh}
+                    contentComponent={
+                        <ScrollView style={{ top: 10 }}>
+                            <View style={styles.encapsulamento}>
+                                {plants.map(plant =>
+                                    <View key={plant.id} style={styles.borderPhoto}>
+                                        <View style={styles.cabecalho}>
+                                            <View style={{ flex: 1 }}>
+                                                <Image style={styles.user} source={{ uri: 'data:image/jpeg;base64,' + plant.fotoUsuario }} />
+                                            </View>
+                                            <View style={{ flex: 7 }}>
+                                                <Text>{plant.nomeUsuario}</Text>
+                                                <Text>{plant.nomePlanta}</Text>
+                                            </View>
+                                        </View>
+                                        <View>
+                                            <Image style={styles.image} source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} />
+                                        </View>
+                                    </View>
+                                )}
+                            </View>
+                        </ScrollView>
+                    }
+                >
+                    <View style={{ flexDirection: "row" }}>
+                        <Text style={{ color: "green", fontSize: 20, marginTop: 5, marginLeft: 80, marginRight: 10 }}>{this.state.title}</Text><Image style={{ height: 30, width: 30, marginTop: 5 }} source={this.state.loadingAnimation} />
+                    </View>
+
+                </PullToRefreshView>
+                <View style={styles.touch}>
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('NovaPostagem')}>
+                        <Image style={styles.add} source={require('../../assets/addmon.png')}></Image>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.tabNavigator}>
+                    <TabNavigator navigation={this.props.navigation}></TabNavigator>
+                </View>
+            </View>
         );
     }
 
     onInnerRefresh = () => {
-        this.setState({ title: "Carregando..."});
-        this.setState({ loadingAnimation: require('../../assets/loading.gif')});
+        this.setState({ title: "Carregando..." });
+        this.setState({ loadingAnimation: require('../../assets/loading.gif') });
         this.startRefreshing();
     }
 
@@ -136,13 +136,13 @@ export class Social extends Component {
             isRefreshing: true,
         });
         setTimeout(() => {
-            api.get('/social/getTodosPlant').then(res => {
+            api.get('/social/getTodosPlantWithUserData').then(res => {
                 this.setState({ plants: res.data, loading: false, isRefreshing: false, loadingAnimation: null });
             });
         }, 1000);
     }
 }
-    
+
 const styles = StyleSheet.create({
     viewPrincipal: {
         marginTop: 0,

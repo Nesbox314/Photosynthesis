@@ -45,8 +45,6 @@ export default class Login extends Component {
             Alert.alert("Dados incorretos!");
           } else {
             await AsyncStorage.setItem('idUser', JSON.stringify(response.data[0].id))
-            await AsyncStorage.setItem('nome', JSON.stringify(response.data[0].nome))
-            await AsyncStorage.setItem('foto', JSON.stringify(response.data[0].foto))
             navigation.navigate('Homepage');
           }
       })
