@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
+import { Image, StyleSheet, View, Button, TextInput, Alert, KeyboardAvoidingView } from "react-native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -38,20 +38,24 @@ export default class CadastroUsuario extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-                    {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
-                    </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                     {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
+                     </TouchableOpacity>
+                     {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
                 </View>
-                <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
-                </View>
-                <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.submit()} />
-                </View>
+                    <KeyboardAvoidingView style={styles.container} behavior='position' >   
+                        <View style={styles.inputs}>
+                            <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
+                            <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email })} />
+                            <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
+                            <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
+                        </View>
+                                        
+                        <View style={styles.button}>
+                            <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.submit()} />
+                        </View>
+                    </KeyboardAvoidingView>
+                
             </View>
         )
     }
@@ -89,6 +93,7 @@ export default class CadastroUsuario extends Component {
 }
 
 const styles = StyleSheet.create({
+    
     back: {
         height: 35,
         width: 35,
@@ -111,6 +116,7 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     inputs: {
+        backgroundColor:'white',
         marginTop: 40
     },
     button: {

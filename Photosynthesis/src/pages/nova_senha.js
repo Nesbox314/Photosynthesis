@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Button, Alert, TouchableHighlight } from 'react-native';
+import { View, Text, Image, StyleSheet, Button, Alert, TouchableHighlight, KeyboardAvoidingView } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
 export default class nova_senha extends Component {
@@ -19,14 +19,16 @@ export default class nova_senha extends Component {
                     <Text style={styles.esqueceuSenha}>Solicitou nova senha? </Text>
                     <Text style={styles.esqueceuSenhaText}>Insira sua nova senha que nós redefiniremos para você.</Text>
                 </View>
+                <KeyboardAvoidingView style={styles.container} behavior='position' >
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} secureTextEntry={true} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nova senha"}/>
+                    <TextInput style={styles.input} returnKeyType="next"  secureTextEntry={true} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nova senha"}/>
                     <TextInput style={styles.input} secureTextEntry={true} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "confirmação da senha"}/>
                 </View>
 
                 <View style={styles.button}>
                     <Button color={'rgb(146, 211, 110)'} title={"Solicitar nova senha"} onPress={() => this.props.navigation.navigate('')}/>
                 </View>
+                </KeyboardAvoidingView > 
                 
             </View>
         )
@@ -74,11 +76,12 @@ const styles = StyleSheet.create({
       marginTop: 10,
       height: 50,
       width: 320,
-      borderRadius: 4
+      borderRadius: 4,
+      
     },
     inputs: {
-      marginTop:10
-
+      marginTop:10,
+      backgroundColor:'white'
 
     },
     button: {

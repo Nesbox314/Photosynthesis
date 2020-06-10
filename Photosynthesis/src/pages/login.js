@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Button, Alert, AsyncStorage } from 'react-native';
+import { View, Text, Image, StyleSheet, Button, Alert, AsyncStorage, KeyboardAvoidingView } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import api from '../services/api';
 
@@ -12,10 +12,12 @@ export default class Login extends Component {
 
     render(){
         return (
+          
             <View style={{flex: 1,backgroundColor: 'white'}}>
                 <View>
                     <Image source={require('../../assets/logo.png')} style={styles.logo}></Image>
                 </View>
+                <KeyboardAvoidingView >
                 <View style={styles.inputs}>
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail ou nome do usuário"} onChangeText={(email) => this.setState({ email })}/>
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })}/>
@@ -29,7 +31,9 @@ export default class Login extends Component {
                 <View style={styles.footer}>
                     <Text>Não tem conta? <Text style={{color: 'blue'}, {fontWeight: "bold"}} onPress={() => this.props.navigation.navigate('cadastroUsuario')}>Cadastre-se!</Text></Text>
                 </View>
+                </KeyboardAvoidingView>
             </View>
+            
         )
     }
 
@@ -45,6 +49,8 @@ export default class Login extends Component {
             Alert.alert("Dados incorretos!");
           } else {
             await AsyncStorage.setItem('idUser', JSON.stringify(response.data[0].id))
+            await AsyncStorage.setItem('nome', JSON.stringify(response.data[0].nome))
+            await AsyncStorage.setItem('foto', JSON.stringify(response.data[0].foto))
             navigation.navigate('Homepage');
           }
       })
