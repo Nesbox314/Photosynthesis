@@ -67,9 +67,9 @@ export default class editarPerfilUsuario extends Component {
                     {image && <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput ref='nome' style={styles.input} placeholder={"O nome cadastrado era '" + userData[0].nome + "'."} />
-                    <TextInput ref='email' style={styles.input} placeholder={"O e-mail cadastrado era '" + userData[0].email + "'."} />
-                    <TextInput ref='senha' style={styles.input} placeholder={"O e-mail cadastrado era '" + userData[0].senha + "'."} />
+                    <TextInput ref='nome' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome cadastrado era '" + userData[0].nome + "'."} />
+                    <TextInput ref='email' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + userData[0].email + "'."} />
+                    <TextInput ref='senha' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + userData[0].senha + "'."} />
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
                 </View>
                 <View style={styles.button}>
