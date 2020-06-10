@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, ScrollView, TouchableHighlight, TouchableOpacity } from "react-native";
+import { Text, Image, StyleSheet, View, ScrollView, TouchableHighlight, TouchableOpacity, AsyncStorage } from "react-native";
 import api from '../services/api';
 
 export default class configuracaoDeMonitoramento extends Component {
@@ -12,9 +12,16 @@ export default class configuracaoDeMonitoramento extends Component {
     }
 
     componentDidMount() {
-        api.get('/monitor/getMonitors').then(res => {
+        this.getData();
+    }
+
+    async getData() {
+        this.setState({ userId: await AsyncStorage.getItem('idUser') })
+        api.get('/monitor/getMonitorsWithSensorData', {
+            params: { user: await AsyncStorage.getItem('idUser') }
+        }).then(res => {
             this.setState({ plants: res.data, loading: false, length: res.data.length });
-        });
+        })
     }
 
     render(){
@@ -42,8 +49,8 @@ export default class configuracaoDeMonitoramento extends Component {
                         <View key={plant.id}>
                             <View style={styles.monitoramento}  onPress={() => this.props.navigation.navigate('cadastroDePlantas')}>
                                 <View style={styles.tituloPlantasContainer}>
-                                    <Text style={styles.tituloPlantas} >{plant.especie}</Text>
                                     <Text style={styles.tituloPlantas} >{plant.apelido}</Text>
+                                    <Text style={styles.tituloPlantas} >{plant.especie}</Text>
                                     <TouchableHighlight style={styles.lixocontainer} underlayColor='white' onPress={() => this.props.navigation.navigate('ExcluirMonitoramento')}>
                                         <Image source={require('../../assets/can.png')} style={styles.lixo}></Image>
                                     </TouchableHighlight>
