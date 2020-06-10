@@ -55,4 +55,15 @@ router.get('/getUserDate', function (req, res, next) {
   });
 });
 
+router.get('/editUser', function (req, res, next) {
+  console.log(req.query)
+  connection.query(`UPDATE users SET nome='${req.query.nome}', email='${req.query.email}', senha='${req.query.senha}' WHERE id='${req.query.id}'`, function (err, results, fields) {
+    if (err) {
+      console.log(err)
+      res.send('Falha no update de dados');
+    }
+    res.send(results);
+  });
+});
+
 module.exports = router;

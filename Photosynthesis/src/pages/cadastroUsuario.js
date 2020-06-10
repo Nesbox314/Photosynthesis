@@ -14,7 +14,6 @@ export default class CadastroUsuario extends Component {
     };
 
     submit() {
-
         api.post('/usuarios/postUsuarios', {
             nome: this.state.nome,
             email: this.state.email,
