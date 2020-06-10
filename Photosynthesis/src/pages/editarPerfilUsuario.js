@@ -32,13 +32,12 @@ export default class editarPerfilUsuario extends Component {
     }
 
     submit() {
-        api.get('/usuarios/editUser', {
-            params: {
-                id: this.state.userData[0].id,
-                nome: this.refs.nome._lastNativeText,
-                email: this.refs.email._lastNativeText,
-                senha: this.refs.senha._lastNativeText
-            }
+        api.post('/usuarios/editUser', {
+            id: this.state.userData[0].id,
+            nome: this.refs.nome._lastNativeText,
+            email: this.refs.email._lastNativeText,
+            senha: this.refs.senha._lastNativeText,
+            foto: this.state.image
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
         }).catch(function (error) {
@@ -64,7 +63,9 @@ export default class editarPerfilUsuario extends Component {
                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
                         {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
-                    {image && <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                        {image && <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.inputs}>
                     <TextInput ref='nome' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome cadastrado era '" + userData[0].nome + "'."} />
@@ -102,9 +103,9 @@ export default class editarPerfilUsuario extends Component {
                 quality: 1,
             });
             if (!result.cancelled) {
-                this.setState({ image: result.uri });
+                this.setState({ image: result.base64 });
             }
-            this.state.image = result;
+            this.state.image = result.base64;
         } catch (E) {
             console.log(E);
         }
