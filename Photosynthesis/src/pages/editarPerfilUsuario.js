@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, Button, TextInput, Alert } from "react-native";
+import { Text, Image, StyleSheet, View, Button, TextInput, Alert, AsyncStorage } from "react-native";
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
@@ -11,15 +11,32 @@ import api from '../services/api';
 export default class editarPerfilUsuario extends Component {
 
     state = {
-        image: null
+        image: null,
+        userData: null,
+        loading: true
     };
 
-    submit() {
+    constructor() {
+        super();
+        this.getData();
+    }
 
-        api.post('/usuarios/postUsuarios', {
-            nome: this.state.nome,
-            email: this.state.email,
-            senha: this.state.senha,
+    async getData() {
+        api.get('/usuarios/getUserDate', {
+            params: {
+                id: await AsyncStorage.getItem('idUser')
+            }
+        }).then(res => {
+            this.setState({ userData: res.data, loading: false, image: res.data[0].foto });
+        });
+    }
+
+    submit() {
+        api.post('/usuarios/editUser', {
+            id: this.state.userData[0].id,
+            nome: this.refs.nome._lastNativeText,
+            email: this.refs.email._lastNativeText,
+            senha: this.refs.senha._lastNativeText,
             foto: this.state.image
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
@@ -29,7 +46,12 @@ export default class editarPerfilUsuario extends Component {
     }
 
     render() {
-        let { image } = this.state;
+        let { userData, image } = this.state;
+
+        if (this.state.loading) {
+            return false;
+        }
+
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
                 <View>
@@ -39,14 +61,16 @@ export default class editarPerfilUsuario extends Component {
                 </View>
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-                    {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
+                        {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                        {image && <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
+                    <TextInput ref='nome' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome cadastrado era '" + userData[0].nome + "'."} />
+                    <TextInput ref='email' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + userData[0].email + "'."} />
+                    <TextInput ref='senha' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + userData[0].senha + "'."} />
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
                 </View>
                 <View style={styles.button}>
@@ -79,9 +103,9 @@ export default class editarPerfilUsuario extends Component {
                 quality: 1,
             });
             if (!result.cancelled) {
-                this.setState({ image: result.uri });
+                this.setState({ image: result.base64 });
             }
-            this.state.image = result;
+            this.state.image = result.base64;
         } catch (E) {
             console.log(E);
         }
@@ -123,5 +147,5 @@ const styles = StyleSheet.create({
         height: 30,
         marginTop: 50,
         marginLeft: 20
-      },
+    },
 })
