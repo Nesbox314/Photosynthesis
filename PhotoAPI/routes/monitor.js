@@ -34,6 +34,29 @@ router.get('/getMonitors', function (req, res, next) {
   });
 });
 
+router.get('/getMonitorById', function (req, res, next) {
+  connection.query(`SELECT * FROM monitor WHERE id='${req.query.id}'`, function (err, results, fields) {
+    if (err) {
+      console.log(err)
+      res.send('Falha na inserção de dados');
+    } else {
+      res.send(results);
+    }
+  });
+});
+
+router.get('/deleteMonitor', function (req, res, next) {
+  connection.query(`DELETE FROM dadossensor WHERE monitor='${req.query.id}';` + `DELETE FROM monitor WHERE id='${req.query.id}'`, function (err, results, fields) {
+    if (err) {
+      console.log(err)
+      res.send('Falha na inserção de dados');
+    } else {
+      res.send(results);
+    }
+  });
+
+});
+
 router.get('/getMonitorsWithSensorData', function (req, res, next) {
   connection.query(`
   SELECT monitor.*, 
