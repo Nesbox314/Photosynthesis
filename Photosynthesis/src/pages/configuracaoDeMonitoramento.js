@@ -29,6 +29,11 @@ export default class configuracaoDeMonitoramento extends Component {
         navigation.navigate('ExcluirMonitoramento');
     }
 
+    async setItemToEdit(id, navigation) {
+        await AsyncStorage.setItem('idToEdit', JSON.stringify(id));
+        navigation.navigate('EditarMonitoramento');
+    }
+
     render() {
         const { plants } = this.state;
 
@@ -58,6 +63,9 @@ export default class configuracaoDeMonitoramento extends Component {
                                         <Text style={styles.tituloPlantas} >{plant.especie}</Text>
                                         <TouchableHighlight style={styles.lixocontainer} underlayColor='white' onPress={() => this.setItemToDelete(plant.id, this.props.navigation)}>
                                             <Image source={require('../../assets/can.png')} style={styles.lixo}></Image>
+                                        </TouchableHighlight>
+                                        <TouchableHighlight style={styles.lapiscontainer} underlayColor='white' onPress={() => this.setItemToEdit(plant.id, this.props.navigation)}>
+                                            <Image source={require('../../assets/pencil.png')} style={styles.lapis}></Image>
                                         </TouchableHighlight>
                                     </View>
                                     <Image source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} style={styles.imagem}></Image>
@@ -96,7 +104,11 @@ const styles = StyleSheet.create({
         top: 420,
         right: 15
     },
-
+    lapiscontainer: {
+        marginTop: -53,
+        marginLeft: 80,
+        zIndex: 1000
+    },
     lixocontainer: {
         marginTop: -35,
         marginLeft: 30,
@@ -106,6 +118,10 @@ const styles = StyleSheet.create({
     lixo: {
         width: 30,
         height: 30,
+    },
+    lapis: {
+        width: 40,
+        height: 40,
     },
     addoncontainer: {
     },

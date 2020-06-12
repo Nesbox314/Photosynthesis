@@ -34,6 +34,20 @@ router.get('/getMonitors', function (req, res, next) {
   });
 });
 
+router.post('/editMonitor', function (req, res, next) {
+  console.log(req.body)
+  console.log(req.params)
+  console.log(req.query)
+  connection.query(`UPDATE monitor SET apelido = '${req.query.apelido}', especie = '${req.query.especie}' where id = '${req.query.id}'`, function (err, results, fields) {
+    if (err) {
+      console.log(err)
+      res.send('Falha na inserção de dados');
+    } else {
+      res.send(results);
+    }
+  });
+});
+
 router.get('/getMonitorById', function (req, res, next) {
   connection.query(`SELECT * FROM monitor WHERE id='${req.query.id}'`, function (err, results, fields) {
     if (err) {
