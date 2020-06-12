@@ -56,7 +56,6 @@ router.get('/getUserDate', function (req, res, next) {
 });
 
 router.post('/editUser', function (req, res, next) {
-  console.log(req.body)
   connection.query(`UPDATE users SET nome='${req.body.nome}', email='${req.body.email}', senha='${req.body.senha}', foto='${req.body.foto}' WHERE id='${req.body.id}'`, function (err, results, fields) {
     if (err) {
       console.log(err)

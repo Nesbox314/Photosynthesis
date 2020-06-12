@@ -23,14 +23,14 @@ export default class EditarMonitoramento extends Component {
     }
 
     submit(navigation) {
-        console.log(this.refs.apel._lastNativeText)
         api.post('/monitor/editMonitor', {
             id: this.state.plants[0].id,
-            apelido: this.refs.apel._lastNativeText,
-            especie: this.refs.especie._lastNativeText
+            apelido: this.state.apelido,
+            especie: this.state.especie,
+            foto: this.state.image
         }).then(function (response) {
-            Alert.alert("Cadastrado com sucesso!");
             navigation.navigate('Homepage');
+            Alert.alert("Cadastrado com sucesso!");
         }).catch(function (error) {
             console.log(error);
         });
@@ -57,8 +57,8 @@ export default class EditarMonitoramento extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput ref='apel' style={styles.input} placeholderTextColor={"black"} placeholder={plants[0].apelido} />
-                    <TextInput ref='especie' style={styles.input} placeholderTextColor={"black"} placeholder={plants[0].especie} />
+                    <TextInput style={styles.input} placeholderTextColor={"black"} placeholder={plants[0].apelido} onChangeText={(apelido) => this.setState({ apelido })} />
+                    <TextInput style={styles.input} placeholderTextColor={"black"} placeholder={plants[0].especie} onChangeText={(especie) => this.setState({ especie })} />
                 </View>
 
                 <View style={styles.button}>

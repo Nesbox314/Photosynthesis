@@ -35,10 +35,7 @@ router.get('/getMonitors', function (req, res, next) {
 });
 
 router.post('/editMonitor', function (req, res, next) {
-  console.log(req.body)
-  console.log(req.params)
-  console.log(req.query)
-  connection.query(`UPDATE monitor SET apelido = '${req.query.apelido}', especie = '${req.query.especie}' where id = '${req.query.id}'`, function (err, results, fields) {
+  connection.query(`UPDATE monitor SET apelido = '${req.body.apelido}', especie = '${req.body.especie}', foto = '${req.body.foto}' where id = '${req.body.id}'`, function (err, results, fields) {
     if (err) {
       console.log(err)
       res.send('Falha na inserção de dados');
