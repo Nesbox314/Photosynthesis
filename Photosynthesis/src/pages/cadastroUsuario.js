@@ -13,7 +13,7 @@ export default class CadastroUsuario extends Component {
         image: null
     };
 
-    submit() {
+    submit(navigation) {
         api.post('/usuarios/postUsuarios', {
             nome: this.state.nome,
             email: this.state.email,
@@ -21,6 +21,7 @@ export default class CadastroUsuario extends Component {
             foto: this.state.image
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
+            navigation.navigate('login');
         }).catch(function (error) {
             console.log(error);
         });
@@ -51,7 +52,7 @@ export default class CadastroUsuario extends Component {
                         </View>
                                         
                         <View style={styles.button}>
-                            <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.submit()} />
+                            <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.submit(this.props.navigation)} />
                         </View>
                     </KeyboardAvoidingView>
                 
