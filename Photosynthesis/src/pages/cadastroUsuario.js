@@ -1,17 +1,36 @@
 import React from 'react';
 import { Component } from "react";
-import { Image, StyleSheet, View, Button, TextInput, Alert, KeyboardAvoidingView } from "react-native";
+import { Image, StyleSheet, View, Button, TextInput, Alert, KeyboardAvoidingView, Text } from "react-native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import api from '../services/api';
+import ValidationComponent from 'react-native-form-validator';
 
-export default class CadastroUsuario extends Component {
+export default class CadastroUsuario extends ValidationComponent {
+
+    constructor(props) {
+        super(props);
+        this.deviceLocale = "ptBR";
+        this.state = { nome: "Seu nome", email: "exemplo@email.com", senha: "Sua senha aqui" };
+    }
 
     state = {
         image: null
     };
+
+    validation(navigation) {
+        this.validate({
+            nome: { minlength: 3, maxlength: 100, required: true },
+            email: { email: true, required: true, minlength: 3 },
+            senha: { required: true },
+        });
+
+        if (this.isFormValid()) {
+            this.submit(navigation);
+        }
+    }
 
     submit(navigation) {
         api.post('/usuarios/postUsuarios', {
@@ -31,31 +50,37 @@ export default class CadastroUsuario extends Component {
         let { image } = this.state;
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
-               
                 <View>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('login')}>
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                     </TouchableOpacity>
                 </View>
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-                     {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
-                     </TouchableOpacity>
-                     {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
-                </View>
-                    <KeyboardAvoidingView style={styles.container} behavior='position' >   
-                        <View style={styles.inputs}>
-                            <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
-                            <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email })} />
-                            <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
-                            <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
-                        </View>
-                                        
-                        <View style={styles.button}>
-                            <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.submit(this.props.navigation)} />
-                        </View>
-                    </KeyboardAvoidingView>
-                
+                <KeyboardAvoidingView style={styles.container} behavior='position' >
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                            {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
+                        </TouchableOpacity>
+                        {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                    </View>
+                    <View style={styles.inputs}>
+                        
+                        <TextInput ref='nome' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
+                        {this.isFieldInError('nome') && this.getErrorsInField('nome').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
+                        <TextInput ref='email' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email })} />
+                        {this.isFieldInError('email') && this.getErrorsInField('email').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+                        
+                        <TextInput ref='senha' secureTextEntry={true} style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
+                        {this.isFieldInError('senha') && this.getErrorsInField('senha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
+                        <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
+                    </View>
+
+                    <View style={styles.button}>
+                        <Button color={'rgb(146, 211, 110)'} title={"Cadastrar"} onPress={() => this.validation(this.props.navigation)} />
+                    </View>
+                </KeyboardAvoidingView>
+
             </View>
         )
     }
@@ -93,7 +118,11 @@ export default class CadastroUsuario extends Component {
 }
 
 const styles = StyleSheet.create({
-    
+    mensagemErro: {
+        color: "red",
+        marginLeft: 20,
+        fontSize: 12
+    },
     back: {
         height: 35,
         width: 35,
@@ -116,8 +145,8 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     inputs: {
-        backgroundColor:'white',
-        marginTop: 40
+        backgroundColor: 'white',
+        marginTop: 20
     },
     button: {
         alignSelf: "center",
@@ -129,5 +158,5 @@ const styles = StyleSheet.create({
         height: 30,
         marginTop: 50,
         marginLeft: 20
-      },
+    },
 })

@@ -29,7 +29,7 @@ export default class StackNavigator extends Component {
             <NavigationContainer>
                 <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="login">
                     <Stack.Screen name="login" component={Login} />
-                    <Stack.Screen name="cadastroUsuario" component={CadastroUsuario} />
+                    <Stack.Screen name="cadastroUsuario" component={CadastroUsuario} deviceLocale="ptBR"/>
                     <Stack.Screen name="solicitar_n_senha" component={solicitar_n_senha} />
                     <Stack.Screen name="nova_senha" component={nova_senha} />
                     <Stack.Screen name="Homepage" component={Homepage} />
