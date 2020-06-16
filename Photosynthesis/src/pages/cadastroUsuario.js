@@ -60,7 +60,7 @@ export default class CadastroUsuario extends ValidationComponent {
                         <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
                             {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                         </TouchableOpacity>
-                        {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
                     </View>
                     <View style={styles.inputs}>
                         

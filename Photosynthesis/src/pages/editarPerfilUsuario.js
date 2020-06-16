@@ -14,15 +14,8 @@ export default class editarPerfilUsuario extends ValidationComponent {
     constructor(props) {
         super(props);
         this.deviceLocale = "ptBR";
-        this.getData();
-        this.state = { nome: "Seu nome", email: "exemplo@email.com", senha: "Sua senha aqui" };
+        this.state = { nome: "", email: "", senha: "", image: null, loading: true, userData: null };
     }
-
-    state = {
-        image: null,
-        userData: null,
-        loading: true
-    };
 
     async getData() {
         api.get('/usuarios/getUserDate', {
@@ -41,9 +34,9 @@ export default class editarPerfilUsuario extends ValidationComponent {
             senha: { required: true },
         });
 
-        /*if (this.isFormValid()) {
+        if (this.isFormValid()) {
             this.submit(navigation);
-        }*/
+        }
     }
 
     submit(navigation) {
@@ -62,15 +55,15 @@ export default class editarPerfilUsuario extends ValidationComponent {
     }
 
     render() {
-        let { userData, image } = this.state;
-
         if (this.state.loading) {
             return false;
         }
 
+        let { userData } = this.state;
+        let { image } = this.state;
+
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
-                {console.log(userData)}
                 <View>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Homepage')}>
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
@@ -81,23 +74,23 @@ export default class editarPerfilUsuario extends ValidationComponent {
                         {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-                        {image && <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                        {image && <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
                     </TouchableOpacity>
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput ref='nome' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome cadastrado era '" + "'."} />
+                    <TextInput ref='nome' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome cadastrado era '" + userData[0].nome + "'."} onChangeText={(nome) => this.setState({ nome })} />
                     {this.isFieldInError('nome') && this.getErrorsInField('nome').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                    <TextInput ref='email' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + "'."} />
+                    <TextInput ref='email' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + userData[0].email + "'."} onChangeText={(email) => this.setState({ email })} />
                     {this.isFieldInError('email') && this.getErrorsInField('email').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                    <TextInput ref='senha' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + "'."} />
+                    <TextInput ref='senha' style={styles.input} secureTextEntry={true} placeholderTextColor={"black"} placeholder={"Senha"} onChangeText={(senha) => this.setState({ senha })}/>
                     {this.isFieldInError('senha') && this.getErrorsInField('senha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
+                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholderTextColor={"black"} placeholder={'\xa0' + "Confirmar senha"} />
                 </View>
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Concluir edição"} onPress={() => this.validation()} />
+                    <Button color={'rgb(146, 211, 110)'} title={"Concluir edição"} onPress={() => this.validation(this.props.navigation)} />
                 </View>
             </View>
         )
@@ -105,6 +98,8 @@ export default class editarPerfilUsuario extends ValidationComponent {
 
     componentDidMount() {
         this.getPermissionAsync();
+        
+        this.getData();
     }
 
     getPermissionAsync = async () => {
@@ -148,8 +143,8 @@ const styles = StyleSheet.create({
         marginLeft: 3
     },
     logo: {
-        height: 250,
-        width: 250,
+        height: 200,
+        width: 200,
         alignSelf: "center"
     },
     input: {
@@ -163,7 +158,7 @@ const styles = StyleSheet.create({
         borderRadius: 4
     },
     inputs: {
-        marginTop: 40
+        marginTop: 10
     },
     button: {
         alignSelf: "center",
