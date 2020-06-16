@@ -20,7 +20,7 @@ export default class Login extends Component {
                 <KeyboardAvoidingView >
                 <View style={styles.inputs}>
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail ou nome do usuário"} onChangeText={(email) => this.setState({ email })}/>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })}/>
+                    <TextInput style={styles.input} secureTextEntry={true} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })}/>
                 </View>
                 <View style={styles.button}>
                     <Button color={'rgb(146, 211, 110)'} title={"Entrar"} onPress={() => this.login(this.props.navigation)}/>
