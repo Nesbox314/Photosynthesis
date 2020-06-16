@@ -7,19 +7,22 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import api from '../services/api';
+import ValidationComponent from 'react-native-form-validator';
 
-export default class editarPerfilUsuario extends Component {
+export default class editarPerfilUsuario extends ValidationComponent {
+
+    constructor(props) {
+        super(props);
+        this.deviceLocale = "ptBR";
+        this.getData();
+        this.state = { nome: "Seu nome", email: "exemplo@email.com", senha: "Sua senha aqui" };
+    }
 
     state = {
         image: null,
         userData: null,
         loading: true
     };
-
-    constructor() {
-        super();
-        this.getData();
-    }
 
     async getData() {
         api.get('/usuarios/getUserDate', {
@@ -31,7 +34,19 @@ export default class editarPerfilUsuario extends Component {
         });
     }
 
-    submit() {
+    validation(navigation) {
+        this.validate({
+            nome: { minlength: 3, maxlength: 100, required: true },
+            email: { email: true, required: true, minlength: 3 },
+            senha: { required: true },
+        });
+
+        /*if (this.isFormValid()) {
+            this.submit(navigation);
+        }*/
+    }
+
+    submit(navigation) {
         api.post('/usuarios/editUser', {
             id: this.state.userData[0].id,
             nome: this.refs.nome._lastNativeText,
@@ -40,6 +55,7 @@ export default class editarPerfilUsuario extends Component {
             foto: this.state.image
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
+            navigation.navigate('Homepage');
         }).catch(function (error) {
             console.log(error);
         });
@@ -54,6 +70,7 @@ export default class editarPerfilUsuario extends Component {
 
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
+                {console.log(userData)}
                 <View>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Homepage')}>
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
@@ -68,13 +85,19 @@ export default class editarPerfilUsuario extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput ref='nome' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome cadastrado era '" + userData[0].nome + "'."} />
-                    <TextInput ref='email' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + userData[0].email + "'."} />
-                    <TextInput ref='senha' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + userData[0].senha + "'."} />
+                    <TextInput ref='nome' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome cadastrado era '" + "'."} />
+                    {this.isFieldInError('nome') && this.getErrorsInField('nome').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
+                    <TextInput ref='email' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + "'."} />
+                    {this.isFieldInError('email') && this.getErrorsInField('email').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
+                    <TextInput ref='senha' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + "'."} />
+                    {this.isFieldInError('senha') && this.getErrorsInField('senha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
                     <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
                 </View>
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Concluir edição"} onPress={() => this.submit()} />
+                    <Button color={'rgb(146, 211, 110)'} title={"Concluir edição"} onPress={() => this.validation()} />
                 </View>
             </View>
         )
@@ -113,6 +136,11 @@ export default class editarPerfilUsuario extends Component {
 }
 
 const styles = StyleSheet.create({
+    mensagemErro: {
+        color: "red",
+        marginLeft: 20,
+        fontSize: 12
+    },
     back: {
         height: 35,
         width: 35,

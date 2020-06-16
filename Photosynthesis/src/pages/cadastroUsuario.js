@@ -13,7 +13,7 @@ export default class CadastroUsuario extends ValidationComponent {
     constructor(props) {
         super(props);
         this.deviceLocale = "ptBR";
-        this.state = { nome: "Seu nome", email: "exemplo@email.com", senha: "Sua senha aqui" };
+        this.state = { nome: "", email: "", senha: "" };
     }
 
     state = {
@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
         marginLeft: 3
     },
     logo: {
-        height: 250,
-        width: 250,
+        height: 200,
+        width: 200,
         alignSelf: "center"
     },
     input: {
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     },
     inputs: {
         backgroundColor: 'white',
-        marginTop: 20
+        marginTop: 10
     },
     button: {
         alignSelf: "center",
