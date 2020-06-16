@@ -1,17 +1,35 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity, AsyncStorage } from 'react-native';
+import { Text, View, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity, AsyncStorage } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import api from '../services/api';
+import ValidationComponent from 'react-native-form-validator';
 
-export default class cadastroDePlantas extends Component {
+export default class cadastroDePlantas extends ValidationComponent {
+
+  constructor(props) {
+    super(props);
+    this.deviceLocale = "ptBR";
+    this.state = { apelido: "", especie: "" };
+  }
 
   state = {
     image: null,
     userId: null
   };
+
+  validation(navigation) {
+    this.validate({
+      apelido: { minlength: 3, maxlength: 100, required: true },
+      especie: { minlength: 3, maxlength: 100 }
+    });
+
+    if (this.isFormValid()) {
+      this.submit(navigation);
+    }
+  }
 
   submit(navigation) {
     api.post('/monitor/newMonitor', {
@@ -33,6 +51,7 @@ export default class cadastroDePlantas extends Component {
 
   render() {
     let { image } = this.state;
+
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
         <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
@@ -40,17 +59,21 @@ export default class cadastroDePlantas extends Component {
         </TouchableHighlight>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-            {!image && <Image source={require('../../assets/logo_add_planta.png')} style={{ width: 250, height: 250, borderRadius: 200 }}></Image>}
+            {!image && <Image source={require('../../assets/logo_add_planta.png')} style={{ width: 200, height: 200, borderRadius: 200 }}></Image>}
           </TouchableOpacity>
-          {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
         </View>
+
         <View style={styles.inputs}>
-          <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome (apelido)"} onChangeText={(apelido) => this.setState({ apelido })} />
-          <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"} onChangeText={(especie) => this.setState({ especie })} />
+          <TextInput ref='apelido' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome (apelido)"} onChangeText={(apelido) => this.setState({ apelido })} />
+          {this.isFieldInError('apelido') && this.getErrorsInField('apelido').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
+          <TextInput ref='especie' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"} onChangeText={(especie) => this.setState({ especie })} />
+          {this.isFieldInError('especie') && this.getErrorsInField('especie').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
         </View>
 
         <View style={styles.button}>
-          <Button color={'rgb(146, 211, 110)'} title={"Cadastrar planta"} onPress={() => this.submit(this.props.navigation)} />
+          <Button color={'rgb(146, 211, 110)'} title={"Cadastrar planta"} onPress={() => this.validation(this.props.navigation)} />
         </View>
 
       </View>
@@ -96,21 +119,14 @@ export default class cadastroDePlantas extends Component {
 }
 
 const styles = StyleSheet.create({
+  mensagemErro: {
+    color: "red",
+    marginLeft: 20,
+    fontSize: 12
+  },
   TouchableHighlight: {
     width: 100,
 
-  },
-  esqueceuSenha: {
-    marginTop: 10,
-    fontSize: 25,
-    fontWeight: "bold",
-    alignSelf: "center"
-  },
-  esqueceuSenhaText: {
-    marginTop: -26,
-    fontSize: 23,
-    padding: 30,
-    textAlign: "center"
   },
   add_img: {
     width: 220,
