@@ -13,12 +13,8 @@ export default class CadastroUsuario extends ValidationComponent {
     constructor(props) {
         super(props);
         this.deviceLocale = "ptBR";
-        this.state = { nome: "", email: "", senha: "" };
+        this.state = { nome: "", email: "", senha: "", image: null };
     }
-
-    state = {
-        image: null
-    };
 
     validation(navigation) {
         this.validate({

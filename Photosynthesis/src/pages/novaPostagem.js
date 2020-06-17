@@ -1,18 +1,32 @@
 import React from 'react';
 import { Component } from "react";
-import { Image, StyleSheet, View, Button, TextInput, Alert, AsyncStorage } from "react-native";
+import { Text, Image, StyleSheet, View, Button, TextInput, Alert, AsyncStorage } from "react-native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import api from '../services/api';
+import ValidationComponent from 'react-native-form-validator';
 
-export default class NovaPostagem extends Component {
+export default class NovaPostagem extends ValidationComponent {
 
-    state = {
-        image: null,
-        user: null
-    };
+    constructor(props) {
+        super(props);
+        this.deviceLocale = "ptBR";
+        this.state = { nomePlanta: "", especie: "", idade: "", image: null, user: null };
+    }
+
+    validation(navigation) {
+        this.validate({
+            nomePlanta: { minlength: 3, maxlength: 100, required: true },
+            especie: { minlength: 3 },
+            idade: { minlength: 3, number: true }
+        });
+
+        if (this.isFormValid()) {
+            this.submit(navigation);
+        }
+    }
 
     submit(navigation) {
         api.post('/social/postPlant', {
@@ -43,15 +57,20 @@ export default class NovaPostagem extends Component {
                     <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
                         {!image && <Image source={require('../../assets/logo_add_planta.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome da planta"} onChangeText={(nomePlanta) => this.setState({ nomePlanta })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"} onChangeText={(especie) => this.setState({ especie })} />
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Idade"} onChangeText={(idade) => this.setState({ idade })} />
+                    <TextInput ref='nomePlanta' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome da planta"} onChangeText={(nomePlanta) => this.setState({ nomePlanta })} />
+                    {this.isFieldInError('nomePlanta') && this.getErrorsInField('nomePlanta').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
+                    <TextInput ref='especie' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"} onChangeText={(especie) => this.setState({ especie })} />
+                    {this.isFieldInError('especie') && this.getErrorsInField('especie').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
+                    <TextInput ref='idade' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Idade"} onChangeText={(idade) => this.setState({ idade })} />
+                    {this.isFieldInError('idade') && this.getErrorsInField('idade').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
                 </View>
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Postar"} onPress={() => this.submit(this.props.navigation)} />
+                    <Button color={'rgb(146, 211, 110)'} title={"Postar"} onPress={() => this.validation(this.props.navigation)} />
                 </View>
             </View>
         )
@@ -88,7 +107,6 @@ export default class NovaPostagem extends Component {
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
             }
-            console.log(this.state.image);
             this.state.image = result;
         } catch (E) {
             console.log(E);
@@ -97,6 +115,11 @@ export default class NovaPostagem extends Component {
 }
 
 const styles = StyleSheet.create({
+    mensagemErro: {
+        color: "red",
+        marginLeft: 20,
+        fontSize: 12
+    },
     back: {
         height: 35,
         width: 35,
@@ -104,8 +127,8 @@ const styles = StyleSheet.create({
         marginLeft: 3
     },
     logo: {
-        height: 300,
-        width: 300,
+        height: 200,
+        width: 200,
         alignSelf: "center"
     },
     input: {
