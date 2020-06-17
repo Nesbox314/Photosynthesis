@@ -14,7 +14,7 @@ export default class editarPerfilUsuario extends ValidationComponent {
     constructor(props) {
         super(props);
         this.deviceLocale = "ptBR";
-        this.state = { nome: "", email: "", senha: "", image: null, loading: true, userData: null };
+        this.state = { nome: "", email: "", senha: "", confirmacaoSenha: "", image: null, loading: true, userData: null };
     }
 
     async getData() {
@@ -32,11 +32,17 @@ export default class editarPerfilUsuario extends ValidationComponent {
             nome: { minlength: 3, maxlength: 100, required: true },
             email: { email: true, required: true, minlength: 3 },
             senha: { required: true },
+            confirmacaoSenha: {}
         });
 
-        if (this.isFormValid()) {
-            this.submit(navigation);
+        if(this.state.senha == this.state.confirmacaoSenha){
+            if (this.isFormValid()) {
+                this.submit(navigation);
+            }
+        } else {
+            Alert.alert("As senhas não coincidem!");
         }
+        
     }
 
     submit(navigation) {
@@ -87,7 +93,8 @@ export default class editarPerfilUsuario extends ValidationComponent {
                     <TextInput ref='senha' style={styles.input} secureTextEntry={true} placeholderTextColor={"black"} placeholder={"Senha"} onChangeText={(senha) => this.setState({ senha })}/>
                     {this.isFieldInError('senha') && this.getErrorsInField('senha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                    <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholderTextColor={"black"} placeholder={'\xa0' + "Confirmar senha"} />
+                    <TextInput ref='confirmacaoSenha' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholderTextColor={"black"} placeholder={'\xa0' + "Confirmar senha"} onChangeText={(confirmacaoSenha) => this.setState({ confirmacaoSenha })}/>
+                    {this.isFieldInError('confirmacaoSenha') && this.getErrorsInField('confirmacaoSenha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
                 </View>
                 <View style={styles.button}>
                     <Button color={'rgb(146, 211, 110)'} title={"Concluir edição"} onPress={() => this.validation(this.props.navigation)} />
