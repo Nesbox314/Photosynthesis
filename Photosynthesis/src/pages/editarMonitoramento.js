@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { View, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity, AsyncStorage } from 'react-native';
+import { Text, View, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity, AsyncStorage } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import api from '../services/api';
+import ValidationComponent from 'react-native-form-validator';
 
-export default class EditarMonitoramento extends Component {
+export default class EditarMonitoramento extends ValidationComponent {
 
-    state = {
-        plants: null,
-        loading: true,
-        image: null
+    constructor(props) {
+        super(props);
+        this.deviceLocale = "ptBR";
+        this.state = { apelido: "", especie: "", image: null, loading: true, plants: null };
     }
 
     async getItemToDelete() {
@@ -20,6 +21,17 @@ export default class EditarMonitoramento extends Component {
         }).then(res => {
             this.setState({ plants: res.data, loading: false, image: res.data[0].foto });
         })
+    }
+
+    validation(navigation) {
+        this.validate({
+            apelido: { minlength: 3, maxlength: 100, required: true },
+            especie: { minlength: 3 }
+        });
+
+        if (this.isFormValid()) {
+            this.submit(navigation);
+        }
     }
 
     submit(navigation) {
@@ -57,12 +69,15 @@ export default class EditarMonitoramento extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.inputs}>
-                    <TextInput style={styles.input} placeholderTextColor={"black"} placeholder={plants[0].apelido} onChangeText={(apelido) => this.setState({ apelido })} />
-                    <TextInput style={styles.input} placeholderTextColor={"black"} placeholder={plants[0].especie} onChangeText={(especie) => this.setState({ especie })} />
+                    <TextInput ref='apelido' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome (apelido) cadastrado era: " + plants[0].apelido} onChangeText={(apelido) => this.setState({ apelido })} />
+                    {this.isFieldInError('apelido') && this.getErrorsInField('apelido').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
+                    <TextInput ref='especie' style={styles.input} placeholderTextColor={"black"} placeholder={"A espécie cadastrada era: " + plants[0].especie} onChangeText={(especie) => this.setState({ especie })} />
+                    {this.isFieldInError('especie') && this.getErrorsInField('especie').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
                 </View>
 
                 <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Cadastrar planta"} onPress={() => this.submit(this.props.navigation)} />
+                    <Button color={'rgb(146, 211, 110)'} title={"Cadastrar planta"} onPress={() => this.validation(this.props.navigation)} />
                 </View>
 
             </View>
@@ -104,6 +119,11 @@ export default class EditarMonitoramento extends Component {
 }
 
 const styles = StyleSheet.create({
+    mensagemErro: {
+        color: "red",
+        marginLeft: 20,
+        fontSize: 12
+    },
     TouchableHighlight: {
         width: 100,
 
