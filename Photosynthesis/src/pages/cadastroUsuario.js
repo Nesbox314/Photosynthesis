@@ -17,15 +17,22 @@ export default class CadastroUsuario extends ValidationComponent {
     }
 
     validation(navigation) {
+
         this.validate({
             nome: { minlength: 3, maxlength: 100, required: true },
             email: { email: true, required: true, minlength: 3 },
             senha: { required: true },
+            confirmarSenha: {},
         });
 
-        if (this.isFormValid()) {
-            this.submit(navigation);
+        if (this.state.senha == this.state.confirmarSenha) {
+            if (this.isFormValid()) {
+                this.submit(navigation);
+            }
+        } else {
+            Alert.alert("As senhas não coincidem");
         }
+
     }
 
     submit(navigation) {
@@ -51,7 +58,7 @@ export default class CadastroUsuario extends ValidationComponent {
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                     </TouchableOpacity>
                 </View>
-                <KeyboardAvoidingView style={styles.container} behavior='position' >
+                <KeyboardAvoidingView behavior='position' >
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
                             {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
@@ -69,7 +76,9 @@ export default class CadastroUsuario extends ValidationComponent {
                         <TextInput ref='senha' secureTextEntry={true} style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
                         {this.isFieldInError('senha') && this.getErrorsInField('senha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                        <TextInput style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} />
+                        <TextInput ref='confirmarSenha' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} onChangeText={(confirmarSenha) => this.setState({ confirmarSenha })} />
+                        {this.isFieldInError('confirmarSenha') && this.getErrorsInField('confirmarSenha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+
                     </View>
 
                     <View style={styles.button}>
