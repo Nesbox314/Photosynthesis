@@ -13,7 +13,7 @@ export default class CadastroUsuario extends ValidationComponent {
     constructor(props) {
         super(props);
         this.deviceLocale = "ptBR";
-        this.state = { nome: "", email: "", senha: "", image: null };
+        this.state = { nome: "", email: "", senha: "", image: null, openedSelector: false };
     }
 
     validation(navigation) {
@@ -36,11 +36,12 @@ export default class CadastroUsuario extends ValidationComponent {
     }
 
     submit(navigation) {
+        console.log(this.state.image)
         api.post('/usuarios/postUsuarios', {
             nome: this.state.nome,
             email: this.state.email,
             senha: this.state.senha,
-            foto: this.state.image
+            foto: this.state.image.base64
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
             navigation.navigate('login');
@@ -58,9 +59,9 @@ export default class CadastroUsuario extends ValidationComponent {
                         <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                     </TouchableOpacity>
                 </View>
-                <KeyboardAvoidingView behavior='position' >
+                <KeyboardAvoidingView behavior='position'>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
                             {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                         </TouchableOpacity>
                         {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
@@ -70,13 +71,13 @@ export default class CadastroUsuario extends ValidationComponent {
                         <TextInput ref='nome' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome"} onChangeText={(nome) => this.setState({ nome })} />
                         {this.isFieldInError('nome') && this.getErrorsInField('nome').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                        <TextInput ref='email' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email })} />
+                        <TextInput ref='email' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "E-mail"} onChangeText={(email) => this.setState({ email  })} />
                         {this.isFieldInError('email') && this.getErrorsInField('email').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
                         <TextInput ref='senha' secureTextEntry={true} style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Senha"} onChangeText={(senha) => this.setState({ senha })} />
                         {this.isFieldInError('senha') && this.getErrorsInField('senha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                        <TextInput ref='confirmarSenha' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} onChangeText={(confirmarSenha) => this.setState({ confirmarSenha })} />
+                        <TextInput ref='confirmarSenha' secureTextEntry={true} style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Confirmar senha"} onChangeText={(confirmarSenha) => this.setState({ confirmarSenha })} />
                         {this.isFieldInError('confirmarSenha') && this.getErrorsInField('confirmarSenha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
                     </View>
@@ -86,6 +87,24 @@ export default class CadastroUsuario extends ValidationComponent {
                     </View>
                 </KeyboardAvoidingView>
 
+                {this.state.openedSelector &&
+                    <View style={styles.seletor}>
+                        <View style={{ flexDirection: "row", marginTop: 30 }}>
+                            <View style={{ flex: 1, marginLeft: 35 }}>
+                                <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImageFromCamera()}>
+                                    <Image source={require('../../assets/camera.png')} style={{ height: 100, width: 100 }}></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.subtitles}>Câmera</Text>
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImageFromLibrary()}>
+                                    <Image source={require('../../assets/gallery.png')} style={{ height: 100, width: 100 }}></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.subtitles}>Galeria</Text>
+                            </View>
+                        </View>
+                    </View>
+                }
             </View>
         )
     }
@@ -103,7 +122,16 @@ export default class CadastroUsuario extends ValidationComponent {
         }
     };
 
-    _pickImage = async () => {
+    openSelector = async () => {
+        if (this.state.openedSelector == false) {
+            this.setState({ openedSelector: true })
+        }
+        if (this.state.openedSelector == true) {
+            this.setState({ openedSelector: false })
+        }
+    };
+
+    _pickImageFromLibrary = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 base64: true,
@@ -115,7 +143,27 @@ export default class CadastroUsuario extends ValidationComponent {
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
             }
-            this.state.image = result.base64;
+            this.openSelector();
+            this.state.image = result;
+        } catch (E) {
+            console.log(E);
+        }
+    };
+
+    _pickImageFromCamera = async () => {
+        try {
+            let result = await ImagePicker.launchCameraAsync({
+                base64: true,
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                this.setState({ image: result.uri });
+            }
+            this.openSelector();
+            this.state.image = result;
         } catch (E) {
             console.log(E);
         }
@@ -123,6 +171,19 @@ export default class CadastroUsuario extends ValidationComponent {
 }
 
 const styles = StyleSheet.create({
+    subtitles: {
+        marginLeft: 25,
+        marginTop: -10
+    },
+    seletor: {
+        backgroundColor: "#e7e7e7",
+        borderTopColor: "black",
+        borderWidth: 0.5,
+        top: 520,
+        height: 180,
+        width: 400,
+        position: "absolute"
+    },
     mensagemErro: {
         color: "red",
         marginLeft: 20,
