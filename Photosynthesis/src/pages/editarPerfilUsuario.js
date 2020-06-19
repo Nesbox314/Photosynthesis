@@ -14,7 +14,7 @@ export default class editarPerfilUsuario extends ValidationComponent {
     constructor(props) {
         super(props);
         this.deviceLocale = "ptBR";
-        this.state = { nome: "", email: "", senha: "", confirmacaoSenha: "", image: null, loading: true, userData: null };
+        this.state = { nome: "", email: "", senha: "", confirmacaoSenha: "", image: null, loading: true, userData: null, openedSelector: false };
     }
 
     async getData() {
@@ -76,10 +76,10 @@ export default class editarPerfilUsuario extends ValidationComponent {
                     </TouchableOpacity>
                 </View>
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
                         {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
                         {image && <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
                     </TouchableOpacity>
                 </View>
@@ -99,6 +99,24 @@ export default class editarPerfilUsuario extends ValidationComponent {
                 <View style={styles.button}>
                     <Button color={'rgb(146, 211, 110)'} title={"Concluir edição"} onPress={() => this.validation(this.props.navigation)} />
                 </View>
+                {this.state.openedSelector &&
+                    <View style={styles.seletor}>
+                        <View style={{ flexDirection: "row", marginTop: 30 }}>
+                            <View style={{ flex: 1, marginLeft: 35 }}>
+                                <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImageFromCamera()}>
+                                    <Image source={require('../../assets/camera.png')} style={{ height: 100, width: 100 }}></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.subtitles}>Câmera</Text>
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImageFromLibrary()}>
+                                    <Image source={require('../../assets/gallery.png')} style={{ height: 100, width: 100 }}></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.subtitles}>Galeria</Text>
+                            </View>
+                        </View>
+                    </View>
+                }
             </View>
         )
     }
@@ -118,7 +136,16 @@ export default class editarPerfilUsuario extends ValidationComponent {
         }
     };
 
-    _pickImage = async () => {
+    openSelector = async () => {
+        if (this.state.openedSelector == false) {
+            this.setState({ openedSelector: true })
+        }
+        if (this.state.openedSelector == true) {
+            this.setState({ openedSelector: false })
+        }
+    };
+
+    _pickImageFromLibrary = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 base64: true,
@@ -128,9 +155,29 @@ export default class editarPerfilUsuario extends ValidationComponent {
                 quality: 1,
             });
             if (!result.cancelled) {
-                this.setState({ image: result.base64 });
+                this.setState({ image: result.uri });
             }
-            this.state.image = result.base64;
+            this.openSelector();
+            this.state.image = result;
+        } catch (E) {
+            console.log(E);
+        }
+    };
+
+    _pickImageFromCamera = async () => {
+        try {
+            let result = await ImagePicker.launchCameraAsync({
+                base64: true,
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                this.setState({ image: result.uri });
+            }
+            this.openSelector();
+            this.state.image = result;
         } catch (E) {
             console.log(E);
         }
@@ -138,6 +185,19 @@ export default class editarPerfilUsuario extends ValidationComponent {
 }
 
 const styles = StyleSheet.create({
+    subtitles: {
+        marginLeft: 25,
+        marginTop: -10
+    },
+    seletor: {
+        backgroundColor: "#e7e7e7",
+        borderTopColor: "black",
+        borderWidth: 0.5,
+        top: 520,
+        height: 180,
+        width: 400,
+        position: "absolute"
+    },
     mensagemErro: {
         color: "red",
         marginLeft: 20,
