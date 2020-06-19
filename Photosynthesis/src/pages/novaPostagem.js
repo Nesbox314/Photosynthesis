@@ -13,7 +13,7 @@ export default class NovaPostagem extends ValidationComponent {
     constructor(props) {
         super(props);
         this.deviceLocale = "ptBR";
-        this.state = { nomePlanta: "", especie: "", idade: "", image: null, user: null };
+        this.state = { nomePlanta: "", especie: "", idade: "", image: null, user: null, openedSelector: false };
     }
 
     validation(navigation) {
@@ -54,7 +54,7 @@ export default class NovaPostagem extends ValidationComponent {
                     </TouchableOpacity>
                 </View>
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
                         {!image && <Image source={require('../../assets/logo_add_planta.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
                     {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
@@ -69,6 +69,24 @@ export default class NovaPostagem extends ValidationComponent {
                     <TextInput ref='idade' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Idade"} onChangeText={(idade) => this.setState({ idade })} />
                     {this.isFieldInError('idade') && this.getErrorsInField('idade').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
                 </View>
+                {this.state.openedSelector &&
+                    <View style={styles.seletor}>
+                        <View style={{ flexDirection: "row", marginTop: 30 }}>
+                            <View style={{ flex: 1, marginLeft: 35 }}>
+                                <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImageFromCamera()}>
+                                    <Image source={require('../../assets/camera.png')} style={{ height: 100, width: 100 }}></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.subtitles}>Câmera</Text>
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImageFromLibrary()}>
+                                    <Image source={require('../../assets/gallery.png')} style={{ height: 100, width: 100 }}></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.subtitles}>Galeria</Text>
+                            </View>
+                        </View>
+                    </View>
+                }
                 <View style={styles.button}>
                     <Button color={'rgb(146, 211, 110)'} title={"Postar"} onPress={() => this.validation(this.props.navigation)} />
                 </View>
@@ -95,11 +113,20 @@ export default class NovaPostagem extends ValidationComponent {
         }
     };
 
-    _pickImage = async () => {
+    openSelector = async () => {
+        if (this.state.openedSelector == false) {
+            this.setState({ openedSelector: true })
+        }
+        if (this.state.openedSelector == true) {
+            this.setState({ openedSelector: false })
+        }
+    };
+
+    _pickImageFromLibrary = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 base64: true,
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsEditing: true,
                 aspect: [4, 3],
                 quality: 1,
@@ -107,6 +134,26 @@ export default class NovaPostagem extends ValidationComponent {
             if (!result.cancelled) {
                 this.setState({ image: result.uri });
             }
+            this.openSelector();
+            this.state.image = result;
+        } catch (E) {
+            console.log(E);
+        }
+    };
+
+    _pickImageFromCamera = async () => {
+        try {
+            let result = await ImagePicker.launchCameraAsync({
+                base64: true,
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                this.setState({ image: result.uri });
+            }
+            this.openSelector();
             this.state.image = result;
         } catch (E) {
             console.log(E);
@@ -115,6 +162,20 @@ export default class NovaPostagem extends ValidationComponent {
 }
 
 const styles = StyleSheet.create({
+    subtitles: {
+        marginLeft: 25,
+        marginTop: -10
+    },
+    seletor: {
+        zIndex: 1000,
+        backgroundColor: "#e7e7e7",
+        borderTopColor: "black",
+        borderWidth: 0.5,
+        top: 520,
+        height: 180,
+        width: 400,
+        position: "absolute"
+    },
     mensagemErro: {
         color: "red",
         marginLeft: 20,
