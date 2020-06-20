@@ -12,7 +12,7 @@ export default class EditarMonitoramento extends ValidationComponent {
     constructor(props) {
         super(props);
         this.deviceLocale = "ptBR";
-        this.state = { apelido: "", especie: "", image: null, loading: true, plants: null };
+        this.state = { apelido: "", especie: "", image: null, loading: true, plants: null, openedSelector: false };
     }
 
     async getItemToDelete() {
@@ -39,7 +39,7 @@ export default class EditarMonitoramento extends ValidationComponent {
             id: this.state.plants[0].id,
             apelido: this.state.apelido,
             especie: this.state.especie,
-            foto: this.state.image
+            foto: 'data:image/jpeg;base64,' + this.state.image.base64
         }).then(function (response) {
             navigation.navigate('Homepage');
             Alert.alert("Cadastrado com sucesso!");
@@ -61,11 +61,11 @@ export default class EditarMonitoramento extends ValidationComponent {
                     <Image source={require('../../assets/back.png')} style={styles.back}></Image>
                 </TouchableHighlight>
                 <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
                         {!image && <Image source={require('../../assets/logo_add_planta.png')} style={{ width: 250, height: 250, borderRadius: 200 }}></Image>}
                     </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImage()}>
-                        {image && <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
+                        {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
                     </TouchableOpacity>
                 </View>
                 <View style={styles.inputs}>
@@ -79,6 +79,24 @@ export default class EditarMonitoramento extends ValidationComponent {
                 <View style={styles.button}>
                     <Button color={'rgb(146, 211, 110)'} title={"Cadastrar planta"} onPress={() => this.validation(this.props.navigation)} />
                 </View>
+                {this.state.openedSelector &&
+                    <View style={styles.seletor}>
+                        <View style={{ flexDirection: "row", marginTop: 30 }}>
+                            <View style={{ flex: 1, marginLeft: 35 }}>
+                                <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImageFromCamera()}>
+                                    <Image source={require('../../assets/camera.png')} style={{ height: 100, width: 100 }}></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.subtitles}>Câmera</Text>
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <TouchableOpacity activeOpacity={.5} onPress={() => this._pickImageFromLibrary()}>
+                                    <Image source={require('../../assets/gallery.png')} style={{ height: 100, width: 100 }}></Image>
+                                </TouchableOpacity>
+                                <Text style={styles.subtitles}>Galeria</Text>
+                            </View>
+                        </View>
+                    </View>
+                }
 
             </View>
         )
@@ -99,7 +117,16 @@ export default class EditarMonitoramento extends ValidationComponent {
         }
     };
 
-    _pickImage = async () => {
+    openSelector = async () => {
+        if (this.state.openedSelector == false) {
+            this.setState({ openedSelector: true })
+        }
+        if (this.state.openedSelector == true) {
+            this.setState({ openedSelector: false })
+        }
+    };
+
+    _pickImageFromLibrary = async () => {
         try {
             let result = await ImagePicker.launchImageLibraryAsync({
                 base64: true,
@@ -109,9 +136,29 @@ export default class EditarMonitoramento extends ValidationComponent {
                 quality: 1,
             });
             if (!result.cancelled) {
-                this.setState({ image: result.base64 });
+                this.setState({ image: result.uri });
             }
-            this.state.image = result.base64;
+            this.openSelector();
+            this.state.image = result;
+        } catch (E) {
+            console.log(E);
+        }
+    };
+
+    _pickImageFromCamera = async () => {
+        try {
+            let result = await ImagePicker.launchCameraAsync({
+                base64: true,
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                this.setState({ image: result.uri });
+            }
+            this.openSelector();
+            this.state.image = result;
         } catch (E) {
             console.log(E);
         }
@@ -119,6 +166,19 @@ export default class EditarMonitoramento extends ValidationComponent {
 }
 
 const styles = StyleSheet.create({
+    subtitles: {
+        marginLeft: 25,
+        marginTop: -10
+    },
+    seletor: {
+        backgroundColor: "#e7e7e7",
+        borderTopColor: "black",
+        borderWidth: 0.5,
+        top: 520,
+        height: 180,
+        width: 400,
+        position: "absolute"
+    },
     mensagemErro: {
         color: "red",
         marginLeft: 20,
