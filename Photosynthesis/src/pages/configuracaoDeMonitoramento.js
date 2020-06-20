@@ -68,7 +68,7 @@ export default class configuracaoDeMonitoramento extends Component {
                                             <Image source={require('../../assets/pencil.png')} style={styles.lapis}></Image>
                                         </TouchableHighlight>
                                     </View>
-                                    <Image source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} style={styles.imagem}></Image>
+                                    <Image source={{ uri: plant.foto }} style={styles.imagem}></Image>
                                 </View>
                             </View>
 

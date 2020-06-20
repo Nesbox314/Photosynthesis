@@ -41,7 +41,7 @@ export default class CadastroUsuario extends ValidationComponent {
             nome: this.state.nome,
             email: this.state.email,
             senha: this.state.senha,
-            foto: this.state.image.base64
+            foto: 'data:image/jpeg;base64,' + this.state.image.base64
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
             navigation.navigate('login');

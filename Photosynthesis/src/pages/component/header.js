@@ -43,7 +43,7 @@ export default class Header extends Component {
                         <View style={{ flex: 1 }}>
                             <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('editarPerfilUsuario')}>
                                 {userData[0].foto == null && <Image source={require('../../../assets/user.png')} style={styles.patternUser} />}
-                                {userData[0].foto && <Image source={{ uri: 'data:image/jpeg;base64,' + userData[0].foto }} style={styles.user} />}
+                                {userData[0].foto && <Image source={{ uri: userData[0].foto }} style={styles.user} />}
                             </TouchableOpacity>
                         </View>
                     </View>

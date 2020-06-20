@@ -35,7 +35,7 @@ export default class cadastroDePlantas extends ValidationComponent {
     api.post('/monitor/newMonitor', {
       apelido: this.state.apelido,
       especie: this.state.especie,
-      foto: this.state.image.base64,
+      foto: 'data:image/jpeg;base64,' + this.state.image.base64,
       user: this.state.userId
     }).then(function (response) {
       var param = parseInt(response.data.split(":").pop());

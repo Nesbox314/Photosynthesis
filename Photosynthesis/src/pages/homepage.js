@@ -82,7 +82,7 @@ export default class Homepage extends Component {
                                     <Text style={styles.titulo}>{plants[0].especie}</Text>
                                 </View>
                                 <View>
-                                    <Image style={styles.image} source={{ uri: 'data:image/jpeg;base64,' + plants[0].foto }} />
+                                    <Image style={styles.image} source={{ uri: plants[0].foto }} />
                                 </View>
                                 <View style={styles.icons}>
                                     <View style={styles.l2}>
@@ -132,7 +132,7 @@ export default class Homepage extends Component {
                                                     <Text style={stylesSecond.tituloPlantas} >{plant.especie}</Text>
                                                     <Text style={stylesSecond.tituloPlantas} >{plant.apelido}</Text>
                                                 </View>
-                                                <Image source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} style={stylesSecond.imagem}></Image>
+                                                <Image source={{ uri: plant.foto }} style={stylesSecond.imagem}></Image>
                                                 <View style={stylesSecond.l2}>
                                                     <Text style={stylesSecond.nivel}>Nível de umidade:</Text>
                                                     <Text style={stylesSecond.resposta}>{plant.estadoUmidade}</Text>

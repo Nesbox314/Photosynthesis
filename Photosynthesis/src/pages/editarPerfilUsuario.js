@@ -51,7 +51,7 @@ export default class editarPerfilUsuario extends ValidationComponent {
             nome: this.refs.nome._lastNativeText,
             email: this.refs.email._lastNativeText,
             senha: this.refs.senha._lastNativeText,
-            foto: this.state.image
+            foto: 'data:image/jpeg;base64,' + this.state.image.base64
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
             navigation.navigate('Homepage');
@@ -80,7 +80,7 @@ export default class editarPerfilUsuario extends ValidationComponent {
                         {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
                     </TouchableOpacity>
                     <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
-                        {image && <Image source={{ uri: 'data:image/jpeg;base64,' + image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
+                        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
                     </TouchableOpacity>
                 </View>
                 <View style={styles.inputs}>
