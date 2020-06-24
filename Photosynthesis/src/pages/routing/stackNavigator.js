@@ -12,7 +12,7 @@ import Monitoring from '../homepageSecundaria';
 import TabNavigator from '../component/tabNavigator';
 import NovaPostagem from '../novaPostagem';
 import ConfirmacaoMonitoring from '../ConfirmaçãoMonitoring';
-import ExcluirMonitoramento from '../exclusaoDoMoitoramento';
+import ExcluirMonitoramento from '../ExclusaoDoMoitoramento';
 import configuracaoDeMonitoramento from '../configuracaoDeMonitoramento';
 import cadastroDePlantas from '../cadastroDePlantas';
 import HomepageSecunsaria from '../homepageSecundaria';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, Button, TextInput, Alert, AsyncStorage } from "react-native";
+import { Text, Image, StyleSheet, View, Button, TextInput, Alert, AsyncStorage, KeyboardAvoidingView } from "react-native";
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
@@ -35,14 +35,14 @@ export default class editarPerfilUsuario extends ValidationComponent {
             confirmacaoSenha: {}
         });
 
-        if(this.state.senha == this.state.confirmacaoSenha){
+        if (this.state.senha == this.state.confirmacaoSenha) {
             if (this.isFormValid()) {
                 this.submit(navigation);
             }
         } else {
             Alert.alert("As senhas não coincidem!");
         }
-        
+
     }
 
     submit(navigation) {
@@ -70,35 +70,38 @@ export default class editarPerfilUsuario extends ValidationComponent {
 
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
-                <View>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Homepage')}>
-                        <Image source={require('../../assets/back.png')} style={styles.back}></Image>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
-                        {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
-                        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.inputs}>
-                    <TextInput ref='nome' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome cadastrado era '" + userData[0].nome + "'."} onChangeText={(nome) => this.setState({ nome })} />
-                    {this.isFieldInError('nome') && this.getErrorsInField('nome').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+                <KeyboardAvoidingView>
+                    <View>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.navigate('Homepage')}>
+                            <Image source={require('../../assets/back.png')} style={styles.back}></Image>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
+                            {!image && <Image source={require('../../assets/userPhoto.png')} style={styles.logo}></Image>}
+                        </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
+                            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.inputs}>
+                        <TextInput ref='nome' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome cadastrado era '" + userData[0].nome + "'."} onChangeText={(nome) => this.setState({ nome })} />
+                        {this.isFieldInError('nome') && this.getErrorsInField('nome').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                    <TextInput ref='email' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + userData[0].email + "'."} onChangeText={(email) => this.setState({ email })} />
-                    {this.isFieldInError('email') && this.getErrorsInField('email').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+                        <TextInput ref='email' style={styles.input} placeholderTextColor={"black"} placeholder={"O e-mail cadastrado era '" + userData[0].email + "'."} onChangeText={(email) => this.setState({ email })} />
+                        {this.isFieldInError('email') && this.getErrorsInField('email').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                    <TextInput ref='senha' style={styles.input} secureTextEntry={true} placeholderTextColor={"black"} placeholder={"Senha"} onChangeText={(senha) => this.setState({ senha })}/>
-                    {this.isFieldInError('senha') && this.getErrorsInField('senha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+                        <TextInput ref='senha' style={styles.input} secureTextEntry={true} placeholderTextColor={"black"} placeholder={"Senha"} onChangeText={(senha) => this.setState({ senha })} />
+                        {this.isFieldInError('senha') && this.getErrorsInField('senha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                    <TextInput ref='confirmacaoSenha' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholderTextColor={"black"} placeholder={'\xa0' + "Confirmar senha"} onChangeText={(confirmacaoSenha) => this.setState({ confirmacaoSenha })}/>
-                    {this.isFieldInError('confirmacaoSenha') && this.getErrorsInField('confirmacaoSenha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
-                </View>
-                <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Concluir edição"} onPress={() => this.validation(this.props.navigation)} />
-                </View>
+                        <TextInput ref='confirmacaoSenha' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholderTextColor={"black"} placeholder={'\xa0' + "Confirmar senha"} onChangeText={(confirmacaoSenha) => this.setState({ confirmacaoSenha })} />
+                        {this.isFieldInError('confirmacaoSenha') && this.getErrorsInField('confirmacaoSenha').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+                    </View>
+                    <View style={styles.button}>
+                        <Button color={'rgb(146, 211, 110)'} title={"Concluir edição"} onPress={() => this.validation(this.props.navigation)} />
+                    </View>
+                </KeyboardAvoidingView>
+
                 {this.state.openedSelector &&
                     <View style={styles.seletor}>
                         <View style={{ flexDirection: "row", marginTop: 30 }}>
@@ -123,7 +126,7 @@ export default class editarPerfilUsuario extends ValidationComponent {
 
     componentDidMount() {
         this.getPermissionAsync();
-        
+
         this.getData();
     }
 

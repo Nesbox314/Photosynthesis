@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from "react";
-import { Text, Image, StyleSheet, View, Button, TextInput, Alert, AsyncStorage } from "react-native";
+import { Text, Image, StyleSheet, View, Button, TextInput, Alert, AsyncStorage, KeyboardAvoidingView } from "react-native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -47,28 +47,32 @@ export default class NovaPostagem extends ValidationComponent {
         let { image } = this.state;
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
+                <KeyboardAvoidingView>
+                    <View>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.goBack()}>
+                            <Image source={require('../../assets/back.png')} style={styles.back}></Image>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
+                            {!image && <Image source={require('../../assets/logo_add_planta.png')} style={styles.logo}></Image>}
+                        </TouchableOpacity>
+                        {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
+                    </View>
+                    <View style={styles.inputs}>
+                        <TextInput ref='nomePlanta' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome da planta"} onChangeText={(nomePlanta) => this.setState({ nomePlanta })} />
+                        {this.isFieldInError('nomePlanta') && this.getErrorsInField('nomePlanta').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                <View>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this.props.navigation.goBack()}>
-                        <Image source={require('../../assets/back.png')} style={styles.back}></Image>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
-                        {!image && <Image source={require('../../assets/logo_add_planta.png')} style={styles.logo}></Image>}
-                    </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 200 }} />}
-                </View>
-                <View style={styles.inputs}>
-                    <TextInput ref='nomePlanta' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Nome da planta"} onChangeText={(nomePlanta) => this.setState({ nomePlanta })} />
-                    {this.isFieldInError('nomePlanta') && this.getErrorsInField('nomePlanta').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+                        <TextInput ref='especie' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"} onChangeText={(especie) => this.setState({ especie })} />
+                        {this.isFieldInError('especie') && this.getErrorsInField('especie').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                    <TextInput ref='especie' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Espécie"} onChangeText={(especie) => this.setState({ especie })} />
-                    {this.isFieldInError('especie') && this.getErrorsInField('especie').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
-
-                    <TextInput ref='idade' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Idade"} onChangeText={(idade) => this.setState({ idade })} />
-                    {this.isFieldInError('idade') && this.getErrorsInField('idade').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
-                </View>
+                        <TextInput ref='idade' style={styles.input} placeholderTextColor={'rgb(100, 100, 100)'} placeholder={'\xa0' + "Idade"} onChangeText={(idade) => this.setState({ idade })} />
+                        {this.isFieldInError('idade') && this.getErrorsInField('idade').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+                    </View>
+                    <View style={styles.button}>
+                        <Button color={'rgb(146, 211, 110)'} title={"Postar"} onPress={() => this.validation(this.props.navigation)} />
+                    </View>
+                </KeyboardAvoidingView>
                 {this.state.openedSelector &&
                     <View style={styles.seletor}>
                         <View style={{ flexDirection: "row", marginTop: 30 }}>
@@ -87,9 +91,6 @@ export default class NovaPostagem extends ValidationComponent {
                         </View>
                     </View>
                 }
-                <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Postar"} onPress={() => this.validation(this.props.navigation)} />
-                </View>
             </View>
         )
     }

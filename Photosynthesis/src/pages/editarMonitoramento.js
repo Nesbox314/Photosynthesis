@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity, AsyncStorage } from 'react-native';
+import { Text, View, Image, StyleSheet, Button, Alert, TouchableHighlight, TouchableOpacity, AsyncStorage, KeyboardAvoidingView } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
@@ -57,28 +57,31 @@ export default class EditarMonitoramento extends ValidationComponent {
 
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
-                <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
-                    <Image source={require('../../assets/back.png')} style={styles.back}></Image>
-                </TouchableHighlight>
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
-                        {!image && <Image source={require('../../assets/logo_add_planta.png')} style={{ width: 250, height: 250, borderRadius: 200 }}></Image>}
-                    </TouchableOpacity>
-                    <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
-                        {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.inputs}>
-                    <TextInput ref='apelido' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome (apelido) cadastrado era: " + plants[0].apelido} onChangeText={(apelido) => this.setState({ apelido })} />
-                    {this.isFieldInError('apelido') && this.getErrorsInField('apelido').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+                <KeyboardAvoidingView>
+                    <TouchableHighlight style={styles.TouchableHighlight} underlayColor='white' onPress={() => this.props.navigation.navigate('configuracaoDeMonitoramento')}>
+                        <Image source={require('../../assets/back.png')} style={styles.back}></Image>
+                    </TouchableHighlight>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
+                            {!image && <Image source={require('../../assets/logo_add_planta.png')} style={{ width: 250, height: 250, borderRadius: 200 }}></Image>}
+                        </TouchableOpacity>
+                        <TouchableOpacity activeOpacity={.5} onPress={() => this.openSelector()}>
+                            {image && <Image source={{ uri: image }} style={{ width: 250, height: 250, borderRadius: 200 }} />}
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.inputs}>
+                        <TextInput ref='apelido' style={styles.input} placeholderTextColor={"black"} placeholder={"O nome (apelido) cadastrado era: " + plants[0].apelido} onChangeText={(apelido) => this.setState({ apelido })} />
+                        {this.isFieldInError('apelido') && this.getErrorsInField('apelido').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
 
-                    <TextInput ref='especie' style={styles.input} placeholderTextColor={"black"} placeholder={"A espécie cadastrada era: " + plants[0].especie} onChangeText={(especie) => this.setState({ especie })} />
-                    {this.isFieldInError('especie') && this.getErrorsInField('especie').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
-                </View>
+                        <TextInput ref='especie' style={styles.input} placeholderTextColor={"black"} placeholder={"A espécie cadastrada era: " + plants[0].especie} onChangeText={(especie) => this.setState({ especie })} />
+                        {this.isFieldInError('especie') && this.getErrorsInField('especie').map(errorMessage => <Text style={styles.mensagemErro}>{errorMessage}</Text>)}
+                    </View>
 
-                <View style={styles.button}>
-                    <Button color={'rgb(146, 211, 110)'} title={"Cadastrar planta"} onPress={() => this.validation(this.props.navigation)} />
-                </View>
+                    <View style={styles.button}>
+                        <Button color={'rgb(146, 211, 110)'} title={"Cadastrar planta"} onPress={() => this.validation(this.props.navigation)} />
+                    </View>
+                </KeyboardAvoidingView>
+
                 {this.state.openedSelector &&
                     <View style={styles.seletor}>
                         <View style={{ flexDirection: "row", marginTop: 30 }}>
