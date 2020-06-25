@@ -97,7 +97,8 @@ export class Social extends Component {
                                             </View>
                                         </View>
                                         <View>
-                                            <Image style={styles.image} source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} />
+                                            {plant.foto && <Image style={styles.image} source={{ uri: plant.foto }} />}
+                                            {!plant.foto && <Image style={styles.image} source={{ uri: plant.foto }} />}
                                         </View>
                                     </View>
                                 )}

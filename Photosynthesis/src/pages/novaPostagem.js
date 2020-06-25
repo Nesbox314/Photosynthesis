@@ -29,11 +29,12 @@ export default class NovaPostagem extends ValidationComponent {
     }
 
     submit(navigation) {
+
         api.post('/social/postPlant', {
             nomePlanta: this.state.nomePlanta,
             especie: this.state.especie,
             idade: this.state.idade,
-            foto: this.state.image.base64,
+            foto: 'data:image/jpeg;base64,' + this.state.image.base64,
             user: this.state.user
         }).then(function (response) {
             Alert.alert("Cadastrado com sucesso!");
