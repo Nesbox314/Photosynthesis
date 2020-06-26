@@ -82,7 +82,7 @@ export default class Homepage extends Component {
                                     <Text style={styles.titulo}>{plants[0].especie}</Text>
                                 </View>
                                 <View>
-                                    <Image style={styles.image} source={{ uri: 'data:image/jpeg;base64,' + plants[0].foto }} />
+                                    <Image style={styles.image} source={{ uri: plants[0].foto }} />
                                 </View>
                                 <View style={styles.icons}>
                                     <View style={styles.l2}>
@@ -90,7 +90,10 @@ export default class Homepage extends Component {
                                             <Image source={require('../../assets/gear.png')} style={styles.gear}></Image>
                                         </TouchableHighlight>
                                         <Text style={styles.nivel}>Nível de umidade:</Text>
-                                        <Text style={styles.resposta}>{plants[0].estadoUmidade}</Text>
+                                        {plants[0].estadoUmidade > 3000 && <Text style={styles.respostaRuim}>RUIM</Text>}
+                                        {plants[0].estadoUmidade < 3000 && plants[0].estadoUmidade > 2000 && <Text style={styles.respostaBom}>BOM</Text>}
+                                        {plants[0].estadoUmidade < 2000 && plants[0].estadoUmidade > 1000 && <Text style={styles.respostaPerfeito}>PERFEITO</Text>}
+                                        {plants[0].estadoUmidade < 1000 && <Text style={styles.respostaMaisQuePerfeito}>ENCHARCADA</Text>}
                                         <Image source={require('../../assets/gota.png')} style={styles.icon}></Image>
                                     </View>
                                 </View>
@@ -132,7 +135,7 @@ export default class Homepage extends Component {
                                                     <Text style={stylesSecond.tituloPlantas} >{plant.especie}</Text>
                                                     <Text style={stylesSecond.tituloPlantas} >{plant.apelido}</Text>
                                                 </View>
-                                                <Image source={{ uri: 'data:image/jpeg;base64,' + plant.foto }} style={stylesSecond.imagem}></Image>
+                                                <Image source={{ uri: plant.foto }} style={stylesSecond.imagem}></Image>
                                                 <View style={stylesSecond.l2}>
                                                     <Text style={stylesSecond.nivel}>Nível de umidade:</Text>
                                                     <Text style={stylesSecond.resposta}>{plant.estadoUmidade}</Text>
@@ -234,10 +237,29 @@ const styles = StyleSheet.create({
         marginTop: -60,
         fontSize: 22
     },
-    resposta: {
+    respostaRuim: {
         marginLeft: 100,
         marginTop: 0,
-        fontSize: 22
+        fontSize: 22,
+        color: "red"
+    },
+    respostaBom: {
+        marginLeft: 100,
+        marginTop: 0,
+        fontSize: 22,
+        color: "green"
+    },
+    respostaPerfeito: {
+        marginLeft: 100,
+        marginTop: 0,
+        fontSize: 22,
+        color: "blue"
+    },
+    respostaMaisQuePerfeito: {
+        marginLeft: 100,
+        marginTop: 0,
+        fontSize: 22,
+        color: "purple"
     },
     icon: {
         width: 30,

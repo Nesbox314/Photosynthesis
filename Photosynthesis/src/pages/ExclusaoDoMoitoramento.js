@@ -57,7 +57,7 @@ export default class ExcluirMonitoramento extends Component {
                     <Text style={styles.titulo}>{plants[0].apelido}</Text>
                 </View>
 
-                <Image source={{ uri: 'data:image/jpeg;base64,' + plants[0].foto }} style={styles.imagem}></Image>
+                <Image source={{ uri: plants[0].foto }} style={styles.imagem}></Image>
 
                 <View style={styles.icons}>
                     <View style={styles.button}>
