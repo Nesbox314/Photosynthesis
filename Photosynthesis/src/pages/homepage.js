@@ -94,6 +94,7 @@ export default class Homepage extends Component {
                                         {plants[0].estadoUmidade < 3000 && plants[0].estadoUmidade > 2000 && <Text style={styles.respostaBom}>BOM</Text>}
                                         {plants[0].estadoUmidade < 2000 && plants[0].estadoUmidade > 1000 && <Text style={styles.respostaPerfeito}>PERFEITO</Text>}
                                         {plants[0].estadoUmidade < 1000 && <Text style={styles.respostaMaisQuePerfeito}>ENCHARCADA</Text>}
+                                        {plants[0].estadoUmidade == "N/A" && <Text style={styles.respostaNA}>N/A</Text>}
                                         <Image source={require('../../assets/gota.png')} style={styles.icon}></Image>
                                     </View>
                                 </View>
@@ -260,6 +261,12 @@ const styles = StyleSheet.create({
         marginTop: 0,
         fontSize: 22,
         color: "purple"
+    },
+    respostaNA: {
+        marginLeft: 100,
+        marginTop: 0,
+        fontSize: 22,
+        color: "black"
     },
     icon: {
         width: 30,
